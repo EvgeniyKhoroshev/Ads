@@ -7,29 +7,29 @@ namespace Domain.Entities.Base
     class BaseEntityPost : BaseEntity
     {
         /// <summary>
-        /// Тело поста
+        /// Тело поста / Post body
         /// </summary>
         [Required]
         [StringLength(500)]
         public string PostBody { get; set; }
         /// <summary>
-        /// Дата публикации
+        /// Дата публикации / Date of publishing 
         /// </summary>
         [Required]
         [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
         public DateTime Created { get; set; }
         /// <summary>
-        /// Рейтинг
+        /// Рейтинг / Post rating
         /// </summary>
         [Required]
         public int PostRating { get; set; }
         /// <summary>
-        /// Id владельца
-        /// </summary>
+        /// Id владельца / Owner id
+        /// </summary> 
         [Required]
         public int PostOwnerId { get; set; }                      
         /// <summary>
-        /// Конструктор c телом и Id владельца поста.
+        /// Конструктор c телом и Id владельца поста. / Class constructor with a body and id of a post
         /// </summary>
         /// <param name="ownerID">Id владельца</param> 
         /// <param name="postBody">Тело поста</param> 
@@ -41,7 +41,7 @@ namespace Domain.Entities.Base
             PostRating = 0;
         }
         /// <summary>
-        /// Конструктор без параметров
+        /// Конструктор без параметров / Parameterless constructor
         /// </summary>
         public BaseEntityPost()
         {

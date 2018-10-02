@@ -3,7 +3,7 @@
     public abstract class EntityWithTypedIdBase<TId>
     {
         /// <summary>
-        /// Идентификатор
+        /// Идентификатор / Identifier
         /// </summary>
         public virtual TId Id { get; protected set; }
     }
