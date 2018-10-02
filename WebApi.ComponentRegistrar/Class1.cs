@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Ads.Contracts
+namespace WebApi.ComponentRegistrar
 {
     public class Class1
     {
