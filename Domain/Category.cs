@@ -15,8 +15,9 @@ namespace Domain
         /// Id родительской категории / Id of the parent category
         /// </summary> 
         public int? ParentCategoryId { get; set; }
-
-
+        /// <summary>
+        /// Один-ко-многим свзязь к объявлениям / One-to-many relation to adverts
+        /// </summary> 
         public virtual ICollection<BaseEntityAdvert> BaseEntityAdverts { get; set; }
     }
 }
