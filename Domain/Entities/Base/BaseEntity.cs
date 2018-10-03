@@ -1,6 +1,6 @@
 ﻿namespace Domain.Entities.Base
 {
-    class BaseEntity : EntityWithTypedIdBase<int>
+    public class BaseEntity : EntityWithTypedIdBase<int>
     {
 
     }
