@@ -1,10 +1,11 @@
-﻿using System;
+﻿using Ads.Contracts.Dto;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace AppServices.ServiceInterfaces
 {
-    interface IAdvertService
+    public interface IAdvertService : Base.IServiceInterfaceBase<AdvertDto, int>
     {
     }
 }
