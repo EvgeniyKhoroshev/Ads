@@ -1,9 +1,10 @@
 ﻿using Domain.Entities;
+using Domain.RepositoryInterfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace Domain.Data.Repositories
 {
-    public class AdvertRepository : Base.BaseRepository<Advert, int>
+    public class AdvertRepository : Base.BaseRepository<Advert, int>, IAdvertRepository
     {
         readonly AdsDBContext _dbContext;
         public AdvertRepository(AdsDBContext dbContext)
