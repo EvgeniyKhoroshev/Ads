@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Ads.Contracts.Dto;
+using AppServices.ServiceInterfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AdsWebApi.Controllers
@@ -10,11 +8,16 @@ namespace AdsWebApi.Controllers
     [ApiController]
     public class ValuesController : ControllerBase
     {
+        public ValuesController (IAdvertService advertService)
+        {
+            _advertService = advertService;
+        }
+        IAdvertService _advertService;
         // GET api/values
         [HttpGet]
-        public ActionResult<IEnumerable<string>> Get()
+        public ActionResult<AdvertDto> Get()
         {
-            return new string[] { "value1", "value2" };
+            return _advertService.Get(1);
         }
 
         // GET api/values/5

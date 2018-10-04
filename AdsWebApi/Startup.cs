@@ -1,20 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Ads.Contracts.Dto;
+using AutoMapper;
+using Domain.Entities;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
+using SimpleInjector;
+using SimpleInjector.Integration.AspNetCore.Mvc;
+using SimpleInjector.Lifestyles;
+using WebApi.ComponentRegistrar;
+
 
 namespace AdsWebApi
 {
     public class Startup
     {
+        private Container container = new Container();
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -25,12 +29,17 @@ namespace AdsWebApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            Mapper.Initialize(cfg => cfg.CreateMap<Advert, AdvertDto>());
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            IntegrateSimpleInjector(services);
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
+            InitializeContainer(app);
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -39,9 +48,29 @@ namespace AdsWebApi
             {
                 app.UseHsts();
             }
+            container.Verify();
 
             app.UseHttpsRedirection();
             app.UseMvc();
+        }
+        private void IntegrateSimpleInjector(IServiceCollection services)
+        {
+            container.Options.DefaultScopedLifestyle = new AsyncScopedLifestyle();
+
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+
+            services.AddSingleton<IControllerActivator>(
+                new SimpleInjectorControllerActivator(container));
+
+
+            services.EnableSimpleInjectorCrossWiring(container);
+            services.UseSimpleInjectorAspNetRequestScoping(container);
+        }
+        private void InitializeContainer(IApplicationBuilder app)
+        {
+            SimpleRegistrar.RegisterAll(container);
+            // Allow Simple Injector to resolve services from ASP.NET Core.
+            container.AutoCrossWireAspNetComponents(app);
         }
     }
 }
