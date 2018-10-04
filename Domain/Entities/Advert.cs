@@ -47,13 +47,13 @@ namespace Domain.Entities
         [Required]
         public int TypeId { get; set; }
         [ForeignKey("TypeId")]
-        public Type Type { get; set; }
+        public AdvertType Type { get; set; }
         /// <summary>
         /// Id города / City id
         /// </summary>
         [Required]
         public int CityId { get; set; }
-        [ForeignKey("TypeId")]
+        [ForeignKey("CityId")]
         public City City { get; set; }
     }
 }
