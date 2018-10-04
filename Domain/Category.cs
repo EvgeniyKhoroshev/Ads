@@ -10,7 +10,7 @@ namespace Domain
         /// Название категории / Name of category
         /// </summary> 
         [Required]
-        public string CategoryName { get; set; }
+        public string Name { get; set; }
         /// <summary>
         /// Id родительской категории / Id of the parent category
         /// </summary> 
@@ -18,6 +18,6 @@ namespace Domain
         /// <summary>
         /// Один-ко-многим свзязь к объявлениям / One-to-many relation to adverts
         /// </summary> 
-        public virtual ICollection<BaseEntityAdvert> BaseEntityAdverts { get; set; }
+        public virtual ICollection<Domain.Entities.Advert> Adverts { get; set; }
     }
 }
