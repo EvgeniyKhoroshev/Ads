@@ -15,6 +15,13 @@ namespace Domain
         public DbSet<Status> Statuses{ get; set; }
         public DbSet<AdvertType> AdvertTypes { get; set; }
 
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            builder.Entity<City>
+                .WithMany
+            base.OnModelCreating(builder);
+        }
+
         public AdsDBContext()
         {
             Database.EnsureCreated();
