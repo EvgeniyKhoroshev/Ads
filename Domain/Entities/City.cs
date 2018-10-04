@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Domain.Entities
 {
-    public class City : EntityWithTypedIdBase<int>
+    public class City : Base.EntityWithTypedIdBase<int>
     {
         /// <summary>
         /// Id региона / region Id

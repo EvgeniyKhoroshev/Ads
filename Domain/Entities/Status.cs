@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Domain.Entities
 {
-    class Status : EntityWithTypedIdBase<int>
+    public class Status : Base.EntityWithTypedIdBase<int>
     {
         /// <summary>
         /// Имя статуса / Name of status

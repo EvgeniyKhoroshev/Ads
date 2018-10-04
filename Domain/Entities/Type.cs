@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Domain.Entities
 {
-    class Type : EntityWithTypedIdBase<int>
+    public class Type : Base.EntityWithTypedIdBase<int>
     {
         /// <summary>
         /// Название типа / Name of advert type

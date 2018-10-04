@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Domain
 {
-    public class Category : BaseEntity
+    public class Category : EntityWithTypedIdBase<int>
     {
         /// <summary>
         /// Название категории / Name of category

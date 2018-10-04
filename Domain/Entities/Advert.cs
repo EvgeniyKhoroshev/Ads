@@ -20,28 +20,9 @@ namespace Domain.Entities
         [Required]
         public double Price { get; set; }
         /// <summary>
-        /// Id родительской категории / Id of a parent category
-        /// </summary>
-        public int ParentCategoryId { get; set; }
-        /// <summary>
         /// Id владельца объявления / Id of a ads owner
         /// </summary>
         public int UserId { get; set; }
-        /// <summary>
-        /// Id города / City id
-        /// </summary>
-        [Required]
-        public int CityId { get; set; }
-        /// <summary>
-        /// Id типа объявления / Id of ads type
-        /// </summary>
-        [Required]
-        public int TypeId { get; set; }
-        /// <summary>
-        /// Id cтатуca объявления / Id of a ads status
-        /// </summary>
-        [Required]
-        public int StatusId { get; set; }
         /// <summary>
         /// Id cтатуca объявления / Id of a ads status
         /// </summary>
@@ -50,7 +31,29 @@ namespace Domain.Entities
         /// Id категории, в которой находится объявление / 
         /// Id of the category in which that advert contains
         /// </summary>
+        public int CategoryId { get; set; }
         [ForeignKey("CategoryId")]
         public Category Category { get; set; }
+        /// <summary>
+        /// Id cтатуca объявления / Id of a ads status
+        /// </summary>
+        [Required]
+        public int StatusId { get; set; }
+        [ForeignKey("StatusId")]
+        public Status Status { get; set; }
+        /// <summary>
+        /// Id типа объявления / Id of ads type
+        /// </summary>
+        [Required]
+        public int TypeId { get; set; }
+        [ForeignKey("TypeId")]
+        public Type Type { get; set; }
+        /// <summary>
+        /// Id города / City id
+        /// </summary>
+        [Required]
+        public int CityId { get; set; }
+        [ForeignKey("TypeId")]
+        public City City { get; set; }
     }
 }
