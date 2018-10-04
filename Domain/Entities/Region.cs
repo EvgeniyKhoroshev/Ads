@@ -4,12 +4,8 @@ using System.Text;
 
 namespace Domain.Entities
 {
-    class Region
+    class Region : Base.EntityWithTypedIdBase<int>
     {
-        /// <summary>
-        /// Id региона / region id
-        /// </summary>
-        public int Id { get; set; }
         /// <summary>
         /// Название региона / name of region
         /// </summary>

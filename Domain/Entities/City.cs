@@ -4,12 +4,8 @@ using System.Text;
 
 namespace Domain.Entities
 {
-    class City
+    public class City : Base.EntityWithTypedIdBase<int>
     {
-        /// <summary>
-        /// Id города / City id
-        /// </summary>
-        public int Id { get; set; }
         /// <summary>
         /// Id региона / region Id
         /// </summary>

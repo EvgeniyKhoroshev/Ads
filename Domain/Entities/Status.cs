@@ -4,12 +4,8 @@ using System.Text;
 
 namespace Domain.Entities
 {
-    class Status
+    class Status : Base.EntityWithTypedIdBase<int>
     {
-        /// <summary>
-        /// Id статуса / status id
-        /// </summary>
-        public int Id { get; set; }
         /// <summary>
         /// Имя статуса / Name of status
         /// </summary>
