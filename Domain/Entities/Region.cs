@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Domain.Entities
 {
-    class Region : Base.EntityWithTypedIdBase<int>
+    public class Region : Base.EntityWithTypedIdBase<int>
     {
         /// <summary>
         /// Название региона / name of region

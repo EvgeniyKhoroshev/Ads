@@ -4,12 +4,8 @@ using System.Text;
 
 namespace Domain.Entities
 {
-    class Type
+    public class Type : Base.EntityWithTypedIdBase<int>
     {
-        /// <summary>
-        /// Id объявления / Tipe Id
-        /// </summary>
-        public int TypeId { get; set; }
         /// <summary>
         /// Название типа / Name of advert type
         /// </summary>
