@@ -1,10 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 
 namespace AppServices.ServiceInterfaces.Base
 {
-    interface IServiceInterfaceBase
+    interface IServiceInterfaceBase <T, Tid>
     {
+        IList<T> GetAllWithIncludes(Tid id);
+        IList<T> GetAllWithoutIncludes(Tid id);
+        int Create();
+        T SaveOrUpdate(T Entity);
+
     }
 }
