@@ -2,11 +2,10 @@
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace Domain
 {
-    class AdsDBContext : DbContext
+    public class AdsDBContext : DbContext
     {
 
         public DbSet<Advert> Adverts { get; set; }
@@ -23,16 +22,9 @@ namespace Domain
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            var ConnectionString ="Server=(localdb)\\MSSQLLocalDB;Database=Ads;Trusted_Connection=True;";
+            var ConnectionString = DBConfig.DB_DEFAULT_CONNECTION_STRING;
             optionsBuilder.UseSqlServer(ConnectionString);
         }
-
-        //public AdsDBContext(DbContextOptions<AdsDBContext> options)
-        //    : base(options)
-        //{
-        //    Database.EnsureCreated();
-        //}
-
         public List<Advert> Include()
         {
             throw new NotImplementedException();

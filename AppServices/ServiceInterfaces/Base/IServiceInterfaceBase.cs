@@ -8,6 +8,7 @@ namespace AppServices.ServiceInterfaces.Base
         IList<T> GetAllWithoutIncludes(Tid id);
         int Create();
         T SaveOrUpdate(T Entity);
+        T Get(Tid id);
 
     }
 }
