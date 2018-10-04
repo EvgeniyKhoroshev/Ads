@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Domain.Entities
 {
-    public class Region : EntityWithTypedIdBase<int>
+    public class Region : Base.EntityWithTypedIdBase<int>
     {
         /// <summary>
         /// Название региона / name of region

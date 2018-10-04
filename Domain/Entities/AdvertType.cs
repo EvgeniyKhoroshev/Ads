@@ -2,12 +2,13 @@
 
 namespace Domain.Entities
 {
-    public class Type : Base.EntityWithTypedIdBase<int>
+    public class AdvertType : Base.EntityWithTypedIdBase<int>
     {
         /// <summary>
         /// Название типа / Name of advert type
         /// </summary>
-        public string AdvertType { get; set; }
+
+        public string Type { get; set; }
         /// <summary>
         /// Один-ко-одному свзязь к объявлениям / One-to-one relation to adverts
         /// </summary> 
