@@ -20,10 +20,6 @@ namespace Domain.Entities
         [Required]
         public double Price { get; set; }
         /// <summary>
-        /// Id владельца объявления / Id of a ads owner
-        /// </summary>
-        public int UserId { get; set; }
-        /// <summary>
         /// Id cтатуca объявления / Id of a ads status
         /// </summary>
         public string Address { get; set; }
@@ -53,7 +49,18 @@ namespace Domain.Entities
         /// </summary>
         [Required]
         public int CityId { get; set; }
-        [ForeignKey("TypeId")]
+        [ForeignKey("CityId")]
         public City City { get; set; }
+        /// <summary>
+        /// Id владельца объявления / Id of a ads owner
+        /// Связь будет реализована после добавления MS Identity / 
+        /// The relation will be implemented after the MS Identity added
+        /// </summary>
+        public int UserId { get; set; }
+        /// <summary>
+        /// Контекст объявления для расширения функционала / 
+        /// Ads context for a functional extends
+        /// </summary>
+        public string Context { get; set; }
     }
 }

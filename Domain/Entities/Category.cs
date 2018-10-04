@@ -1,6 +1,8 @@
-﻿using Domain.Entities.Base;
+﻿using Domain.Entities;
+using Domain.Entities.Base;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Domain
 {
@@ -16,8 +18,9 @@ namespace Domain
         /// </summary> 
         public int? ParentCategoryId { get; set; }
         /// <summary>
-        /// Один-ко-многим свзязь к объявлениям / One-to-many relation to adverts
+        /// Один-ко-одному свзязь к объявлениям / One-to-one relation to adverts
         /// </summary> 
-        public virtual ICollection<Domain.Entities.Advert> Adverts { get; set; }
+        [ForeignKey("Id")]
+        public Advert Advert { get; set; }
     }
 }
