@@ -1,15 +1,12 @@
-﻿using System;
+﻿using Domain.Entities.Base;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace Domain.Entities
 {
-    class City
+    public class City : EntityWithTypedIdBase<int>
     {
-        /// <summary>
-        /// Id города / City id
-        /// </summary>
-        public int Id { get; set; }
         /// <summary>
         /// Id региона / region Id
         /// </summary>
