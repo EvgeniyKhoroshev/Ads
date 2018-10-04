@@ -1,6 +1,4 @@
-﻿using Ads.Contracts.Dto;
-using AutoMapper;
-using Domain.Entities;
+﻿using AppServices;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -21,6 +19,7 @@ namespace AdsWebApi
         private Container container = new Container();
         public Startup(IConfiguration configuration)
         {
+            AutoMapperConfig.Initialize();
             Configuration = configuration;
         }
 
@@ -29,7 +28,6 @@ namespace AdsWebApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            Mapper.Initialize(cfg => cfg.CreateMap<Advert, AdvertDto>());
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
             IntegrateSimpleInjector(services);
 
