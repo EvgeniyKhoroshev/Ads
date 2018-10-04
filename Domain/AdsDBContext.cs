@@ -12,14 +12,32 @@ namespace Domain
         public DbSet<Category> Categories { get; set; }
         public DbSet<City> Cities { get; set; }
         public DbSet<Region> Regions { get; set; }
-        public DbSet<Status> Statuses{ get; set; }
+        public DbSet<Status> Statuses { get; set; }
         public DbSet<AdvertType> AdvertTypes { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
-            builder.Entity<City>
-                .WithMany
+            builder.Entity<City>()
+                .HasOne(t => t.Region)
+                .WithMany(c => c.Cities)
+                .OnDelete(DeleteBehavior.Restrict);
+            builder.Entity<Advert>()
+                .HasOne(t => t.Type)
+                .WithMany(c => c.Adverts)
+                .OnDelete(DeleteBehavior.Restrict);
+            builder.Entity<Advert>()
+                .HasOne(t => t.Status)
+                .WithMany(c => c.Adverts)
+                .OnDelete(DeleteBehavior.Restrict);
+            builder.Entity<Advert>()
+                .HasOne(t => t.Category)
+                .WithMany(c => c.Adverts)
+                .OnDelete(DeleteBehavior.Restrict);
             base.OnModelCreating(builder);
+            builder.Entity<Advert>()
+                .HasOne(t => t.City)
+                .WithMany(c => c.Adverts)
+                .OnDelete(DeleteBehavior.Restrict);
         }
 
         public AdsDBContext()

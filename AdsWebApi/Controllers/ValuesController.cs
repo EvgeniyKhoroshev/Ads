@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+﻿using Ads.Contracts.Dto;
 using AppServices.ServiceInterfaces;
 using Microsoft.AspNetCore.Mvc;
 
@@ -15,10 +15,9 @@ namespace AdsWebApi.Controllers
         IAdvertService _advertService;
         // GET api/values
         [HttpGet]
-        public ActionResult<IEnumerable<string>> Get()
+        public ActionResult<AdvertDto> Get()
         {
-            _advertService.Get(1);
-            return new string[] { "value1", "value2" };
+            return _advertService.Get(1);
         }
 
         // GET api/values/5

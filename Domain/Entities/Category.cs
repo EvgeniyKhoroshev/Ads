@@ -18,9 +18,9 @@ namespace Domain
         /// </summary> 
         public int? ParentCategoryId { get; set; }
         /// <summary>
-        /// Один-ко-одному свзязь к объявлениям / One-to-one relation to adverts
+        /// Многие-ко-одному свзязь к объявлениям / Many-to-one relation to adverts
         /// </summary> 
         [ForeignKey("Id")]
-        public Advert Advert { get; set; }
+        public ICollection<Advert> Adverts { get; set; }
     }
 }

@@ -18,7 +18,6 @@ namespace AppServices.Services
             Advert adv = _advertRepository.Get(id);
             if (adv == null)
                 return null;
-            Mapper.Initialize(cfg => cfg.CreateMap<Advert, AdvertDto>());
             return  Mapper.Map<AdvertDto>(adv) ;
         }
     }

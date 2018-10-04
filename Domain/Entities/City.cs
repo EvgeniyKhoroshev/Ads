@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Domain.Entities
 {
@@ -13,10 +14,10 @@ namespace Domain.Entities
         /// </summary>
         public string Name { get; set; }
         /// <summary>
-        /// Один-ко-одному свзязь к объявлениям / One-to-one relation to adverts
+        /// Многие-ко-одному свзязь к объявлениям / Many-to-one relation to adverts
         /// </summary> 
         [ForeignKey("Id")]
-        public Advert Advert { get; set; }
+        public ICollection<Advert> Adverts { get; set; }
         /// <summary>
         /// Один-ко-многим свзязь к регионам / One-to-many relation to regions
         /// </summary> 
