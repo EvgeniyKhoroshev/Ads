@@ -8,14 +8,13 @@ namespace Domain.Entities
     class AdsDBContext : DbContext
     {
 
-        public AdsDBContext()
+        public DbSet<Advert>
+
+        public AdsDBContext(DbContextOptions<AdsDBContext> options) : base(options)
         {
             Database.EnsureCreated();
         }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-
-        }
+        
     }
 }
