@@ -1,7 +1,6 @@
 ﻿using Domain.Entities.Base;
-using System;
 using System.Collections.Generic;
-using System.Text;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Domain.Entities
 {
@@ -11,5 +10,10 @@ namespace Domain.Entities
         /// Название региона / name of region
         /// </summary>
         public string Name { get; set; }
+        /// <summary>
+        /// Один-ко-многим свзязь к городам / One-to-many relation to city
+        /// </summary> 
+        [ForeignKey("Id")]
+        public ICollection<City> Cities { get; set; }
     }
 }
