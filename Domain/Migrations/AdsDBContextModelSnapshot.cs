@@ -55,7 +55,7 @@ namespace Domain.Migrations
                     b.Property<string>("Name")
                         .IsRequired();
 
-                    b.Property<double>("Price");
+                    b.Property<long>("Price");
 
                     b.Property<int>("StatusId");
 
