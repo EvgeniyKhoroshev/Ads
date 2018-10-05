@@ -22,6 +22,14 @@ namespace Ads.WebUI.Controllers
                 if (response.IsSuccessStatusCode)
                 {
                     result = await response.Content.ReadAsAsync<AdvertDto>();
+                    return View(new AdsVMIndex
+                    {
+                        Id = result.Id,
+                        CityId = result.CityId,
+                        Created = result.Created,
+                        Name = result.Name, 
+                        Price = (uint)result.Price
+                    });
                 }
             }
             return View(result);

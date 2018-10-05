@@ -1,4 +1,6 @@
-﻿namespace Ads.Contracts.Dto
+﻿using System;
+
+namespace Ads.Contracts.Dto
 {
     public class AdvertDto
     {
@@ -47,5 +49,9 @@
         /// Ads context for a functional extends
         /// </summary>
         public string Context { get; set; }
+        /// <summary>
+        /// Дата создания / Creation date 
+        /// </summary>
+        public DateTime Created { get; set; }
     }
 }

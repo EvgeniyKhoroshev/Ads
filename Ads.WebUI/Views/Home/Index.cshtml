@@ -1,7 +1,13 @@
-﻿@model Ads.Contracts.Dto.AdvertDto
+﻿@model Ads.WebUI.Models.AdsVMIndex;
 @{
     ViewData["Title"] = "Home Page";
 }
+
+<div>
+    <p>
+        @Model.Id @Model.Name @Model.CityId @Model.Created @Model.Price
+    </p>
+</div>
 
 <div id="myCarousel" class="carousel slide" data-ride="carousel" data-interval="6000">
     <ol class="carousel-indicators">
@@ -36,7 +42,7 @@
             <img src="~/images/banner3.svg" alt="Microsoft Azure" class="img-responsive" />
             <div class="carousel-caption" role="option">
                 <p>
-                    @Model.Name @Model.Id
+                    @Model.Id @Model.Name @Model.CityId @Model.Created @Model.Price
                     <a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkID=525027&clcid=0x409">
                         Learn More
                     </a>
