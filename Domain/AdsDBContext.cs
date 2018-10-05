@@ -7,7 +7,6 @@ namespace Domain
 {
     public class AdsDBContext : DbContext
     {
-
         public DbSet<Advert> Adverts { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<City> Cities { get; set; }
@@ -21,6 +20,24 @@ namespace Domain
                 .HasOne(t => t.Region)
                 .WithMany(c => c.Cities)
                 .OnDelete(DeleteBehavior.Restrict);
+            builder.Entity<City>()
+                .Property(t => t.Id)
+                .UseSqlServerIdentityColumn();
+            builder.Entity<Region>()
+                .Property(t => t.Id)
+                .UseSqlServerIdentityColumn();
+            builder.Entity<Category>()
+                .Property(t => t.Id)
+                .UseSqlServerIdentityColumn();
+            builder.Entity<Advert>()
+                .Property(t => t.Id)
+                .UseSqlServerIdentityColumn();
+            builder.Entity<Status>()
+                .Property(t => t.Id)
+                .UseSqlServerIdentityColumn();
+            builder.Entity<AdvertType>()
+                .Property(t => t.Id)
+                .UseSqlServerIdentityColumn();
             builder.Entity<Advert>()
                 .HasOne(t => t.Type)
                 .WithMany(c => c.Adverts)

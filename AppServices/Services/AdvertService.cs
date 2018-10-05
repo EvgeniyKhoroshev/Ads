@@ -3,6 +3,7 @@ using AppServices.ServiceInterfaces;
 using AutoMapper;
 using Domain.Entities;
 using Domain.RepositoryInterfaces;
+using System.Collections.Generic;
 
 namespace AppServices.Services
 {
@@ -13,9 +14,19 @@ namespace AppServices.Services
         {
             _advertRepository = advertRepository;
         }
-        public override AdvertDto Get(int id)
+        public override IList<AdvertDto> GetAllWithoutIncludes()
         {
-            Advert adv = _advertRepository.Get(id);
+            IList<Advert> adv = _advertRepository.GetWithoutIncludes();
+            if (adv == null)
+                return null;
+            IList<AdvertDto> result = new List<AdvertDto>();
+            foreach (var ads in adv)
+                result.Add(Mapper.Map<AdvertDto>(ads));
+            return result;
+        }
+        public override AdvertDto GetWithoutIncludes(int id)
+        {
+            Advert adv = _advertRepository.GetWithoutIncludes(id);
             if (adv == null)
                 return null;
             return  Mapper.Map<AdvertDto>(adv) ;

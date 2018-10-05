@@ -9,8 +9,10 @@ namespace AppServices
         public static void Initialize()
         {
 
-            Mapper.Initialize(cfg => cfg.CreateMap<Advert, AdvertDto>());
-
+            Mapper.Initialize(cfg => {
+                cfg.CreateMap<Advert, AdvertDto>();
+                cfg.CreateMap<AdvertDto, Advert>();
+            });
         }
     }
 }

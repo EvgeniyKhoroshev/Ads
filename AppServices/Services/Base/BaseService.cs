@@ -7,11 +7,11 @@ namespace AppServices.Services.Base
 {
     public abstract class BaseService<T, Tid> : IServiceInterfaceBase<T, Tid>
     {
-        public virtual IList<T> GetAllWithIncludes(Tid id)
+        public virtual IList<T> GetAllWithIncludes()
         {
             throw new NotImplementedException();
         }
-        public virtual IList<T> GetAllWithoutIncludes(Tid id)
+        public virtual IList<T> GetAllWithoutIncludes()
         {
             throw new NotImplementedException();
         }
@@ -25,6 +25,18 @@ namespace AppServices.Services.Base
             throw new NotImplementedException();
         }
 
-        public abstract T Get(Tid id);
+        public virtual T GetWithoutIncluding(Tid id)
+        {
+            throw new NotImplementedException();
+        }
+        public virtual T GetWithoutIncludes(Tid id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public virtual T GetWithIncludes(Tid id)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

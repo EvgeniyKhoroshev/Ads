@@ -7,17 +7,15 @@ namespace Domain.Data.Repositories.Base
         where T: Entities.Base.BaseEntity
     {
         public BaseRepository() { }
-        public virtual void Delete(T entity)
-        {
-            throw new NotImplementedException();
-        }
-
         public virtual T Get(int id)
         {
             throw new NotImplementedException();
         }
-
-        public virtual IList<T> GetAll()
+        public virtual IList<T> GetAllWithIncluding()
+        {
+            throw new NotImplementedException();
+        }
+        public virtual IList<T> GetAllWithoutIncluding()
         {
             throw new NotImplementedException();
         }
@@ -26,6 +24,36 @@ namespace Domain.Data.Repositories.Base
             throw new NotImplementedException();
         }
         public virtual T SaveOrUpdate(T entity)
+        {
+            throw new NotImplementedException();
+        }
+
+        public virtual T GetInfo()
+        {
+            throw new NotImplementedException();
+        }
+
+        public virtual T GetWithIncludes(int Id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public virtual T GetWithoutIncludes(int Id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public virtual void Delete(int Id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public virtual IList<T> GetAllWithIncludes()
+        {
+            throw new NotImplementedException();
+        }
+
+        public virtual IList<T> GetWithoutIncludes()
         {
             throw new NotImplementedException();
         }

@@ -1,12 +1,15 @@
-﻿@model Ads.WebUI.Models.AdsVMIndex;
+﻿@model ICollection<Ads.Contracts.Dto.AdvertDto>
 @{
     ViewData["Title"] = "Home Page";
 }
 
 <div>
-    <p>
-        @Model.Id @Model.Name @Model.CityId @Model.Created @Model.Price
-    </p>
+    <ul>
+        @foreach (var item in Model)
+        {
+            <li>@item.Id @item.Name @item.CityId @item.Created @item.Price</li>
+        }
+    </ul>
 </div>
 
 <div id="myCarousel" class="carousel slide" data-ride="carousel" data-interval="6000">
@@ -42,7 +45,6 @@
             <img src="~/images/banner3.svg" alt="Microsoft Azure" class="img-responsive" />
             <div class="carousel-caption" role="option">
                 <p>
-                    @Model.Id @Model.Name @Model.CityId @Model.Created @Model.Price
                     <a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkID=525027&clcid=0x409">
                         Learn More
                     </a>

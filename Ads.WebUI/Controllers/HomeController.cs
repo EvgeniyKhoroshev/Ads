@@ -18,7 +18,7 @@ namespace Ads.WebUI.Controllers
             AdvertDto result = null;
             using (var httpClient = new HttpClient())
             {
-                HttpResponseMessage response = await httpClient.GetAsync($"http://localhost:56663/api/values/1");
+                HttpResponseMessage response = await httpClient.GetAsync($"http://localhost:56663/api/values");
                 if (response.IsSuccessStatusCode)
                 {
                     result = await response.Content.ReadAsAsync<AdvertDto>();
