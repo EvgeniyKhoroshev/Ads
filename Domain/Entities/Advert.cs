@@ -18,7 +18,7 @@ namespace Domain.Entities
         /// Стопимость / Price
         /// </summary>
         [Required]
-        public double Price { get; set; }
+        public uint Price { get; set; }
         /// <summary>
         /// Id cтатуca объявления / Id of a ads status
         /// </summary>

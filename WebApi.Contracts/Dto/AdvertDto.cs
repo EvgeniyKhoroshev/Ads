@@ -16,7 +16,7 @@ namespace Ads.Contracts.Dto
         /// <summary>
         /// Стопимость / Price
         /// </summary>
-        public double Price { get; set; }
+        public uint Price { get; set; }
         /// <summary>
         /// Id cтатуca объявления / Id of a ads status
         /// </summary>

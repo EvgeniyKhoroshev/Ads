@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Domain.Migrations
 {
-    public partial class initial : Migration
+    public partial class Initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -88,7 +88,7 @@ namespace Domain.Migrations
                     Created = table.Column<DateTime>(nullable: false),
                     Name = table.Column<string>(nullable: false),
                     Description = table.Column<string>(nullable: true),
-                    Price = table.Column<double>(nullable: false),
+                    Price = table.Column<long>(nullable: false),
                     Address = table.Column<string>(nullable: true),
                     CategoryId = table.Column<int>(nullable: false),
                     StatusId = table.Column<int>(nullable: false),

@@ -50,10 +50,5 @@ namespace Domain
             var ConnectionString = DBConfig.DB_DEFAULT_CONNECTION_STRING;
             optionsBuilder.UseSqlServer(ConnectionString);
         }
-        public List<Advert> Include()
-        {
-            throw new NotImplementedException();
-        }
-
     }
 }

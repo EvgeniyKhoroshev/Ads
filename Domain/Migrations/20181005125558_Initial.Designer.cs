@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Domain.Migrations
 {
     [DbContext(typeof(AdsDBContext))]
-    [Migration("20181004222800_initial")]
-    partial class initial
+    [Migration("20181005125558_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -57,7 +57,7 @@ namespace Domain.Migrations
                     b.Property<string>("Name")
                         .IsRequired();
 
-                    b.Property<double>("Price");
+                    b.Property<long>("Price");
 
                     b.Property<int>("StatusId");
 
