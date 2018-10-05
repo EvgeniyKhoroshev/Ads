@@ -5,14 +5,26 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Ads.WebUI.Models;
+using Ads.Contracts.Dto;
+using AppServices.ServiceInterfaces;
+using System.Net.Http;
 
 namespace Ads.WebUI.Controllers
 {
     public class HomeController : Controller
     {
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            AdvertDto result = null;
+            using (var httpClient = new HttpClient())
+            {
+                HttpResponseMessage response = await httpClient.GetAsync($"http://localhost:56663/api/values/1");
+                if (response.IsSuccessStatusCode)
+                {
+                    result = await response.Content.ReadAsAsync<AdvertDto>();
+                }
+            }
+            return View(result);
         }
 
         public IActionResult About()

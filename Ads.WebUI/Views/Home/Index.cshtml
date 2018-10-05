@@ -1,4 +1,5 @@
-﻿@{
+﻿@model Ads.Contracts.Dto.AdvertDto
+@{
     ViewData["Title"] = "Home Page";
 }
 
@@ -15,7 +16,7 @@
                 <p>
                     Learn how to build ASP.NET apps that can run anywhere.
                     <a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkID=525028&clcid=0x409">
-                        Learn More
+                        
                     </a>
                 </p>
             </div>
@@ -35,7 +36,7 @@
             <img src="~/images/banner3.svg" alt="Microsoft Azure" class="img-responsive" />
             <div class="carousel-caption" role="option">
                 <p>
-                    Learn how Microsoft's Azure cloud platform allows you to build, deploy, and scale web apps.
+                    @Model.Name @Model.Id
                     <a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkID=525027&clcid=0x409">
                         Learn More
                     </a>

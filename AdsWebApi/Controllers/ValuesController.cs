@@ -22,9 +22,9 @@ namespace AdsWebApi.Controllers
 
         // GET api/values/5
         [HttpGet("{id}")]
-        public ActionResult<string> Get(int id)
+        public ActionResult<AdvertDto> Get(int id)
         {
-            return "value";
+            return _advertService.Get(id);
         }
 
         // POST api/values
