@@ -1,36 +1,39 @@
 ﻿using Ads.Contracts.Dto;
 using AppServices.ServiceInterfaces;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace AdsWebApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ValuesController : ControllerBase
+    public class AdvertsController : ControllerBase
     {
-        public ValuesController (IAdvertService advertService)
+        public AdvertsController (IAdvertService advertService)
         {
             _advertService = advertService;
         }
         IAdvertService _advertService;
         // GET api/values
         [HttpGet]
-        public ActionResult<AdvertDto> Get()
+        public async Task<IList<AdvertDto>> Get()
         {
-            return _advertService.Get(1);
+            return await _advertService.GetAllWithoutIncludes();
         }
 
         // GET api/values/5
         [HttpGet("{id}")]
-        public ActionResult<AdvertDto> Get(int id)
+        public async Task<ActionResult<AdvertDto>> Get(int id)
         {
-            return _advertService.Get(id);
+            return await _advertService.GetWithIncludes(id);
         }
 
         // POST api/values
         [HttpPost]
-        public void Post([FromBody] string value)
+        public void Post([FromBody] AdvertDto value)
         {
+            _advertService.SaveOrUpdate(value);
         }
 
         // PUT api/values/5

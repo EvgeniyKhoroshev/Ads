@@ -1,15 +1,17 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace AppServices.ServiceInterfaces.Base
 {
     public interface IServiceInterfaceBase<T, Tid>
     {
-        IList<T> GetAllWithIncludes();
-        IList<T> GetAllWithoutIncludes();
-        int Create();
+        Task<IList<T>> GetAllWithIncludes();
+        Task<IList<T>> GetAllWithoutIncludes();
+        Task<int> Create();
         T SaveOrUpdate(T Entity);
-        T GetWithoutIncludes(Tid id);
-        T GetWithIncludes(Tid id);
+        Task<T> GetWithoutIncludes(Tid id);
+        Task<T> GetWithIncludes(Tid id);
+        Task<T> GetInfo();
 
     }
 }

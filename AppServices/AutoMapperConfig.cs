@@ -12,6 +12,8 @@ namespace AppServices
             Mapper.Initialize(cfg => {
                 cfg.CreateMap<Advert, AdvertDto>();
                 cfg.CreateMap<AdvertDto, Advert>();
+                cfg.CreateMap<AdvertsInfo, AdvertsInfoDto>();
+                cfg.CreateMap<AdvertsInfoDto, AdvertsInfo>();
             });
         }
     }

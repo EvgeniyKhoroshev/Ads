@@ -15,21 +15,21 @@ namespace Ads.WebUI.Controllers
     {
         public async Task<IActionResult> Index()
         {
-            AdvertDto result = null;
+            List<AdvertDto> result = null;
             using (var httpClient = new HttpClient())
             {
-                HttpResponseMessage response = await httpClient.GetAsync($"http://localhost:56663/api/values");
+                HttpResponseMessage response = await httpClient.GetAsync($"http://localhost:56663/api/adverts");
                 if (response.IsSuccessStatusCode)
                 {
-                    result = await response.Content.ReadAsAsync<AdvertDto>();
-                    return View(new AdsVMIndex
-                    {
-                        Id = result.Id,
-                        CityId = result.CityId,
-                        Created = result.Created,
-                        Name = result.Name, 
-                        Price = (uint)result.Price
-                    });
+                    result = await response.Content.ReadAsAsync<List<AdvertDto>>();
+                    //return View(new AdsVMIndex
+                    //{
+                    //    Id = result.Id,
+                    //    CityId = result.CityId,
+                    //    Created = result.Created,
+                    //    Name = result.Name, 
+                    //    Price = (uint)result.Price
+                    //});
                 }
             }
             return View(result);

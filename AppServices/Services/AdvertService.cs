@@ -4,6 +4,7 @@ using AutoMapper;
 using Domain.Entities;
 using Domain.RepositoryInterfaces;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace AppServices.Services
 {
@@ -14,9 +15,9 @@ namespace AppServices.Services
         {
             _advertRepository = advertRepository;
         }
-        public override IList<AdvertDto> GetAllWithoutIncludes()
+        public override async Task<IList<AdvertDto>> GetAllWithoutIncludes()
         {
-            IList<Advert> adv = _advertRepository.GetWithoutIncludes();
+            IList<Advert> adv = await _advertRepository.GetAllWithoutIncludes();
             if (adv == null)
                 return null;
             IList<AdvertDto> result = new List<AdvertDto>();
@@ -24,12 +25,24 @@ namespace AppServices.Services
                 result.Add(Mapper.Map<AdvertDto>(ads));
             return result;
         }
-        public override AdvertDto GetWithoutIncludes(int id)
+        public override AdvertDto SaveOrUpdate(AdvertDto entity)
         {
-            Advert adv = _advertRepository.GetWithoutIncludes(id);
+            Advert sm = _advertRepository.SaveOrUpdate(Mapper.Map<Advert>(entity)).Result;
+            return Mapper.Map<AdvertDto>(sm);
+        }
+        public override async Task<AdvertDto> GetWithoutIncludes(int id)
+        {
+            Advert adv = await _advertRepository.GetWithoutIncludes(id);
             if (adv == null)
                 return null;
             return  Mapper.Map<AdvertDto>(adv) ;
+        }
+        public override async Task<AdvertDto> GetWithIncludes(int id)
+        {
+            Advert adv = await _advertRepository.GetWithIncludes(id);
+            if (adv == null)
+                return null;
+            return Mapper.Map<AdvertDto>(adv);
         }
     }
 }
