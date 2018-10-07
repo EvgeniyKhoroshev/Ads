@@ -17,14 +17,14 @@ namespace AdsWebApi.Controllers
         [HttpGet]
         public ActionResult<AdvertDto> Get()
         {
-            return _advertService.Get(1);
+            return _advertService.GetWithoutIncludes(1);
         }
 
         // GET api/values/5
         [HttpGet("{id}")]
         public ActionResult<AdvertDto> Get(int id)
         {
-            return _advertService.Get(id);
+            return _advertService.GetWithoutIncludes(id);
         }
 
         // POST api/values
