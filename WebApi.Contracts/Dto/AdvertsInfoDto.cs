@@ -1,11 +1,14 @@
-﻿namespace Ads.Contracts.Dto
+﻿using System.Collections.Generic;
+
+namespace Ads.Contracts.Dto
 {
     public class AdvertsInfoDto
     {
-        public AdvertType Types { get; set; }
-        public Category Categories { get; set; }
-        public City Cities { get; set; }
-        public Status Statuses { get; set; }
-        public Region Regions { get; set; }
+        public int Id { get; set; }
+        public IList<AdvertType> Types { get; set; }
+        public IList<Category> Categories { get; set; }
+        public IList<City> Cities { get; set; }
+        public IList<Status> Statuses { get; set; }
+        public IList<Region> Regions { get; set; }
     }
 }

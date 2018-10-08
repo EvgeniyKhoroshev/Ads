@@ -67,7 +67,7 @@ namespace Ads.WebUI
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
+                    template: "{controller=Adverts}/{action=Index}/{id?}");
             });
         }
     }

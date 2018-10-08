@@ -1,17 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Ads.WebUI.Models;
 using Ads.Contracts.Dto;
-using AppServices.ServiceInterfaces;
 using System.Net.Http;
 
 namespace Ads.WebUI.Controllers
 {
-    public class HomeController : Controller
+    public class AdvertsController : Controller
     {
         public async Task<IActionResult> Index()
         {
@@ -22,19 +19,38 @@ namespace Ads.WebUI.Controllers
                 if (response.IsSuccessStatusCode)
                 {
                     result = await response.Content.ReadAsAsync<List<AdvertDto>>();
-                    //return View(new AdsVMIndex
-                    //{
-                    //    Id = result.Id,
-                    //    CityId = result.CityId,
-                    //    Created = result.Created,
-                    //    Name = result.Name, 
-                    //    Price = (uint)result.Price
-                    //});
                 }
             }
             return View(result);
         }
-
+        public async Task<IActionResult> Create()
+        {
+            AdvertsInfoDto result = null;
+            using (var httpClient = new HttpClient())
+            {
+                HttpResponseMessage response = await httpClient.GetAsync($"http://localhost:56663/api/adverts/create");
+                if (response.IsSuccessStatusCode)
+                {
+                    result = await response.Content.ReadAsAsync<AdvertsInfoDto>();
+                }
+            }
+            return View(result);
+        }
+        [HttpPost]
+        public async Task<IActionResult> Create(
+            [Bind("Name","Descrtiption","Address", "Price")] AdvertDto advert)
+        {
+            AdvertsInfoDto result = null;
+            using (var httpClient = new HttpClient())
+            {
+                HttpResponseMessage response = await httpClient.GetAsync($"http://localhost:56663/api/adverts/new");
+                if (response.IsSuccessStatusCode)
+                {
+                    result = await response.Content.ReadAsAsync<AdvertsInfoDto>();
+                }
+            }
+            return View(result);
+        }
         public IActionResult About()
         {
             ViewData["Message"] = "Your application description page.";

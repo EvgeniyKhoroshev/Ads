@@ -10,16 +10,26 @@ namespace AdsWebApi.Controllers
     [ApiController]
     public class AdvertsController : ControllerBase
     {
-        public AdvertsController (IAdvertService advertService)
+        public AdvertsController (IAdvertService advertService, IInfoService infoService)
         {
+            _infoService = infoService;
+            _infoService.GetInfo();
             _advertService = advertService;
         }
-        IAdvertService _advertService;
+        readonly IAdvertService _advertService;
+        readonly IInfoService _infoService;
         // GET api/values
         [HttpGet]
         public async Task<IList<AdvertDto>> Get()
         {
+            AdvertsInfoDto info =  await _infoService.GetInfo();
             return await _advertService.GetAllWithoutIncludes();
+        }
+        [HttpGet("{add}")]
+        public async Task<AdvertsInfoDto> Get(string add)
+        {
+            AdvertsInfoDto info = await _infoService.GetInfo();
+            return info;
         }
 
         // GET api/values/5

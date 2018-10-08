@@ -1,8 +1,9 @@
 ﻿using Ads.Contracts.Dto;
+using Ads.WebUI.Models;
 using AutoMapper;
 using Domain.Entities;
 
-namespace AppServices
+namespace Ads.Common
 {
     public class AutoMapperConfig
     {
@@ -14,6 +15,9 @@ namespace AppServices
                 cfg.CreateMap<AdvertDto, Advert>();
                 cfg.CreateMap<AdvertsInfo, AdvertsInfoDto>();
                 cfg.CreateMap<AdvertsInfoDto, AdvertsInfo>();
+                cfg.CreateMap<AdvertDto, AdsVMIndex>()
+                    .IgnoreAllPropertiesWithAnInaccessibleSetter()
+                    .IgnoreAllSourcePropertiesWithAnInaccessibleSetter();
             });
         }
     }

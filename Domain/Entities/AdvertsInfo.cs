@@ -1,11 +1,13 @@
-﻿namespace Domain.Entities
+﻿using System.Collections.Generic;
+
+namespace Domain.Entities
 {
     public class AdvertsInfo : Entities.Base.EntityWithTypedIdBase<int>
     {
-        public AdvertType Types { get; set; }
-        public Category Categories { get; set; }
-        public City Cities { get; set; }
-        public Status Statuses { get; set; }
-        public Region Regions { get; set; }
+        public IList<AdvertType> Types { get; set; }
+        public IList<Category> Categories { get; set; }
+        public IList<City> Cities { get; set; }
+        public IList<Status> Statuses { get; set; }
+        public IList<Region> Regions { get; set; }
     }
 }
