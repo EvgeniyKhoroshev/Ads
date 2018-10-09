@@ -10,5 +10,14 @@ namespace Ads.Contracts.Dto
         public IList<City> Cities { get; set; }
         public IList<Status> Statuses { get; set; }
         public IList<Region> Regions { get; set; }
+        public string FindCityById(int id)
+        {
+            foreach(var s in Cities)
+            {
+                if (s.Id == id)
+                    return s.Name;
+            }
+            return "err";
+        }
     }
 }

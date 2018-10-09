@@ -19,7 +19,7 @@ namespace Ads.WebUI.Models
         /// <summary>
         /// Id города / City id
         /// </summary>
-        public int CityId { get; set; }
+        public string City { get; set; }
         /// <summary>
         /// Дата создания / Creation date 
         /// </summary>

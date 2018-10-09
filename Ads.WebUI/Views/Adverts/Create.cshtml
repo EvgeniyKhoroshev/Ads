@@ -10,7 +10,7 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Create">
+        <form asp-action="Create" class="active">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label class="control-label">Название объявления</label>
@@ -29,40 +29,40 @@
                 <input name="Address" class="form-control" />
             </div>
             <div class="form-group">
-                <select>
+                <select class="form-control form-control-sm" name="CategoryId">
                     @foreach (var item in Model.Categories)
                     {
-                    <option id="selectItem" value="@item.Id">@item.Id @item.Name</option>
+                        <option value="@item.Id">@item.Id @item.Name</option>
                     }
                 </select>
-                
             </div>
             <div class="form-group">
-                <select>
+                <select class="form-control form-control-sm" name="StatusId">
                     @foreach (var item in Model.Statuses)
                     {
-                        <option ng-model="selectItem" value="@item.Id">@item.Id @item.Name</option>}
+                        <option value="@item.Id">@item.Id @item.Name</option>
+                    }
                 </select>
             </div>
-            <div class="form-group">
-                <select>
+            <div  class="form-group">
+                <select class="form-control form-control-sm" name="TypeId">
                     @foreach (var item in Model.Types)
                     {
-                        <option ng-model="selectItem" value="@item.Id">@item.Id @item.Type</option>}
+                        <option value="@item.Id">@item.Id @item.Type</option>}
                 </select>
             </div>
             <div class="form-group">
-                <select>
+                <select class="form-control form-control-sm" name="CityId">
                     @foreach (var item in Model.Cities)
                     {
-                        <option ng-model="selectItem" value="@item.Id">@item.Id @item.Name</option>}
+                        <option value="@item.Id">@item.Id @item.Name</option>}
                 </select>
             </div>
-            <div class="form-group">
-                <select>
+            <div>
+                <select class="form-control form-control-sm" name="RegionId">
                     @foreach (var item in Model.Regions)
                     {
-                        <option ng-model="selectItem" value="@item.Id">@item.Id @item.Name</option>}
+                        <option value="@item.Id">@item.Id @item.Name</option>}
                 </select>
             </div>
             <div class="form-group">
