@@ -48,11 +48,21 @@ namespace Ads.WebUI.Controllers
             await APIRequests.DeleteAdvert(Id.Value);
             return RedirectToAction("Index");
         }
-
-        public IActionResult Contact()
+        [HttpGet]
+        public async Task<IActionResult> Details(int? id)
         {
-            ViewData["Message"] = "Your contact page.";
-
+            if (id != null)
+            {
+                if (_AdvertsInfoDto == null)
+                    _AdvertsInfoDto = await APIRequests.AdvInfoInit();
+                AdvertDto buf = await APIRequests.GetAdvert(id.Value);
+                AdsVMDetails result = Mapper.Map<AdsVMDetails>(buf);
+                result.Category = _AdvertsInfoDto.FindCategoryById(buf.CategoryId);
+                result.City = _AdvertsInfoDto.FindCityById(buf.CityId);
+                result.Type = _AdvertsInfoDto.FindTypeById(buf.TypeId);
+                result.Status = _AdvertsInfoDto.FindStatusById(buf.StatusId);
+                return View(result);
+            }
             return View();
         }
 

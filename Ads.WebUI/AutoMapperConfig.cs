@@ -16,7 +16,13 @@ namespace Ads.WebUI
                 cfg.CreateMap<AdsVMIndex, AdvertDto>()
                     .IgnoreAllPropertiesWithAnInaccessibleSetter()
                     .IgnoreAllSourcePropertiesWithAnInaccessibleSetter();
-            });
+                    cfg.CreateMap<AdvertDto, AdsVMDetails>()
+                        .IgnoreAllPropertiesWithAnInaccessibleSetter()
+                        .IgnoreAllSourcePropertiesWithAnInaccessibleSetter();
+                    cfg.CreateMap<AdsVMDetails, AdvertDto>()
+                        .IgnoreAllPropertiesWithAnInaccessibleSetter()
+                        .IgnoreAllSourcePropertiesWithAnInaccessibleSetter();
+                });
         }
     }
 }

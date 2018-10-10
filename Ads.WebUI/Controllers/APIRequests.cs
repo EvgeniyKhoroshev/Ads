@@ -24,10 +24,25 @@ namespace Ads.WebUI.Controllers
             catch (Exception) { }
             return null;
         }
-
+        public static async Task<AdvertDto> GetAdvert(int id)
+        {
+            try
+            {
+                using (var httpClient = new HttpClient())
+                {
+                    HttpResponseMessage response = await httpClient.GetAsync($"http://localhost:56663/api/adverts/{id}");
+                    if (response.IsSuccessStatusCode)
+                    {
+                        return await response.Content.ReadAsAsync<AdvertDto>();
+                    }
+                }
+            }
+            catch (Exception) { }
+            return null;
+        }
         public static async Task<List<AdvertDto>> GetAdverts()
         {
-            List<AdvertDto> result = null;
+
             try
             {
                 using (var httpClient = new HttpClient())
@@ -35,13 +50,12 @@ namespace Ads.WebUI.Controllers
                     HttpResponseMessage response = await httpClient.GetAsync($"http://localhost:56663/api/adverts");
                     if (response.IsSuccessStatusCode)
                     {
-                        result = await response.Content.ReadAsAsync<List<AdvertDto>>();
-                        return result;
+                        return await response.Content.ReadAsAsync<List<AdvertDto>>();
                     }
                 }
             }
             catch (Exception) { }
-            return result;
+            return null;
         }
         public static async Task<AdvertDto> CreateAdvert(AdvertDto advert)
         {
