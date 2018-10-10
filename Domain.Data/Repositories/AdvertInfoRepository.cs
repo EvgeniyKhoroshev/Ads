@@ -9,7 +9,7 @@ namespace Domain.Data.Repositories
 {
     public class AdvertInfoRepository : IAdvertInfoRepository
     {
-        public Task Delete(int Id)
+        public void Delete(int Id)
         {
             throw new NotImplementedException();
         }

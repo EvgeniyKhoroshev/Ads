@@ -44,7 +44,7 @@ namespace Domain.Data.Repositories.Base
             throw new NotImplementedException();
         }
 
-        public virtual Task Delete(int Id)
+        public virtual void Delete(int Id)
         {
             throw new NotImplementedException();
         }

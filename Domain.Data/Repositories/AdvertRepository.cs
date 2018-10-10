@@ -66,11 +66,11 @@ namespace Domain.Data.Repositories
         /// Deleting an entity by Id
         /// </summary>
         /// <param name="id">Идентификатор объявления / Id of entity</param>
-        public override async Task Delete(int Id)
+        public override void Delete(int Id)
         {
-            var adv = await _dbContext.Adverts.FindAsync(Id);
+            Advert adv = _dbContext.Adverts.FindAsync(Id).Result;
             _dbContext.Adverts.Remove(adv);
-            await _dbContext.SaveChangesAsync();
+            _dbContext.SaveChangesAsync();
         }
         /// <summary>
         /// Возвращает список существующих объявлений включая дочерние // 
@@ -103,9 +103,7 @@ namespace Domain.Data.Repositories
                 var adv = await _dbContext.Adverts.FirstOrDefaultAsync(x => x.Id == Id);
                 if (adv != null)
                     return await _dbContext.Adverts
-                                            .Include(t => t.Type)
-                                            .Include(t => t.Category)
-                                            .Include(t => t.City)
+                                            .Include(t => t.Comments)
                                             .FirstOrDefaultAsync(x => x.Id == Id);
             }
             catch (Exception) { }

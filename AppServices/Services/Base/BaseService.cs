@@ -23,8 +23,12 @@ namespace AppServices.Services.Base
         {
             throw new NotImplementedException();
         }
+        public virtual void Delete(Tid id)
+        {
+            throw new NotImplementedException();
+        }
 
-        public virtual T SaveOrUpdate(T Entity)
+        public virtual Task<T> SaveOrUpdate(T Entity)
         {
             throw new NotImplementedException();
         }

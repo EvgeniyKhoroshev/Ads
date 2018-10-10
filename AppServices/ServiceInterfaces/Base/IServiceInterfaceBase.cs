@@ -8,10 +8,11 @@ namespace AppServices.ServiceInterfaces.Base
         Task<IList<T>> GetAllWithIncludes();
         Task<IList<T>> GetAllWithoutIncludes();
         Task<int> Create();
-        T SaveOrUpdate(T Entity);
+        Task<T> SaveOrUpdate(T Entity);
         Task<T> GetWithoutIncludes(Tid id);
         Task<T> GetWithIncludes(Tid id);
         Task<T> GetInfo();
+        void Delete(Tid id);
 
     }
 }

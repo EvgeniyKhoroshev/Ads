@@ -12,72 +12,42 @@ namespace Ads.WebUI.Controllers
 {
     public class AdvertsController : Controller
     {
-        async Task advInfoInit()
-        {
-            if (advertsInfoDto == null)
-            {
-                using (var httpClient = new HttpClient())
-                {
-                    HttpResponseMessage response = await httpClient.GetAsync($"http://localhost:56663/api/info");
-                    if (response.IsSuccessStatusCode)
-                    {
-                        advertsInfoDto = await response.Content.ReadAsAsync<AdvertsInfoDto>();
-                    }
-                }
-            }
-        }
-        AdvertsInfoDto advertsInfoDto;
+
+        AdvertsInfoDto _AdvertsInfoDto;
         public async Task<IActionResult> Index()
         {
-            await advInfoInit();
+            if (_AdvertsInfoDto == null)
+                _AdvertsInfoDto = await APIRequests.AdvInfoInit();
             List<AdsVMIndex> ret = new List<AdsVMIndex>();
-            List<AdvertDto> result = null;
-            using (var httpClient = new HttpClient())
-            {
-                HttpResponseMessage response = await httpClient.GetAsync($"http://localhost:56663/api/adverts");
-                if (response.IsSuccessStatusCode)
-                {
-                    result = await response.Content.ReadAsAsync<List<AdvertDto>>();
-                }
-            }
             AdsVMIndex adsVM;
-            foreach (var r in result)
+            foreach (var r in await APIRequests.GetAdverts())
             {
                 adsVM = Mapper.Map<AdsVMIndex>(r);
-                adsVM.City = advertsInfoDto.FindCityById(r.CityId);
+                adsVM.City = _AdvertsInfoDto.FindCityById(r.CityId);
                 ret.Add(adsVM);
             }
             return View(ret);
         }
         public async Task<IActionResult> Create()
         {
-            await advInfoInit();
-            return View(advertsInfoDto);
+            if (_AdvertsInfoDto == null)
+                _AdvertsInfoDto = await APIRequests.AdvInfoInit();
+            return View(_AdvertsInfoDto);
         }
         [HttpPost]
         public async Task<IActionResult> Create(
-            [Bind("Name","Description","Address", "Price", "CategoryId", "CityId", "TypeId", "StatusId", "Context")]
-                                                AdvertDto advert)
+            [Bind("Name,Description,Address,Price,CategoryId,CityId,TypeId,StatusId,Context")]AdvertDto advert)
         {
-            AdvertDto result = null;
             advert.Created = DateTime.Now;
-            using (var httpClient = new HttpClient())
-            {
-                HttpResponseMessage response = await httpClient.PostAsJsonAsync($"http://localhost:56663/api/adverts/create", advert);
-                if (response.IsSuccessStatusCode)
-                {
-                    result = await response.Content.ReadAsAsync<AdvertDto>();
-                }
-            }
+            await APIRequests.CreateAdvert(advert);
             return Redirect("Index");
         }
-        //[HttpPost]
-        //public IActionResult Delete()
-        //{
-        //    int id = (int)ViewData["id"];
-            
-        //    return View();
-        //}
+        [HttpPost]
+        public async Task<IActionResult> Delete(int? Id)
+        {
+            await APIRequests.DeleteAdvert(Id.Value);
+            return RedirectToAction("Index");
+        }
 
         public IActionResult Contact()
         {

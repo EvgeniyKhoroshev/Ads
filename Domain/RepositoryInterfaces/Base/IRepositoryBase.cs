@@ -10,7 +10,7 @@ namespace Domain.RepositoryInterfaces.Base
         /// Deleting an entity by Id
         /// </summary>
         /// <param name="id">Идентификатор сущности / Id of entity</param>
-        Task Delete(Tid Id);
+        void Delete(Tid Id);
         /// <summary>
         /// Возвращает список существующих элементов включая дочерние // 
         /// Returns all items including subsidiaries

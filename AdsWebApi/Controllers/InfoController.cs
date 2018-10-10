@@ -14,16 +14,16 @@ namespace AdsWebApi.Controllers
     public class InfoController : ControllerBase
     {
         readonly IInfoService _infoService;
-        AdvertsInfoDto advertsInfoDto;
+        AdvertsInfoDto _advertsInfoDto;
         public InfoController(IInfoService infoService)
         {
             _infoService = infoService;
-            advertsInfoDto = _infoService.GetInfo().Result;
+            _advertsInfoDto = _infoService.GetInfo().Result;
         }
         [HttpGet]
         public AdvertsInfoDto Get()
         {
-            return advertsInfoDto;
+            return _advertsInfoDto;
         }
 
     }

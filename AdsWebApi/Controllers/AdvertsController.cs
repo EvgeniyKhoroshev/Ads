@@ -32,9 +32,9 @@ namespace AdsWebApi.Controllers
 
         // POST api/values
         [HttpPost("/api/[controller]/create")]
-        public AdvertDto PostCreate([FromBody] AdvertDto value)
+        public async Task<AdvertDto> PostCreate([FromBody] AdvertDto value)
         {
-            return _advertService.SaveOrUpdate(value);
+            return await _advertService.SaveOrUpdate(value);
         }
 
         // PUT api/values/5
@@ -47,6 +47,7 @@ namespace AdsWebApi.Controllers
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
+            _advertService.Delete(id);
         }
     }
 }

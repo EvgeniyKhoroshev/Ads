@@ -15,6 +15,10 @@ namespace AppServices.Services
         {
             _advertRepository = advertRepository;
         }
+        public override void Delete(int id)
+        {
+            _advertRepository.Delete(id);
+        }
         public override async Task<IList<AdvertDto>> GetAllWithoutIncludes()
         {
             IList<Advert> adv = await _advertRepository.GetAllWithoutIncludes();
@@ -25,9 +29,9 @@ namespace AppServices.Services
                 result.Add(Mapper.Map<AdvertDto>(ads));
             return result;
         }
-        public override AdvertDto SaveOrUpdate(AdvertDto entity)
+        public override async Task<AdvertDto> SaveOrUpdate(AdvertDto entity)
         {
-            Advert sm = _advertRepository.SaveOrUpdate(Mapper.Map<Advert>(entity)).Result;
+            Advert sm = await _advertRepository.SaveOrUpdate(Mapper.Map<Advert>(entity));
             return Mapper.Map<AdvertDto>(sm);
         }
         public override async Task<AdvertDto> GetWithoutIncludes(int id)
