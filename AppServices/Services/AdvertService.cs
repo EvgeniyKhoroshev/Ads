@@ -1,4 +1,5 @@
 ﻿using Ads.Contracts.Dto;
+using Ads.Contracts.Dto.Filters;
 using AppServices.ServiceInterfaces;
 using AutoMapper;
 using Domain.Entities;
@@ -61,5 +62,24 @@ namespace AppServices.Services
                 return null;
             return Mapper.Map<AdvertDto>(adv);
         }
+
+        public AdvertDto[] GetFiltred(FilterDto filter)
+        {
+            var query = _advertRepository.GetAll();
+
+            if (filter.PriceRange != null)
+            {
+                if (filter.PriceRange.MinValue.HasValue)
+                    query = query.Where(x => x.Price >= filter.PriceRange.MinValue);
+                if (filter.PriceRange.MaxValue.HasValue)
+                    query = query.Where(x => x.Price <= filter.PriceRange.MaxValue);
+            }
+
+
+            var entities = query.ToArray();
+
+            return Mapper.Map<AdvertDto[]>(entities);
+        }
     }
 }
+
