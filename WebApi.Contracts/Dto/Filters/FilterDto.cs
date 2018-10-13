@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Ads.Contracts.Dto.Internal;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -6,20 +7,17 @@ namespace Ads.Contracts.Dto.Filters
 {
     public class FilterDto
     {
-        public Range<decimal?> PriceRange { get; set; }
-
         public FilterDto()
         {
             PriceRange = new Range<decimal?>();
         }
 
-        public string Category { get; set; }
-    }
-
-    public class Range<T>
-    {
-        public T MinValue { get; set; }
-
-        public T MaxValue { get; set; }
+        public Range<decimal?> PriceRange { get; set; }
+        public int? CategoryId { get; set; }
+        public int? RegionId { get; set; }
+        public int? CityId { get; set; }
+        public string Substring { get; set; }
+        public int PegeSize { get; set; }
+        public int PageNumber { get; set; }
     }
 }

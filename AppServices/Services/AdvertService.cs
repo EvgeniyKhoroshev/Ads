@@ -4,6 +4,7 @@ using AppServices.ServiceInterfaces;
 using AutoMapper;
 using Domain.Entities;
 using Domain.RepositoryInterfaces;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -75,6 +76,21 @@ namespace AppServices.Services
                     query = query.Where(x => x.Price <= filter.PriceRange.MaxValue);
             }
 
+            if (filter.RegionId.HasValue)
+                query = query.Where(x => x.City.RegionId == filter.RegionId);
+
+            if (filter.CityId.HasValue)
+                query = query.Where(x => x.CityId == filter.CityId);
+
+            if (filter.CategoryId.HasValue)
+                query = query.Where(x => x.CategoryId == filter.CategoryId);
+
+            if (!string.IsNullOrEmpty(filter.Substring))
+                query = query.Where(x => EF.Functions.Like(x.Name, $"%{filter.Substring}%") ||
+                                    EF.Functions.Like(x.Description, $"%{filter.Substring}%"));
+
+            query = query.Skip(filter.PegeSize * (filter.PageNumber - 1))
+                .Take(filter.PegeSize);
 
             var entities = query.ToArray();
 
