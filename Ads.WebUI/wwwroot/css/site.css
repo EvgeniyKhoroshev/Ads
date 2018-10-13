@@ -5,6 +5,10 @@ body {
     padding-bottom: 20px;
 }
 
+.categories_list{
+    float: left;
+    width: 100px;
+}
 /* Wrapping element */
 /* Set some basic padding to keep content from hitting the edges */
 .body-content {

@@ -7,12 +7,12 @@ fetch_info = function () {
 }
 document.onloadeddata = fetch_info();
 function DrawTree(tree) {
-    var index = tree.length;
-    for (index; index > 0; --index) {
+    var index = tree.length -1 ;
+    for (index; index => 0; --index) {
         document.getElementById('test').innerHTML += '\
         <li class="list-group-item nav-item" style="padding: 0px; ">\
             <input type="hidden" value="'+ tree[index].id + '"\>\
-            <button class="btn btn-default btn-xs btn-block" onclick="init(GetCategoryLevel('+ tree[index].id + '))">' + tree[index].name + '</button>\
+            <button class="btn btn-default btn-xs btn-block" style="border: none;" onclick="init(GetCategoryLevel('+ tree[index].id + '))">' + tree[index].name + '</button>\
         </li>';
     }
 }
@@ -61,7 +61,7 @@ function init(item) {
         document.getElementById('test').innerHTML += '\
         <li class="list-group-item nav-item" style="padding: 0px; ">\
             <input type="hidden" value="'+item[index].id+'"\>\
-            <button class="btn btn-default btn-xs btn-block" onclick="init(GetCategoryLevel('+item[index].id+ '))">'+ item[index].name + '</button>\
+            <button class="btn btn-default btn-xs btn-block" style="border: none;" onclick="init(GetCategoryLevel('+item[index].id+ '))">'+ item[index].name + '</button>\
         </li>';
     }
     document.getElementById('test').innerHTML += '<br>';
