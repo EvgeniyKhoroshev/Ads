@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Ads.Contracts.Dto;
 using AppServices.ServiceInterfaces;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -21,6 +22,7 @@ namespace AdsWebApi.Controllers
             _advertsInfoDto = _infoService.GetInfo().Result;
         }
         [HttpGet]
+        [EnableCors("allow")]
         public AdvertsInfoDto Get()
         {
             return _advertsInfoDto;

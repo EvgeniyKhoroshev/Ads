@@ -5,8 +5,8 @@ namespace AppServices.ServiceInterfaces.Base
 {
     public interface IServiceInterfaceBase<T, Tid>
     {
-        Task<IList<T>> GetAllWithIncludes();
-        Task<IList<T>> GetAllWithoutIncludes();
+        IList<T> GetAllWithIncludes();
+        IList<T> GetAllWithoutIncludes();
         Task<int> Create();
         Task<T> SaveOrUpdate(T Entity);
         Task<T> GetWithoutIncludes(Tid id);

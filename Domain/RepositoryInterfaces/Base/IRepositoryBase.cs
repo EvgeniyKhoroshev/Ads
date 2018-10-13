@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Domain.RepositoryInterfaces.Base
@@ -17,14 +18,14 @@ namespace Domain.RepositoryInterfaces.Base
         /// </summary>
         /// <returns>Возвращает список существующих элементов включая дочерние / 
         /// Returns all items including subsidiaries</returns>
-        Task<IList<T>> GetAllWithIncludes();
+        Task<IQueryable<T>> GetAllWithIncludes();
         /// <summary>
         /// Возвращает список существующих элементов не включая дочерние // 
         /// Returns all items excluding subsidiaries
         /// </summary>
         /// <returns>Возвращает список элементов / 
         /// Getting the items list</returns>
-        Task<IList<T>> GetAllWithoutIncludes();
+        Task<IQueryable<T>> GetAllWithoutIncludes();
         /// <summary>
         /// Возвращает существующиq элемент включая дочерние // 
         /// Returns item including subsidiaries
@@ -53,5 +54,6 @@ namespace Domain.RepositoryInterfaces.Base
         /// <returns> Общую информацию для заполнения(отображения) объявлений / 
         /// Base infromation to entity filling </returns>
         Task<T> GetInfo();
+        IQueryable<T> GetAll();
     }
 }

@@ -3,7 +3,9 @@ using AppServices.ServiceInterfaces;
 using AutoMapper;
 using Domain.Entities;
 using Domain.RepositoryInterfaces;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace AppServices.Services
@@ -19,14 +21,13 @@ namespace AppServices.Services
         {
             _advertRepository.Delete(id);
         }
-        public override async Task<IList<AdvertDto>> GetAllWithoutIncludes()
+        public override IList<AdvertDto> GetAllWithoutIncludes()
         {
-            IList<Advert> adv = await _advertRepository.GetAllWithoutIncludes();
+            IQueryable<Advert> adv = _advertRepository.GetAll();
             if (adv == null)
                 return null;
-            IList<AdvertDto> result = new List<AdvertDto>();
-            foreach (var ads in adv)
-                result.Add(Mapper.Map<AdvertDto>(ads));
+            AdvertDto [] result;
+            result = Mapper.Map<AdvertDto[]>(adv.ToArray());
             return result;
         }
         public override async Task<AdvertDto> SaveOrUpdate(AdvertDto entity)
@@ -34,6 +35,12 @@ namespace AppServices.Services
             Advert sm = await _advertRepository.SaveOrUpdate(Mapper.Map<Advert>(entity));
             return Mapper.Map<AdvertDto>(sm);
         }
+        /// <summary>
+        /// Возвращает список существующих объявлений не включая дочерние // 
+        /// Returns all adverts excluding subsidiaries
+        /// </summary>
+        /// <returns>Возвращает список объявлений / 
+        /// Getting the adverts list</returns>
         public override async Task<AdvertDto> GetWithoutIncludes(int id)
         {
             Advert adv = await _advertRepository.GetWithoutIncludes(id);
@@ -41,6 +48,12 @@ namespace AppServices.Services
                 return null;
             return  Mapper.Map<AdvertDto>(adv) ;
         }
+        /// <summary>
+        /// Возвращает список существующих объявлений включая дочерние // 
+        /// Returns all adverts including subsidiaries
+        /// </summary>
+        /// <returns>Возвращает список существующих объявлений включая дочерние / 
+        /// Returns all adverts including subsidiaries</returns>
         public override async Task<AdvertDto> GetWithIncludes(int id)
         {
             Advert adv = await _advertRepository.GetWithIncludes(id);

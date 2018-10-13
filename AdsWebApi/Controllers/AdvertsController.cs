@@ -18,9 +18,9 @@ namespace AdsWebApi.Controllers
         readonly IAdvertService _advertService;
         // GET api/values
         [HttpGet]
-        public async Task<IList<AdvertDto>> Get()
+        public IList<AdvertDto> Get()
         {
-            return await _advertService.GetAllWithoutIncludes();
+            return _advertService.GetAllWithoutIncludes();
         }
 
         // GET api/values/5
