@@ -3,8 +3,8 @@ using System.Threading.Tasks;
 
 namespace Domain.RepositoryInterfaces
 {
-    public interface IAdvertInfoRepository : Base.IRepositoryBase<AdvertsInfo, int>
+    public interface IAdvertInfoRepository<T, Tid>
     {
-        new Task<AdvertsInfo> GetInfo();
+        Task<AdvertsInfo> GetInfo();
     }
 }

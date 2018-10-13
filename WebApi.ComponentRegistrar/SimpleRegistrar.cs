@@ -13,7 +13,7 @@ namespace WebApi.ComponentRegistrar
         {
             container.Register<IAdvertRepository, AdvertRepository>();
             container.Register<IAdvertService, AdvertService>();
-            container.Register<IAdvertInfoRepository, AdvertInfoRepository>();
+            container.Register<IAdvertInfoRepository<AdvertsInfo,int>, AdvertInfoRepository>();
             container.Register<AdsDBContext>(ScopedLifestyle.Scoped);
             container.Register<IInfoService, InfoService>();
 

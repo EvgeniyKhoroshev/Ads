@@ -10,8 +10,8 @@ namespace AppServices.Services
 {
     public class InfoService : IInfoService
     {
-        readonly IAdvertInfoRepository _infoRepository;
-        public InfoService(IAdvertInfoRepository infoRepository)
+        readonly IAdvertInfoRepository<AdvertsInfo, int> _infoRepository;
+        public InfoService(IAdvertInfoRepository<AdvertsInfo, int> infoRepository)
         {
             _infoRepository = infoRepository;
         }

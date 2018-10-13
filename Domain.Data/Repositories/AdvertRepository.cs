@@ -3,6 +3,7 @@ using Domain.RepositoryInterfaces;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Domain.Data.Repositories
@@ -38,7 +39,7 @@ namespace Domain.Data.Repositories
         /// Returns the created or saved item</returns>
         public override async Task<Advert> SaveOrUpdate(Advert entity)
         {
-            if (!_dbContext.Adverts.ContainsAsync(entity).Result)
+            if (! await _dbContext.Adverts.ContainsAsync(entity))
             {
                 _dbContext.Adverts.Add(entity);
                 await _dbContext.SaveChangesAsync();
@@ -48,18 +49,6 @@ namespace Domain.Data.Repositories
             await _dbContext.SaveChangesAsync();
             return entity;
         }
-        /// <summary>
-        /// Возвращает список существующих объявлений не включая дочерние // 
-        /// Returns all adverts excluding subsidiaries
-        /// </summary>
-        /// <returns>Возвращает список объявлений / 
-        /// Getting the adverts list</returns>
-        public override async Task<IList<Advert>> GetAllWithoutIncludes()
-        {
-
-            return await _dbContext.Adverts.ToListAsync();
-        }
-
 
         /// <summary>
         /// Удаление объявления по Id // 
@@ -72,30 +61,13 @@ namespace Domain.Data.Repositories
             _dbContext.Adverts.Remove(adv);
             _dbContext.SaveChangesAsync();
         }
-        /// <summary>
-        /// Возвращает список существующих объявлений включая дочерние // 
-        /// Returns all adverts including subsidiaries
-        /// </summary>
-        /// <returns>Возвращает список существующих объявлений включая дочерние / 
-        /// Returns all adverts including subsidiaries</returns>
-        public override async Task<IList<Advert>> GetAllWithIncludes()
-        {
 
-            return await _dbContext.Adverts
-                            .Include(t => t.Status)
-                            .Include(t => t.Category)
-                            .Include(c => c.Type)
-                            .Include(d => d.City)
-                            .ToListAsync();
+        public override IQueryable<Advert> GetAll()
+        {
+            IQueryable<Advert> some = _dbContext.Adverts;
+            return some;
         }
 
-
-        /// <summary>
-        /// Возвращает существующиq элемент включая дочерние // 
-        /// Returns item including subsidiaries
-        /// </summary>
-        /// <returns>Возвращает существующий элемент включая дочерние / 
-        /// Returns item including subsidiaries</returns>
         public override async Task<Advert> GetWithIncludes(int Id)
         {
             try

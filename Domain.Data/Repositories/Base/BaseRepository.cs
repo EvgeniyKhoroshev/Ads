@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Domain.Data.Repositories.Base
@@ -12,11 +13,11 @@ namespace Domain.Data.Repositories.Base
         {
             throw new NotImplementedException();
         }
-        public virtual Task<IList<T>> GetAllWithIncludes()
+        public virtual Task<IQueryable<T>> GetAllWithIncludes()
         {
             throw new NotImplementedException();
         }
-        public virtual Task<IList<T>> GetAllWithoutIncludes()
+        public virtual Task<IQueryable<T>> GetAllWithoutIncludes()
         {
             throw new NotImplementedException();
         }
@@ -45,6 +46,11 @@ namespace Domain.Data.Repositories.Base
         }
 
         public virtual void Delete(int Id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public virtual IQueryable<T> GetAll()
         {
             throw new NotImplementedException();
         }

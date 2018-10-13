@@ -29,24 +29,20 @@
                 <input name="Address" class="form-control" />
             </div>
             <div class="form-group">
-                <ul required class="list-group">
-                    @foreach (var item in Model.Categories)
-                    {
-                        <li class="list - group - item nav - item" style="padding: 0px; ">
-                            <button class="btn btn-default btn-xs btn-block">@item.Name</button>
-                        </li>
-                    }
-                    }
-                </ul>
+                <ul required class="list-group"></ul>
             </div>
             <div class="form-group">
+                <ul id="test" >Категории : </ul>
+                <button type="button" onclick="init(GetCategoryLevel(null))">some</button>
+            </div>
+            <div  class="form-group">
                 <select class="form-control form-control-sm" name="StatusId">
                     @foreach (var item in Model.Statuses)
                     {
                         <option value="@item.Id">@item.Id @item.Name</option>
                     }
                 </select>
-            </div>
+            </divonload="fetch_info()">
             <div class="form-group">
                 <select class="form-control form-control-sm" name="TypeId">
                     @foreach (var item in Model.Types)
@@ -85,5 +81,7 @@
 
 @section Scripts {
     @{
-        await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+
+    }
 }

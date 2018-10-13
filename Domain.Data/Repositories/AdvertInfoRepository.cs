@@ -7,17 +7,8 @@ using System.Threading.Tasks;
 
 namespace Domain.Data.Repositories
 {
-    public class AdvertInfoRepository : IAdvertInfoRepository
+    public class AdvertInfoRepository : IAdvertInfoRepository<AdvertsInfo, int>
     {
-        public void Delete(int Id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<IList<AdvertsInfo>> GetAllWithIncludes()
-        {
-            throw new NotImplementedException();
-        }
         readonly AdsDBContext _dbContext;
         public AdvertInfoRepository(AdsDBContext dbContext)
         {
@@ -31,7 +22,7 @@ namespace Domain.Data.Repositories
         /// Base infromation to entity filling </returns>
         public async Task<AdvertsInfo> GetInfo()
         {
-            return  (new AdvertsInfo
+            return (new AdvertsInfo
             {
                 Categories = await _dbContext
                                 .Categories.ToListAsync(),
@@ -46,31 +37,5 @@ namespace Domain.Data.Repositories
             });
 
         }
-
-        public Task<AdvertsInfo> GetWithIncludes(int Id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<IList<AdvertsInfo>> GetWithoutIncludes()
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<AdvertsInfo> GetWithoutIncludes(int Id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<AdvertsInfo> SaveOrUpdate(AdvertsInfo entity)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<IList<AdvertsInfo>> GetAllWithoutIncludes()
-        {
-            throw new NotImplementedException();
-        }
     }
-
 }

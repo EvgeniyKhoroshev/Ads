@@ -11,11 +11,11 @@ namespace AppServices.Services.Base
         {
             throw new NotImplementedException();
         }
-        public virtual Task<IList<T>> GetAllWithIncludes()
+        public virtual IList<T> GetAllWithIncludes()
         {
             throw new NotImplementedException();
         }
-        public virtual Task<IList<T>> GetAllWithoutIncludes()
+        public virtual IList<T> GetAllWithoutIncludes()
         {
             throw new NotImplementedException();
         }
