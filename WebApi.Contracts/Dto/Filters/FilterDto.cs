@@ -8,6 +8,11 @@ namespace Ads.Contracts.Dto.Filters
     {
         public Range<decimal?> PriceRange { get; set; }
 
+        public FilterDto()
+        {
+            PriceRange = new Range<decimal?>();
+        }
+
         public string Category { get; set; }
     }
 

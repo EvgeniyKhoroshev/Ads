@@ -3,17 +3,21 @@ fetch_info = function () {
     categories = fetch('https://localhost:44396/api/info/')
         .then(response => response.json())
         .then(json => categories = json.categories)
-        .then(() => init(GetCategoryLevel(null)));
+        .then(() => SelectCategory(GetCategoryLevel(null)));
 }
 document.onloadeddata = fetch_info();
 function DrawTree(tree) {
+    console.log(tree);
     var index = tree.length -1 ;
-    for (index; index => 0; --index) {
-        document.getElementById('test').innerHTML += '\
-        <li class="list-group-item nav-item" style="padding: 0px; ">\
-            <input type="hidden" value="'+ tree[index].id + '"\>\
-            <button class="btn btn-default btn-xs btn-block" style="border: none;" onclick="init(GetCategoryLevel('+ tree[index].id + '))">' + tree[index].name + '</button>\
-        </li>';
+    for (index; index >= 0; --index) {
+        DrawLevel(GetCategoryLevel(tree[index].parentCategoryId));
+    }
+}
+function DrawLevel(level) {
+    console.log(level);
+    var i = 0;
+    for (i; i < level.length; ++i) {
+        DrawCategory(level[i]);
     }
 }
 function GetTree(init) {
@@ -43,6 +47,7 @@ function FindCatById(id) {
     return null;
 }
 function GetCategoryLevel(level) {
+    console.log(level);
 
     var result = new Array;
     var i = 0;
@@ -53,16 +58,19 @@ function GetCategoryLevel(level) {
     return result;
 
 }
-function init(item) {
+function SelectCategory(item) {
     console.log(item);    
     var index = 0;
     for (index; index < item.length; ++index)
     {
-        document.getElementById('test').innerHTML += '\
-        <li class="list-group-item nav-item" style="padding: 0px; ">\
-            <input type="hidden" value="'+item[index].id+'"\>\
-            <button class="btn btn-default btn-xs btn-block" style="border: none;" onclick="init(GetCategoryLevel('+item[index].id+ '))">'+ item[index].name + '</button>\
-        </li>';
+        DrawCategory(item[index]);
     }
     document.getElementById('test').innerHTML += '<br>';
+}
+function DrawCategory(cat) {
+    document.getElementById('test').innerHTML += '\
+        <li class="list-group-item nav-item" style="padding: 0px; ">\
+            <input type="hidden" value="'+ cat.id + '"\>\
+            <button class="btn btn-default btn-xs btn-block" style="border: none;" onclick="SelectCategory(GetCategoryLevel('+ cat.id + '))">' + cat.name + '</button>\
+        </li>';
 }

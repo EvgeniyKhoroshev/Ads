@@ -7,6 +7,7 @@ using Ads.Contracts.Dto;
 using System.Net.Http;
 using System;
 using AutoMapper;
+using Ads.Contracts.Dto.Filters;
 
 namespace Ads.WebUI.Controllers
 {
@@ -65,7 +66,41 @@ namespace Ads.WebUI.Controllers
             }
             return View();
         }
+        [HttpGet]
+        public async Task<IActionResult> Filter()
+        {
+            if (_AdvertsInfoDto == null)
+                _AdvertsInfoDto = await APIRequests.AdvInfoInit();
+            List<AdsVMIndex> ret = new List<AdsVMIndex>();
+            AdsVMIndex adsVM;
+            foreach (var r in await APIRequests.GetAdverts())
+            {
+                adsVM = Mapper.Map<AdsVMIndex>(r);
+                adsVM.City = _AdvertsInfoDto.FindCityById(r.CityId);
+                ret.Add(adsVM);
+            }
+            return View(ret);
+        }
+        [HttpPost]
+        public async Task<IActionResult> Filter(decimal MinValue, decimal MaxValue)
+        {
+            FilterDto f = new FilterDto();
+            f.PriceRange.MaxValue = MaxValue;
+            f.PriceRange.MinValue = MinValue;
 
+            AdvertDto[] result =  await APIRequests.Filter(f);
+            if (_AdvertsInfoDto == null)
+                _AdvertsInfoDto = await APIRequests.AdvInfoInit();
+            List<AdsVMIndex> ret = new List<AdsVMIndex>();
+            AdsVMIndex adsVM;
+            foreach (var r in result)
+            {
+                adsVM = Mapper.Map<AdsVMIndex>(r);
+                adsVM.City = _AdvertsInfoDto.FindCityById(r.CityId);
+                ret.Add(adsVM);
+            }
+            return View(ret);
+        }
         public IActionResult Privacy()
         {
             return View();
