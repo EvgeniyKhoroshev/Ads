@@ -1,0 +1,44 @@
+﻿@model ICollection<AdsVMIndex>
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+@*<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel">Удалить объявление</h4>
+                </div>
+                <div class="modal-body">
+                    Вы действительно хотите удалить?
+                </div>
+                <div class="modal-footer">
+                    <form method="post" asp-controller="Adverts" asp-action="Delete">
+                        <input hidden value="@ViewData["id"]"/>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" action="Delete" class="btn btn-primary">Удалить</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>*@
+
+<div>
+    <ul class="list-group">
+        @foreach (var item in Model)
+        {
+        <li class="list-group-item nav-item" style="margin-top:10px;">
+            <form asp-action="Delete" asp-controller="Adverts" onsubmit='return confirm("Вы точно хотите удалить объявление?");'>
+                <a class="nav-item text-dark" asp-action="Details" asp-route-id="@item.Id">@item.Name @item.City @item.Created @item.Price</a> <hr />
+                <a class="nav-item text-dark" asp-action="Edit" asp-route-id="@item.Id">Изменить</a> |
+                <a class="nav-item text-dark" asp-action="Details" asp-route-id="@item.Id">Детали</a> |
+                <button type="submit" asp-controller="Adverts" asp-action="Delete" class="btn btn-primary" asp-route-id="@item.Id">Удалить</button>
+            </form>
+        </li>
+        }
+    </ul>
+
+</div>

@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Ads.WebUI.Models
 {
-    public class AdsVMIndex
+    public class AdsVMDetails
     {
         public int Id { get; set; }
         /// <summary>
@@ -23,6 +23,12 @@ namespace Ads.WebUI.Models
         /// <summary>
         /// Дата создания / Creation date 
         /// </summary>
+        
         public DateTime Created { get; set; }
+
+
+        public string Type { get; set; }
+        public string Category { get; set; }
+        public string Status { get; set; }
     }
 }

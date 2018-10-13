@@ -1,0 +1,89 @@
+﻿@model Ads.Contracts.Dto.AdvertsInfoDto
+
+@{
+    ViewData["Title"] = "View";
+}
+
+<h2>View</h2>
+
+<h4>Advert</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create" class="active">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label class="control-label">Название объявления</label>
+                <input name="Name" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label class="control-label">Описание</label>
+                <input name="Description" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label class="control-label">Цена</label>
+                <input name="Price" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label class="control-label">Адрес</label>
+                <input name="Address" class="form-control" />
+            </div>
+            <div class="form-group">
+                <ul required class="list-group">
+                    @foreach (var item in Model.Categories)
+                    {
+                        <li class="list - group - item nav - item" style="padding: 0px; ">
+                            <button class="btn btn-default btn-xs btn-block">@item.Name</button>
+                        </li>
+                    }
+                    }
+                </ul>
+            </div>
+            <div class="form-group">
+                <select class="form-control form-control-sm" name="StatusId">
+                    @foreach (var item in Model.Statuses)
+                    {
+                        <option value="@item.Id">@item.Id @item.Name</option>
+                    }
+                </select>
+            </div>
+            <div class="form-group">
+                <select class="form-control form-control-sm" name="TypeId">
+                    @foreach (var item in Model.Types)
+                    {
+                        <option value="@item.Id">@item.Id @item.Type</option>}
+                </select>
+            </div>
+            <div class="form-group">
+                <select class="form-control form-control-sm" name="CityId">
+                    @foreach (var item in Model.Cities)
+                    {
+                        <option value="@item.Id">@item.Id @item.Name</option>}
+                </select>
+            </div>
+            <div>
+                <select class="form-control form-control-sm" name="RegionId">
+                    @foreach (var item in Model.Regions)
+                    {
+                        <option value="@item.Id">@item.Id @item.Name</option>}
+                </select>
+            </div>
+            <div class="form-group">
+                <label class="control-label">Контекст</label>
+                <input name="Context" class="form-control" />
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

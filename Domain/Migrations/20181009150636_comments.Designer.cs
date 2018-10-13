@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Domain.Migrations
 {
     [DbContext(typeof(AdsDBContext))]
-    [Migration("20181005145930_identity_column")]
-    partial class identity_column
+    [Migration("20181009150636_comments")]
+    partial class comments
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -59,7 +59,7 @@ namespace Domain.Migrations
                     b.Property<string>("Name")
                         .IsRequired();
 
-                    b.Property<long>("Price");
+                    b.Property<decimal>("Price");
 
                     b.Property<int>("StatusId");
 
@@ -68,6 +68,14 @@ namespace Domain.Migrations
                     b.Property<int>("UserId");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CategoryId");
+
+                    b.HasIndex("CityId");
+
+                    b.HasIndex("StatusId");
+
+                    b.HasIndex("TypeId");
 
                     b.ToTable("Adverts");
                 });
@@ -100,6 +108,32 @@ namespace Domain.Migrations
                     b.ToTable("Cities");
                 });
 
+            modelBuilder.Entity("Domain.Entities.Comment", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("AdvertId");
+
+                    b.Property<string>("Body")
+                        .IsRequired()
+                        .HasMaxLength(500);
+
+                    b.Property<DateTime>("Created")
+                        .ValueGeneratedOnAddOrUpdate();
+
+                    b.Property<int>("Rating");
+
+                    b.Property<int>("UserId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AdvertId");
+
+                    b.ToTable("Comments");
+                });
+
             modelBuilder.Entity("Domain.Entities.Region", b =>
                 {
                     b.Property<int>("Id")
@@ -130,22 +164,22 @@ namespace Domain.Migrations
                 {
                     b.HasOne("Domain.Category", "Category")
                         .WithMany("Adverts")
-                        .HasForeignKey("Id")
-                        .OnDelete(DeleteBehavior.Restrict);
-
-                    b.HasOne("Domain.Entities.AdvertType", "Type")
-                        .WithMany("Adverts")
-                        .HasForeignKey("Id")
+                        .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("Domain.Entities.City", "City")
                         .WithMany("Adverts")
-                        .HasForeignKey("Id")
+                        .HasForeignKey("CityId")
                         .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("Domain.Entities.Status", "Status")
                         .WithMany("Adverts")
-                        .HasForeignKey("Id")
+                        .HasForeignKey("StatusId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("Domain.Entities.AdvertType", "Type")
+                        .WithMany("Adverts")
+                        .HasForeignKey("TypeId")
                         .OnDelete(DeleteBehavior.Restrict);
                 });
 
@@ -153,8 +187,16 @@ namespace Domain.Migrations
                 {
                     b.HasOne("Domain.Entities.Region", "Region")
                         .WithMany("Cities")
-                        .HasForeignKey("Id")
+                        .HasForeignKey("RegionId")
                         .OnDelete(DeleteBehavior.Restrict);
+                });
+
+            modelBuilder.Entity("Domain.Entities.Comment", b =>
+                {
+                    b.HasOne("Domain.Entities.Advert", "Advert")
+                        .WithMany("Comments")
+                        .HasForeignKey("AdvertId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618
         }

@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Domain.Migrations
 {
-    public partial class Initial : Migration
+    public partial class initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -65,7 +65,8 @@ namespace Domain.Migrations
                 name: "Cities",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false),
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     RegionId = table.Column<int>(nullable: false),
                     Name = table.Column<string>(nullable: true)
                 },
@@ -73,8 +74,8 @@ namespace Domain.Migrations
                 {
                     table.PrimaryKey("PK_Cities", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Cities_Regions_Id",
-                        column: x => x.Id,
+                        name: "FK_Cities_Regions_RegionId",
+                        column: x => x.RegionId,
                         principalTable: "Regions",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
@@ -84,11 +85,12 @@ namespace Domain.Migrations
                 name: "Adverts",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false),
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Created = table.Column<DateTime>(nullable: false),
                     Name = table.Column<string>(nullable: false),
                     Description = table.Column<string>(nullable: true),
-                    Price = table.Column<long>(nullable: false),
+                    Price = table.Column<decimal>(nullable: false),
                     Address = table.Column<string>(nullable: true),
                     CategoryId = table.Column<int>(nullable: false),
                     StatusId = table.Column<int>(nullable: false),
@@ -101,30 +103,50 @@ namespace Domain.Migrations
                 {
                     table.PrimaryKey("PK_Adverts", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Adverts_Categories_Id",
-                        column: x => x.Id,
+                        name: "FK_Adverts_Categories_CategoryId",
+                        column: x => x.CategoryId,
                         principalTable: "Categories",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Adverts_AdvertTypes_Id",
-                        column: x => x.Id,
-                        principalTable: "AdvertTypes",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Adverts_Cities_Id",
-                        column: x => x.Id,
+                        name: "FK_Adverts_Cities_CityId",
+                        column: x => x.CityId,
                         principalTable: "Cities",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Adverts_Statuses_Id",
-                        column: x => x.Id,
+                        name: "FK_Adverts_Statuses_StatusId",
+                        column: x => x.StatusId,
                         principalTable: "Statuses",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Adverts_AdvertTypes_TypeId",
+                        column: x => x.TypeId,
+                        principalTable: "AdvertTypes",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Adverts_CategoryId",
+                table: "Adverts",
+                column: "CategoryId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Adverts_CityId",
+                table: "Adverts",
+                column: "CityId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Adverts_StatusId",
+                table: "Adverts",
+                column: "StatusId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Adverts_TypeId",
+                table: "Adverts",
+                column: "TypeId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -136,13 +158,13 @@ namespace Domain.Migrations
                 name: "Categories");
 
             migrationBuilder.DropTable(
-                name: "AdvertTypes");
-
-            migrationBuilder.DropTable(
                 name: "Cities");
 
             migrationBuilder.DropTable(
                 name: "Statuses");
+
+            migrationBuilder.DropTable(
+                name: "AdvertTypes");
 
             migrationBuilder.DropTable(
                 name: "Regions");

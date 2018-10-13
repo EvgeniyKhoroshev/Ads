@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Domain.Data.Repositories.Base
 {
@@ -7,53 +8,43 @@ namespace Domain.Data.Repositories.Base
         where T: Entities.Base.BaseEntity
     {
         public BaseRepository() { }
-        public virtual T Get(int id)
+        public virtual Task<T> Get(int id)
         {
             throw new NotImplementedException();
         }
-        public virtual IList<T> GetAllWithIncluding()
+        public virtual Task<IList<T>> GetAllWithIncludes()
         {
             throw new NotImplementedException();
         }
-        public virtual IList<T> GetAllWithoutIncluding()
+        public virtual Task<IList<T>> GetAllWithoutIncludes()
         {
             throw new NotImplementedException();
         }
-        public virtual T New(T entity)
+        public virtual Task<T> New(T entity)
         {
             throw new NotImplementedException();
         }
-        public virtual T SaveOrUpdate(T entity)
-        {
-            throw new NotImplementedException();
-        }
-
-        public virtual T GetInfo()
+        public virtual Task<T> SaveOrUpdate(T entity)
         {
             throw new NotImplementedException();
         }
 
-        public virtual T GetWithIncludes(int Id)
+        public virtual Task<T> GetInfo()
         {
             throw new NotImplementedException();
         }
 
-        public virtual T GetWithoutIncludes(int Id)
+        public virtual Task<T> GetWithIncludes(int Id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public virtual Task<T> GetWithoutIncludes(int Id)
         {
             throw new NotImplementedException();
         }
 
         public virtual void Delete(int Id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public virtual IList<T> GetAllWithIncludes()
-        {
-            throw new NotImplementedException();
-        }
-
-        public virtual IList<T> GetWithoutIncludes()
         {
             throw new NotImplementedException();
         }

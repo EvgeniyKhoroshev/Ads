@@ -3,6 +3,7 @@ using Domain.RepositoryInterfaces;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Domain.Data.Repositories
 {
@@ -23,13 +24,11 @@ namespace Domain.Data.Repositories
         /// </summary>
         /// <param name="id">Идентификатор объявления / Id of advert</param>
         /// <returns>Возвращает объявление / Returns advert</returns>
-        public override Advert Get(int id)
+        public override async Task<Advert> Get(int id)
         {
-            Advert result = _dbContext
+            return await _dbContext
                                 .Adverts
-                                .FirstOrDefaultAsync(x => x.Id == id)
-                                .Result;
-            return result;
+                                .FirstOrDefaultAsync(x => x.Id == id);
         }
         /// <summary>
         /// Сохраняет изменения или создает новый элемент, если такого не существует // 
@@ -37,18 +36,17 @@ namespace Domain.Data.Repositories
         /// </summary>
         /// <returns>Возвращает сохраненный или созданый элемент / 
         /// Returns the created or saved item</returns>
-        public override Advert SaveOrUpdate(Advert entity)
+        public override async Task<Advert> SaveOrUpdate(Advert entity)
         {
             if (!_dbContext.Adverts.ContainsAsync(entity).Result)
             {
                 _dbContext.Adverts.Add(entity);
-                _dbContext.SaveChangesAsync();
+                await _dbContext.SaveChangesAsync();
                 return entity;
             }
             _dbContext.Adverts.Update(entity);
-            _dbContext.SaveChangesAsync();
+            await _dbContext.SaveChangesAsync();
             return entity;
-
         }
         /// <summary>
         /// Возвращает список существующих объявлений не включая дочерние // 
@@ -56,10 +54,10 @@ namespace Domain.Data.Repositories
         /// </summary>
         /// <returns>Возвращает список объявлений / 
         /// Getting the adverts list</returns>
-        public override IList<Advert> GetAllWithoutIncluding()
+        public override async Task<IList<Advert>> GetAllWithoutIncludes()
         {
 
-            return _dbContext.Adverts.ToListAsync().Result;
+            return await _dbContext.Adverts.ToListAsync();
         }
 
 
@@ -70,7 +68,9 @@ namespace Domain.Data.Repositories
         /// <param name="id">Идентификатор объявления / Id of entity</param>
         public override void Delete(int Id)
         {
-
+            Advert adv = _dbContext.Adverts.FindAsync(Id).Result;
+            _dbContext.Adverts.Remove(adv);
+            _dbContext.SaveChangesAsync();
         }
         /// <summary>
         /// Возвращает список существующих объявлений включая дочерние // 
@@ -78,15 +78,17 @@ namespace Domain.Data.Repositories
         /// </summary>
         /// <returns>Возвращает список существующих объявлений включая дочерние / 
         /// Returns all adverts including subsidiaries</returns>
-        public override IList<Advert> GetAllWithIncludes()
+        public override async Task<IList<Advert>> GetAllWithIncludes()
         {
-            return _dbContext.Adverts
-                .Include(t => t.Status)
-                .Include(t => t.Category)
-                .Include(c => c.Type)
-                .Include(d => d.City)
-                .ToListAsync().Result;
+
+            return await _dbContext.Adverts
+                            .Include(t => t.Status)
+                            .Include(t => t.Category)
+                            .Include(c => c.Type)
+                            .Include(d => d.City)
+                            .ToListAsync();
         }
+
 
         /// <summary>
         /// Возвращает существующиq элемент включая дочерние // 
@@ -94,15 +96,18 @@ namespace Domain.Data.Repositories
         /// </summary>
         /// <returns>Возвращает существующий элемент включая дочерние / 
         /// Returns item including subsidiaries</returns>
-        public override Advert GetWithIncludes(int Id)
+        public override async Task<Advert> GetWithIncludes(int Id)
         {
-            Advert result = _dbContext.Adverts
-                .Include(t => t.Type)
-                .Include(t => t.Category)
-                .Include(t => t.City)
-                .FirstOrDefaultAsync(x => x.Id == Id)
-                .Result;
-            return result;
+            try
+            {
+                var adv = await _dbContext.Adverts.FirstOrDefaultAsync(x => x.Id == Id);
+                if (adv != null)
+                    return await _dbContext.Adverts
+                                            .Include(t => t.Comments)
+                                            .FirstOrDefaultAsync(x => x.Id == Id);
+            }
+            catch (Exception) { }
+            return null;
         }
         /// <summary>
         /// Возвращает существующий элемент не включая дочерние // 
@@ -110,13 +115,18 @@ namespace Domain.Data.Repositories
         /// </summary>
         /// <returns>Возвращает элемент / 
         /// Getting the adverts list</returns>
-        public override Advert GetWithoutIncludes(int Id)
+        public override async Task<Advert> GetWithoutIncludes(int Id)
         {
-            Advert result = _dbContext
+            try
+            {
+                var adv = await _dbContext.Adverts.FirstOrDefaultAsync(x => x.Id == Id);
+                if (adv != null)
+                    return await _dbContext
                     .Adverts
-                    .FirstOrDefaultAsync(x => x.Id == Id)
-                    .Result;
-            return result;
+                    .FirstOrDefaultAsync(x => x.Id == Id);
+            }
+            catch (Exception) { }
+            return null;
         }
 
         /// <summary>
@@ -125,10 +135,11 @@ namespace Domain.Data.Repositories
         /// </summary>
         /// <returns> Общую информацию для заполнения(отображения) объявлений / 
         /// Base infromation to entity filling </returns>
-        public override Advert GetInfo()
+        public override Task<Advert> GetInfo()
         {
             throw new NotImplementedException();
 
         }
     }
+
 }
