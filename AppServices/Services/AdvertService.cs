@@ -89,8 +89,8 @@ namespace AppServices.Services
                 query = query.Where(x => EF.Functions.Like(x.Name, $"%{filter.Substring}%") ||
                                     EF.Functions.Like(x.Description, $"%{filter.Substring}%"));
 
-            query = query.Skip(filter.PegeSize * (filter.PageNumber - 1))
-                .Take(filter.PegeSize);
+            query = query.Skip(filter.PageSize * (filter.PageNumber - 1))
+                .Take(filter.PageSize);
 
             var entities = query.ToArray();
 

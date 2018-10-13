@@ -17,7 +17,7 @@ namespace Ads.Contracts.Dto.Filters
         public int? RegionId { get; set; }
         public int? CityId { get; set; }
         public string Substring { get; set; }
-        public int PegeSize { get; set; }
+        public int PageSize { get; set; }
         public int PageNumber { get; set; }
     }
 }
