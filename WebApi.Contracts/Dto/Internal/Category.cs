@@ -1,12 +1,9 @@
-﻿namespace Ads.Contracts.Dto
+﻿using Ads.Contracts.Dto.Internal.Base;
+
+namespace Ads.Contracts.Dto
 {
-    public class Category
+    public class Category : Base
     {
-        public int Id { get; set; }
-        /// <summary>
-        /// Название категории / Name of category
-        /// </summary> 
-        public string Name { get; set; }
         /// <summary>
         /// Id родительской категории / Id of the parent category
         /// </summary> 
