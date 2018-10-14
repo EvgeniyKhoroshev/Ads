@@ -1,12 +1,10 @@
-﻿namespace Ads.Contracts.Dto
+﻿using Ads.Contracts.Dto.Internal.Base;
+using System;
+
+namespace Ads.Contracts.Dto
 {
-    public class AdvertDto
+    public class AdvertDto : Base
     {
-        public int Id { get; set; }
-        /// <summary>
-        /// Название объявления / Advert name
-        /// </summary>
-        public string Name { get; set; }
         /// <summary>
         /// Описание объявления / Ads description
         /// </summary>
@@ -14,7 +12,7 @@
         /// <summary>
         /// Стопимость / Price
         /// </summary>
-        public double Price { get; set; }
+        public decimal Price { get; set; }
         /// <summary>
         /// Id cтатуca объявления / Id of a ads status
         /// </summary>
@@ -47,5 +45,9 @@
         /// Ads context for a functional extends
         /// </summary>
         public string Context { get; set; }
+        /// <summary>
+        /// Дата создания / Creation date 
+        /// </summary>
+        public DateTime Created { get; set; }
     }
 }

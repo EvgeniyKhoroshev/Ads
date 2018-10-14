@@ -1,30 +1,50 @@
 ﻿using AppServices.ServiceInterfaces.Base;
 using System;
 using System.Collections.Generic;
-using System.Text;
+using System.Threading.Tasks;
 
 namespace AppServices.Services.Base
 {
     public abstract class BaseService<T, Tid> : IServiceInterfaceBase<T, Tid>
     {
-        public virtual IList<T> GetAllWithIncludes(Tid id)
+        public virtual Task<T> GetInfo()
         {
             throw new NotImplementedException();
         }
-        public virtual IList<T> GetAllWithoutIncludes(Tid id)
+        public virtual IList<T> GetAllWithIncludes()
         {
             throw new NotImplementedException();
         }
-        public virtual int Create()
+        public virtual IList<T> GetAllWithoutIncludes()
+        {
+            throw new NotImplementedException();
+        }
+        public virtual Task<int> Create()
+        {
+            throw new NotImplementedException();
+        }
+        public virtual void Delete(Tid id)
         {
             throw new NotImplementedException();
         }
 
-        public virtual T SaveOrUpdate(T Entity)
+        public virtual Task<T> SaveOrUpdate(T Entity)
         {
             throw new NotImplementedException();
         }
 
-        public abstract T Get(Tid id);
+        public virtual Task<T> GetWithoutIncluding(Tid id)
+        {
+            throw new NotImplementedException();
+        }
+        public virtual Task<T> GetWithoutIncludes(Tid id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public virtual Task<T> GetWithIncludes(Tid id)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

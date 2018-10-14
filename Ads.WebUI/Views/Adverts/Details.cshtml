@@ -1,0 +1,41 @@
+﻿@model Ads.WebUI.Models.AdsVMDetails
+@{
+    ViewData["Title"] = "Home Page";
+}
+<div>
+    <ul class="list-group">
+        <li class="list-group-item nav-item" style="margin-top:10px;">
+            <h3 style="text-align: center">@Model.Name</h3><hr /><br />
+            <form asp-action="Delete" asp-controller="Adverts" onsubmit='return confirm("Вы точно хотите удалить объявление?");'>
+                Город: @Model.City <hr />Категория: @Model.Category<hr /> Цена: @Model.Price <hr /> Дата: @Model.Created <hr /><br />
+                <a class="nav-item text-dark" asp-action="Edit" asp-route-id="@Model.Id">Изменить</a> |
+                <button type="submit" asp-controller="Adverts" asp-action="Delete" class="btn btn-primary" asp-route-id="@Model.Id">Удалить</button>
+            </form>
+        </li>
+    </ul>
+    <div class="col-md-4" id="test">
+        <h4>Комментарии :</h4>
+        <hr />
+
+        @*@if (Model.Posts.Count > 0)
+            {
+                foreach (var item in Model.Posts)
+                {
+                    <p>
+                        @item.PostBody
+                        @item.Rating
+
+                    </p>
+                    <br />
+                    <hr />
+
+                }
+            }
+            else
+            {
+                <p>
+                    Пока не оставлено ни одного комментария
+                </p>
+            }*@
+    </div>
+</div>

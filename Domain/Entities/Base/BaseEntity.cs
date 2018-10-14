@@ -1,6 +1,5 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Domain.Entities.Base
 {
@@ -10,7 +9,10 @@ namespace Domain.Entities.Base
         /// Дата создания / Creation date 
         /// </summary>
         [Required]
-        [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
         public DateTime Created { get; set; }
+        public BaseEntity()
+        {
+            Created = DateTime.Now;
+        }
     }
 }
