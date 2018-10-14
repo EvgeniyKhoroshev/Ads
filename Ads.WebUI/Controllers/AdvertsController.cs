@@ -4,7 +4,6 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Ads.WebUI.Models;
 using Ads.Contracts.Dto;
-using System.Net.Http;
 using System;
 using AutoMapper;
 using Ads.Contracts.Dto.Filters;
@@ -15,19 +14,36 @@ namespace Ads.WebUI.Controllers
     {
 
         AdvertsInfoDto _AdvertsInfoDto;
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(
+            int? CategoryId, int? RegionId, decimal? Min, decimal? Max, int? CityId, int? Page, string Substring)
         {
+            FilterDto filter = new FilterDto();
+            filter.PriceRange.MaxValue = Max;
+            filter.PriceRange.MinValue = Min;
+            filter.RegionId = RegionId;
+            filter.CityId = CityId;
+            filter.CategoryId = CategoryId;
+            if (Page != null)
+            if (Page.Value > 0)
+                filter.Pagination.PageNumber = Page.Value;
+            filter.Substring = Substring;
             if (_AdvertsInfoDto == null)
                 _AdvertsInfoDto = await APIRequests.AdvInfoInit();
+            var result = await APIRequests.Filter(filter);
+            return View(GetVMIndex(result));
+
+        }
+        private List<AdsVMIndex> GetVMIndex(AdvertDto[] source)
+        {
             List<AdsVMIndex> ret = new List<AdsVMIndex>();
             AdsVMIndex adsVM;
-            foreach (var r in await APIRequests.GetAdverts())
+            foreach (var r in source)
             {
                 adsVM = Mapper.Map<AdsVMIndex>(r);
                 adsVM.City = _AdvertsInfoDto.FindCityById(r.CityId);
                 ret.Add(adsVM);
             }
-            return View(ret);
+            return ret;
         }
         public async Task<IActionResult> Create()
         {
@@ -82,7 +98,7 @@ namespace Ads.WebUI.Controllers
             return View(ret);
         }
         [HttpPost]
-        public async Task<IActionResult> Filter(decimal MinValue, decimal MaxValue)
+        public async Task<IActionResult> Filter(decimal? MinValue, decimal? MaxValue)
         {
             FilterDto f = new FilterDto();
             f.PriceRange.MaxValue = MaxValue;

@@ -7,6 +7,7 @@ using Domain.RepositoryInterfaces;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -89,12 +90,17 @@ namespace AppServices.Services
                 query = query.Where(x => EF.Functions.Like(x.Name, $"%{filter.Substring}%") ||
                                     EF.Functions.Like(x.Description, $"%{filter.Substring}%"));
 
-            query = query.Skip(filter.PageSize * (filter.PageNumber - 1))
-                .Take(filter.PageSize);
-
-            var entities = query.ToArray();
-
-            return Mapper.Map<AdvertDto[]>(entities);
+            query = query.Skip(filter.Pagination.PageSize * (filter.Pagination.PageNumber - 1))
+                .Take(filter.Pagination.PageSize);
+            try
+            {
+                var entities = query.ToArray();
+                return Mapper.Map<AdvertDto[]>(entities);
+            }
+            catch (SqlException) {
+                throw new NullReferenceException($"Не существует записей с заданными параметрами фильтра.");
+            }
+            
         }
     }
 }

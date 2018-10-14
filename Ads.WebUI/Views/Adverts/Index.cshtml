@@ -1,7 +1,16 @@
-﻿@model ICollection<AdsVMIndex>
+﻿@model List<AdsVMIndex>
 @{
     ViewData["Title"] = "Home Page";
 }
+<form asp-action="Index" method="get">
+    <label class="control-label">Минимальная цена</label>
+    <input name="MinValue" class="form-control" />
+    <label class="control-label">Максимальная цена</label>
+    <input name="MaxValue" class="form-control" />
+    <label class="control-label">Подстрока цена</label>
+    <input name="Substring" class="form-control" />
+    <button> Фильтровать</button>
+</form>
 
 @*<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
@@ -30,14 +39,14 @@
     <ul class="list-group">
         @foreach (var item in Model)
         {
-        <li class="list-group-item nav-item" style="margin-top:10px;">
-            <form asp-action="Delete" asp-controller="Adverts" onsubmit='return confirm("Вы точно хотите удалить объявление?");'>
-                <a class="nav-item text-dark" asp-action="Details" asp-route-id="@item.Id">@item.Name @item.City @item.Created @item.Price</a> <hr />
-                <a class="nav-item text-dark" asp-action="Edit" asp-route-id="@item.Id">Изменить</a> |
-                <a class="nav-item text-dark" asp-action="Details" asp-route-id="@item.Id">Детали</a> |
-                <button type="submit" asp-controller="Adverts" asp-action="Delete" class="btn btn-primary" asp-route-id="@item.Id">Удалить</button>
-            </form>
-        </li>
+            <li class="list-group-item nav-item" style="margin-top:10px;">
+                <form asp-action="Delete" asp-controller="Adverts" onsubmit='return confirm("Вы точно хотите удалить объявление?");'>
+                    <a class="nav-item text-dark" asp-action="Details" asp-route-id="@item.Id">@item.Name @item.City @item.Created @item.Price</a> <hr />
+                    <a class="nav-item text-dark" asp-action="Edit" asp-route-id="@item.Id">Изменить</a> |
+                    <a class="nav-item text-dark" asp-action="Details" asp-route-id="@item.Id">Детали</a> |
+                    <button type="submit" asp-controller="Adverts" asp-action="Delete" class="btn btn-primary" asp-route-id="@item.Id">Удалить</button>
+                </form>
+            </li>
         }
     </ul>
 
