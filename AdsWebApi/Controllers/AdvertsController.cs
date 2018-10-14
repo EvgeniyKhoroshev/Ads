@@ -1,4 +1,5 @@
 ﻿using Ads.Contracts.Dto;
+using Ads.Contracts.Dto.Filters;
 using AppServices.ServiceInterfaces;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -49,5 +50,12 @@ namespace AdsWebApi.Controllers
         {
             _advertService.Delete(id);
         }
+
+        [HttpPost("filter")]
+        public AdvertDto[] GetFiltered([FromBody]FilterDto filter)
+        {
+            return _advertService.GetFiltred(filter);
+        }
+
     }
 }

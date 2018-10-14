@@ -1,4 +1,5 @@
 ﻿using Ads.Contracts.Dto;
+using Ads.Contracts.Dto.Filters;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
@@ -67,6 +68,22 @@ namespace Ads.WebUI.Controllers
                     if (response.IsSuccessStatusCode)
                     {
                         return await response.Content.ReadAsAsync<AdvertDto>();
+                    }
+                }
+            }
+            catch (Exception) { }
+            return null;
+        }
+        public static async Task<AdvertDto[]> Filter(FilterDto advert)
+        {
+            try
+            {
+                using (var httpClient = new HttpClient())
+                {
+                    HttpResponseMessage response = await httpClient.PostAsJsonAsync($"http://localhost:56663/api/adverts/filter", advert);
+                    if (response.IsSuccessStatusCode)
+                    {
+                        return await response.Content.ReadAsAsync<AdvertDto[]>();
                     }
                 }
             }

@@ -1,14 +1,10 @@
-﻿using System;
+﻿using Ads.Contracts.Dto.Internal.Base;
+using System;
 
 namespace Ads.Contracts.Dto
 {
-    public class AdvertDto
+    public class AdvertDto : Base
     {
-        public int Id { get; set; }
-        /// <summary>
-        /// Название объявления / Advert name
-        /// </summary>
-        public string Name { get; set; }
         /// <summary>
         /// Описание объявления / Ads description
         /// </summary>
