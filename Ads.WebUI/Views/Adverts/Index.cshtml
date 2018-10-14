@@ -2,15 +2,23 @@
 @{
     ViewData["Title"] = "Home Page";
 }
-<form asp-action="Index" method="get">
-    <label class="control-label">Минимальная цена</label>
-    <input name="MinValue" class="form-control" />
-    <label class="control-label">Максимальная цена</label>
-    <input name="MaxValue" class="form-control" />
-    <label class="control-label">Подстрока цена</label>
-    <input name="Substring" class="form-control" />
-    <button> Фильтровать</button>
-</form>
+<script src="~/js/test.js" asp-append-version="true"></script>
+<div class="my_nav">
+    <form asp-action="Index" method="get">
+        <ul id="category_output"></ul>
+        <input type="hidden" id="cat_name" name="CategoryId" />
+        <input name="Substring" class="input-sm" placeholder="Поиск..." />
+        <button class="btn btn-default btn-xs btn-block" id="filter"> Фильтровать</button>
+        <br />
+        <span class="price">
+            Диапазон: от
+            <input type="number" step="1" min="1" max="27" id="num_count" name="MinValue" value="" class="input-sm input-price" size="4" />
+            до :
+            <input type="number" step="1" min="1" max="1500000000" id="MaxValue" name="MinValue" value="" class="input-sm input-price" size="4" />
+        </span>
+
+    </form>
+</div>
 
 @*<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
@@ -35,16 +43,21 @@
         </div>
     </div>*@
 
-<div>
+<div class="cat_list">
     <ul class="list-group">
         @foreach (var item in Model)
         {
-            <li class="list-group-item nav-item" style="margin-top:10px;">
+            <li id="advert_list" class="list-group-item nav-item">
                 <form asp-action="Delete" asp-controller="Adverts" onsubmit='return confirm("Вы точно хотите удалить объявление?");'>
-                    <a class="nav-item text-dark" asp-action="Details" asp-route-id="@item.Id">@item.Name @item.City @item.Created @item.Price</a> <hr />
-                    <a class="nav-item text-dark" asp-action="Edit" asp-route-id="@item.Id">Изменить</a> |
-                    <a class="nav-item text-dark" asp-action="Details" asp-route-id="@item.Id">Детали</a> |
-                    <button type="submit" asp-controller="Adverts" asp-action="Delete" class="btn btn-primary" asp-route-id="@item.Id">Удалить</button>
+                    <a class="nav-item text-dark" asp-action="Details" asp-route-id="@item.Id">  </a>
+                    <p>@item.Name</p>
+                    <p>@item.City</p>
+                    <p>@item.Price<hr />@item.Created</p>
+                    <span class="adverts_actions">
+                        <a class="nav-item text-dark" asp-action="Edit" asp-route-id="@item.Id">Изменить</a> |
+                        <a class="nav-item text-dark" asp-action="Details" asp-route-id="@item.Id">Детали</a> |
+                        <button type="submit" asp-controller="Adverts" asp-action="Delete" class="btn btn-primary" asp-route-id="@item.Id">Удалить</button>
+                    </span>
                 </form>
             </li>
         }

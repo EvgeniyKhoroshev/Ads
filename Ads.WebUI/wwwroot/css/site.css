@@ -4,10 +4,71 @@ body {
     padding-top: 50px;
     padding-bottom: 20px;
 }
-
-.categories_list{
+.adverts_actions {
+    vertical-align: bottom;
+    position: absolute;
+    bottom: 0px;
+    left: 21%;
+    text-align: center;
+    padding-bottom: 5px;
+    padding-top: 5px;
+    border-top:1px solid #e6e1e1;
+}
+.price {
+    text-align: center;
+    right: 0px;
+    right: 0px;
+    display: block;
+}
+.input-sm{
+    width:300px;
+}
+.input-price {
+    width: 30px;
+}
+.my_nav button {
+    height: 30px;
+    text-align: center;
+    vertical-align: baseline;
+}
+#filter {
+    width: 200px;
+    float: right;
+}
+.my_nav {
+    padding: 5px;
+    margin: 5px;
+    position: relative;
+    display: block;
+}
+.my_nav ul{
+    height:auto;
+}
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    /* display: none; <- Crashes Chrome on hover */
+    -webkit-appearance: none;
+    margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
+}
+.cat_list ul{
+    display: flex;
+}
+#advert_list {
+    margin: 5px;
+    width: 38%;
+    min-height: 150px;
+    padding-bottom: 50px;
+}
+#category_output {
     float: left;
-    width: 100px;
+    width: 300px;
+}
+input{
+    display:inline-block;
+}
+
+ul {
+    padding-left: 0px;
 }
 /* Wrapping element */
 /* Set some basic padding to keep content from hitting the edges */
