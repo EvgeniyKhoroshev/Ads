@@ -9,12 +9,13 @@ namespace Ads.WebUI.Controllers
 {
     public class CommentsController : Controller
     {
-        [HttpPost]
+        [HttpGet]
         public async Task SaveOrUpdate(
             [Bind("Body,AdvertId")]CommentDto c)
         {
             c.Created = DateTime.Now;
             await APIRequests.SaveOrUpdateComment(c);
+
         }
         [HttpPost]
         public async Task<IActionResult> Delete(int? Id)
