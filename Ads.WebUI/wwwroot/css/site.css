@@ -7,7 +7,7 @@ body {
 .adverts_actions {
     vertical-align: bottom;
     position: absolute;
-    bottom: 0px;
+    bottom: 0;
     left: 21%;
     text-align: center;
     padding-bottom: 5px;
@@ -16,8 +16,7 @@ body {
 }
 .price {
     text-align: center;
-    right: 0px;
-    right: 0px;
+    right: 0;
     display: block;
 }
 .input-sm{
@@ -50,14 +49,15 @@ input::-webkit-inner-spin-button {
     -webkit-appearance: none;
     margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
 }
-.cat_list ul{
-    display: flex;
+.cat_list ul {
+    display: -webkit-inline-box;
 }
 #advert_list {
     margin: 5px;
-    width: 38%;
+    min-width: 32%;
     min-height: 150px;
     padding-bottom: 50px;
+    display: -webkit-inline-box;
 }
 #category_output {
     float: left;
@@ -68,7 +68,7 @@ input{
 }
 
 ul {
-    padding-left: 0px;
+    padding-left: 0;
 }
 /* Wrapping element */
 /* Set some basic padding to keep content from hitting the edges */

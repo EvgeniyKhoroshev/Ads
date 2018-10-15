@@ -13,5 +13,7 @@ namespace AppServices.ServiceInterfaces
         /// </summary>
         /// <param name="filter">Фильтр объявлений.</param>
         AdvertDto[] GetFiltred(FilterDto filter);
+
+        IList<CommentDto> GetAdvertComments(int advertId);
     }
 }

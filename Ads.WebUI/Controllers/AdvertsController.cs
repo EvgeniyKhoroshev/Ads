@@ -33,18 +33,7 @@ namespace Ads.WebUI.Controllers
             return View(GetVMIndex(result));
 
         }
-        private List<AdsVMIndex> GetVMIndex(AdvertDto[] source)
-        {
-            List<AdsVMIndex> ret = new List<AdsVMIndex>();
-            AdsVMIndex adsVM;
-            foreach (var r in source)
-            {
-                adsVM = Mapper.Map<AdsVMIndex>(r);
-                adsVM.City = _AdvertsInfoDto.FindCityById(r.CityId);
-                ret.Add(adsVM);
-            }
-            return ret;
-        }
+
         public async Task<IActionResult> Create()
         {
             if (_AdvertsInfoDto == null)
@@ -117,15 +106,42 @@ namespace Ads.WebUI.Controllers
             }
             return View(ret);
         }
-        public IActionResult Privacy()
+        public async Task<IActionResult> Edit(int? id)
         {
-            return View();
+            if (_AdvertsInfoDto == null)
+                _AdvertsInfoDto = await APIRequests.AdvInfoInit();
+            AdvertDto buf = await APIRequests.GetAdvert(id.Value);
+            return View(buf);
+        }
+        [HttpPost]
+        public async Task<IActionResult> Edit(
+            [Bind("Name,Description,Address,Price,CategoryId,CityId,TypeId,StatusId,Context")]AdvertDto advert)
+        {
+            await APIRequests.CreateAdvert(advert);
+            return RedirectToAction("Index");
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+
+
+
+
+
+        private List<AdsVMIndex> GetVMIndex(AdvertDto[] source)
+        {
+            List<AdsVMIndex> ret = new List<AdsVMIndex>();
+            AdsVMIndex adsVM;
+            foreach (var r in source)
+            {
+                adsVM = Mapper.Map<AdsVMIndex>(r);
+                adsVM.City = _AdvertsInfoDto.FindCityById(r.CityId);
+                ret.Add(adsVM);
+            }
+            return ret;
         }
     }
 }

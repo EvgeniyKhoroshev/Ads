@@ -21,19 +21,19 @@ namespace AdsWebApi.Controllers
         [HttpGet]
         public IList<AdvertDto> Get()
         {
-            return _advertService.GetAllWithoutIncludes();
+            return _advertService.GetAll();
         }
 
         // GET api/values/5
         [HttpGet("{id}")]
         public async Task<ActionResult<AdvertDto>> Get(int id)
         {
-            return await _advertService.GetWithIncludes(id);
+            return await _advertService.Get(id);
         }
 
         // POST api/values
-        [HttpPost("/api/[controller]/create")]
-        public async Task<AdvertDto> PostCreate([FromBody] AdvertDto value)
+        [HttpPost("/api/[controller]/saveorupdate")]
+        public async Task<int> PostSaveOrUpdate([FromBody] AdvertDto value)
         {
             return await _advertService.SaveOrUpdate(value);
         }

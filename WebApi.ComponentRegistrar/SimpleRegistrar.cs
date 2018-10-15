@@ -11,6 +11,8 @@ namespace WebApi.ComponentRegistrar
     {
         public static void RegisterAll(Container container)
         {
+            container.Register<ICommentsRepository, CommentsRepository>();
+            container.Register<ICommentsService, CommentsService>();
             container.Register<IAdvertRepository, AdvertRepository>();
             container.Register<IAdvertService, AdvertService>();
             container.Register<IAdvertInfoRepository<AdvertsInfo,int>, AdvertInfoRepository>();

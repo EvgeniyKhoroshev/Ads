@@ -1,58 +1,55 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace Domain.Data.Repositories.Base
 {
-    public abstract class BaseRepository<T, Tid> : RepositoryInterfaces.Base.IRepositoryBase<T, int> 
-        where T: Entities.Base.BaseEntity
+    public abstract class BaseRepository<T, Tid> : RepositoryInterfaces.Base.IRepositoryBase<T, int>
+        where T : Entities.Base.BaseEntity
     {
-        public BaseRepository() { }
-        public virtual Task<T> Get(int id)
+        protected readonly AdsDBContext _dbContext;
+
+        public BaseRepository(AdsDBContext dbContext)
         {
-            throw new NotImplementedException();
+            _dbContext = dbContext;
         }
-        public virtual Task<IQueryable<T>> GetAllWithIncludes()
+        public virtual async Task<T> Get(int id)
         {
-            throw new NotImplementedException();
+            var result = await _dbContext.Set<T>().FirstOrDefaultAsync(t => t.Id == id);
+            return result;
         }
-        public virtual Task<IQueryable<T>> GetAllWithoutIncludes()
+        public virtual async Task<int> SaveOrUpdate(T entity)
         {
-            throw new NotImplementedException();
-        }
-        public virtual Task<T> New(T entity)
-        {
-            throw new NotImplementedException();
-        }
-        public virtual Task<T> SaveOrUpdate(T entity)
-        {
-            throw new NotImplementedException();
+            if ((await _dbContext.Set<T>().FirstOrDefaultAsync(t => t.Id == entity.Id)) != null)
+            {
+                _dbContext.Set<T>().Update(entity);
+                await _dbContext.SaveChangesAsync();
+                return entity.Id;
+            }
+            else
+            {
+                _dbContext.Set<T>().Add(entity);
+                _dbContext.SaveChanges();
+            }
+            return 0;
         }
 
-        public virtual Task<T> GetInfo()
-        {
-            throw new NotImplementedException();
-        }
-
-        public virtual Task<T> GetWithIncludes(int Id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public virtual Task<T> GetWithoutIncludes(int Id)
-        {
-            throw new NotImplementedException();
-        }
 
         public virtual void Delete(int Id)
         {
-            throw new NotImplementedException();
+            try
+            {
+                _dbContext.Set<T>().Remove(Get(Id).Result);
+                _dbContext.SaveChanges();
+            }
+            catch (Exception) { }
         }
 
         public virtual IQueryable<T> GetAll()
         {
-            throw new NotImplementedException();
+            return _dbContext.Set<T>();
         }
     }
 }

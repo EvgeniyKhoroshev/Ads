@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace Domain.Entities
+namespace Ads.Contracts.Dto
 {
     public class CommentDto 
     {
