@@ -16,9 +16,16 @@ namespace AppServices.Services
     public class AdvertService : Base.BaseService<AdvertDto, int>, IAdvertService
     {
         readonly IAdvertRepository _advertRepository;
+        readonly IMapper _mapper;
         public AdvertService(IAdvertRepository advertRepository)
         {
             _advertRepository = advertRepository;
+            
+        }
+        public AdvertService(IMapper mapper,IAdvertRepository advertRepository)
+        {
+            _advertRepository = advertRepository;
+            _mapper = mapper;
         }
         public override void Delete(int id)
         {
@@ -49,7 +56,7 @@ namespace AppServices.Services
             Advert adv = await _advertRepository.GetWithoutIncludes(id);
             if (adv == null)
                 return null;
-            return  Mapper.Map<AdvertDto>(adv) ;
+            return  Mapper.Map<AdvertDto>(adv);
         }
         /// <summary>
         /// Возвращает список существующих объявлений включая дочерние // 
@@ -62,7 +69,8 @@ namespace AppServices.Services
             Advert adv = await _advertRepository.GetWithIncludes(id);
             if (adv == null)
                 return null;
-            return Mapper.Map<AdvertDto>(adv);
+            var result = Mapper.Map<AdvertDto>(adv);
+            return result;
         }
 
         public AdvertDto[] GetFiltred(FilterDto filter)
