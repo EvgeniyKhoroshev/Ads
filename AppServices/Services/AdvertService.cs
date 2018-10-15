@@ -41,8 +41,8 @@ namespace AppServices.Services
                 throw new ArgumentException("Error during query for comments of a advert with id = " + advertId);
             else
             {
-                adv.Select(a => a.Id == advertId);
-                CommentDto[] result = Mapper.Map<CommentDto[]>(adv.Select(t => t.Comments).ToArray());
+                Advert buf = adv.Where(a => a.Id == advertId).FirstOrDefault();
+                List<CommentDto> result = Mapper.Map<List<CommentDto>>(buf.Comments);
                 return result;
             }
         }

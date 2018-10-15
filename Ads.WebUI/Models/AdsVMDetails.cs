@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Ads.WebUI.Models
 {
@@ -23,9 +20,11 @@ namespace Ads.WebUI.Models
         /// <summary>
         /// Дата создания / Creation date 
         /// </summary>
-        
         public DateTime Created { get; set; }
-
+        /// <summary>
+        /// Описание объявления / Ads description
+        /// </summary>
+        public string Description { get; set; }
 
         public string Type { get; set; }
         public string Category { get; set; }

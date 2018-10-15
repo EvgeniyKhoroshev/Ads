@@ -33,6 +33,22 @@ namespace Ads.WebUI.Controllers
             catch (Exception) { }
             return null;
         }
+        public static async Task<IList<CommentDto>> GetAdvertComments(int id)
+        {
+            try
+            {
+                using (var httpClient = new HttpClient())
+                {
+                    HttpResponseMessage response = await httpClient.GetAsync($"http://localhost:56663/api/adverts/{id}/advertcomments");
+                    if (response.IsSuccessStatusCode)
+                    {
+                        return await response.Content.ReadAsAsync<IList<CommentDto>>();
+                    }
+                }
+            }
+            catch (Exception) { }
+            return null;
+        }
         public static async Task<AdvertDto> GetAdvert(int id)
         {
             try
@@ -82,6 +98,26 @@ namespace Ads.WebUI.Controllers
             catch (Exception) { }
             return null;
         }
+
+        public static async Task<CommentDto> SaveOrUpdateComment(CommentDto c)
+        {
+            c.Created = DateTime.Now;
+            c.Rating = 0;
+            try
+            {
+                using (var httpClient = new HttpClient())
+                {
+                    HttpResponseMessage response = await httpClient.PostAsJsonAsync($"http://localhost:56663/api/comments/saveorupdate", c);
+                    if (response.IsSuccessStatusCode)
+                    {
+                        return await response.Content.ReadAsAsync<CommentDto>();
+                    }
+                }
+            }
+            catch (Exception) { }
+            return null;
+        }
+
         public static async Task<AdvertDto[]> Filter(FilterDto advert)
         {
             try

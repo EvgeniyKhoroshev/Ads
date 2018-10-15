@@ -4,6 +4,10 @@ body {
     padding-top: 50px;
     padding-bottom: 20px;
 }
+.advert_description{
+    padding:5px;
+    border: 1px solid #e6e1e1;
+}
 .adverts_actions {
     vertical-align: bottom;
     position: absolute;
@@ -12,7 +16,7 @@ body {
     text-align: center;
     padding-bottom: 5px;
     padding-top: 5px;
-    border-top:1px solid #e6e1e1;
+    border-top: 1px solid #e6e1e1;
 }
 .price {
     text-align: center;

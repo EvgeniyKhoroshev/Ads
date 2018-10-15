@@ -8,5 +8,6 @@ namespace AppServices.ServiceInterfaces
 {
     public interface ICommentsService : Base.IServiceInterfaceBase<CommentDto, int>
     {
+        IList<CommentDto> GetAllAdvertComments(int advertId);
     }
 }

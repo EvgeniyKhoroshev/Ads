@@ -1,6 +1,7 @@
 ﻿using Ads.Contracts.Dto;
 using Ads.Contracts.Dto.Filters;
 using AppServices.ServiceInterfaces;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -30,7 +31,14 @@ namespace AdsWebApi.Controllers
         {
             return await _advertService.Get(id);
         }
-
+        // GET api/values/5
+        [EnableCors("allow")]
+        [HttpGet("/api/[controller]/{id}/advertcomments")]
+        public IList<CommentDto> GetAdvertComments(int id)
+        {
+            var result = _advertService.GetAdvertComments(id);
+            return result;
+        }
         // POST api/values
         [HttpPost("/api/[controller]/saveorupdate")]
         public async Task<int> PostSaveOrUpdate([FromBody] AdvertDto value)
