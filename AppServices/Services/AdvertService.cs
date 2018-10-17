@@ -16,22 +16,16 @@ namespace AppServices.Services
     public class AdvertService : Base.BaseService<AdvertDto, int>, IAdvertService
     {
         readonly IAdvertRepository _advertRepository;
-        readonly IMapper _mapper;
         public AdvertService(IAdvertRepository advertRepository)
         {
             _advertRepository = advertRepository;
             
         }
-        public AdvertService(IMapper mapper,IAdvertRepository advertRepository)
-        {
-            _advertRepository = advertRepository;
-            _mapper = mapper;
-        }
         public override void Delete(int id)
         {
             _advertRepository.Delete(id);
         }
-        public override IList<AdvertDto> GetAllWithoutIncludes()
+        public override IList<AdvertDto> GetAll()
         {
             IQueryable<Advert> adv = _advertRepository.GetAll();
             if (adv == null)
@@ -40,10 +34,10 @@ namespace AppServices.Services
             result = Mapper.Map<AdvertDto[]>(adv.ToArray());
             return result;
         }
-        public override async Task<AdvertDto> SaveOrUpdate(AdvertDto entity)
+        public override async Task<int> SaveOrUpdate(AdvertDto entity)
         {
-            Advert sm = await _advertRepository.SaveOrUpdate(Mapper.Map<Advert>(entity));
-            return Mapper.Map<AdvertDto>(sm);
+            int sm = await _advertRepository.SaveOrUpdate(Mapper.Map<Advert>(entity));
+            return sm;
         }
         /// <summary>
         /// Возвращает список существующих объявлений не включая дочерние // 
@@ -51,26 +45,13 @@ namespace AppServices.Services
         /// </summary>
         /// <returns>Возвращает список объявлений / 
         /// Getting the adverts list</returns>
-        public override async Task<AdvertDto> GetWithoutIncludes(int id)
+        public override async Task<AdvertDto> Get(int id)
         {
-            Advert adv = await _advertRepository.GetWithoutIncludes(id);
+            Advert adv = await _advertRepository.GetAll().FirstOrDefaultAsync(t => t.Id == id);
             if (adv == null)
-                return null;
+                throw new ArgumentOutOfRangeException("Id", adv,"Не существует объявления с полученным Id.");
+
             return  Mapper.Map<AdvertDto>(adv);
-        }
-        /// <summary>
-        /// Возвращает список существующих объявлений включая дочерние // 
-        /// Returns all adverts including subsidiaries
-        /// </summary>
-        /// <returns>Возвращает список существующих объявлений включая дочерние / 
-        /// Returns all adverts including subsidiaries</returns>
-        public override async Task<AdvertDto> GetWithIncludes(int id)
-        {
-            Advert adv = await _advertRepository.GetWithIncludes(id);
-            if (adv == null)
-                return null;
-            var result = Mapper.Map<AdvertDto>(adv);
-            return result;
         }
 
         public AdvertDto[] GetFiltred(FilterDto filter)
@@ -113,7 +94,11 @@ namespace AppServices.Services
 
         public IList<CommentDto> GetAdvertComments(int advertId)
         {
-            throw new NotImplementedException();
+            var buf = _advertRepository.GetAll()
+                .Include(s => s.Comments)
+                .Where(d => d.Id == advertId);
+            Advert b = buf.FirstOrDefault();
+            return Mapper.Map<List<CommentDto>>(b.Comments.ToList());
         }
     }
 }

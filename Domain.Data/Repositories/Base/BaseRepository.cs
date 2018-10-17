@@ -22,7 +22,7 @@ namespace Domain.Data.Repositories.Base
         }
         public virtual async Task<int> SaveOrUpdate(T entity)
         {
-            if ((await _dbContext.Set<T>().FirstOrDefaultAsync(t => t.Id == entity.Id)) != null)
+            if (await _dbContext.Set<T>().ContainsAsync(entity))
             {
                 _dbContext.Set<T>().Update(entity);
                 await _dbContext.SaveChangesAsync();
