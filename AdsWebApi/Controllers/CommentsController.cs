@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using Ads.Contracts.Dto;
 using AppServices.ServiceInterfaces;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AdsWebApi.Controllers
@@ -25,6 +26,7 @@ namespace AdsWebApi.Controllers
         {
             return _commentsService.GetAllAdvertComments(advertId.Value);
         }
+        [EnableCors("allow")]
         [HttpPost("/api/[controller]/saveorupdate")]
         public async Task<int> PostSaveOrUpdate([FromBody] CommentDto value)
         {

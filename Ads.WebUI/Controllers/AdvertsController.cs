@@ -115,7 +115,7 @@ namespace Ads.WebUI.Controllers
         }
         [HttpPost]
         public async Task<IActionResult> Edit(
-            [Bind("Name,Description,Address,Price,CategoryId,CityId,TypeId,StatusId,Context")]AdvertDto advert)
+            [Bind("Id,Name,Description,Address,Price,CategoryId,CityId,TypeId,StatusId,Context")]AdvertDto advert)
         {
             await APIRequests.CreateAdvert(advert);
             return RedirectToAction("Index");

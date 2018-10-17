@@ -6,11 +6,11 @@ fetch_info = function (id) {
     categories = fetch(f)
         .then(response => response.json())
         .then(json => comments = json)
-        .then(() => DisplayComments());
+        .then(() => display_comments());
 }
 document.onload = fetch_info(document.getElementById('comment_id').value);
 
-function DisplayComments() {
+function display_comments() {
     var i = 0;
     if (comments.length > 0)
         for (i; i < comments.length; ++i) {
@@ -23,5 +23,12 @@ function DisplayComments() {
     else {
         document.getElementById(CommentsTagName).innerHTML = '<p>Комментариев пока нет. </p> ';
     }
-
+}
+function add_comment(body, aId) {
+    var c = { 'Body': body, 'Id': null, 'AdvertId': aId, 'UserId': 0, 'Created': Date.Now(), 'Rating': 0 };
+    fetch('https://localhost:44396/api/comments/saveorupdate/', {
+        method: 'POST',
+        body: JSON.stringify(c),
+        Headers: {'Transfer-Encoding': 'chunked',  'Content-Type': 'application/json', 'charset': 'utf-8'}
+    })
 }

@@ -19,7 +19,7 @@ namespace AppServices.Services
         public AdvertService(IAdvertRepository advertRepository)
         {
             _advertRepository = advertRepository;
-            
+
         }
         public override void Delete(int id)
         {
@@ -30,7 +30,7 @@ namespace AppServices.Services
             IQueryable<Advert> adv = _advertRepository.GetAll();
             if (adv == null)
                 return null;
-            AdvertDto [] result;
+            AdvertDto[] result;
             result = Mapper.Map<AdvertDto[]>(adv.ToArray());
             return result;
         }
@@ -49,9 +49,9 @@ namespace AppServices.Services
         {
             Advert adv = await _advertRepository.GetAll().FirstOrDefaultAsync(t => t.Id == id);
             if (adv == null)
-                throw new ArgumentOutOfRangeException("Id", adv,"Не существует объявления с полученным Id.");
+                throw new ArgumentOutOfRangeException("Id", adv, "Не существует объявления с полученным Id.");
 
-            return  Mapper.Map<AdvertDto>(adv);
+            return Mapper.Map<AdvertDto>(adv);
         }
 
         public AdvertDto[] GetFiltred(FilterDto filter)
@@ -86,19 +86,30 @@ namespace AppServices.Services
                 var entities = query.ToArray();
                 return Mapper.Map<AdvertDto[]>(entities);
             }
-            catch (SqlException) {
+            catch (SqlException)
+            {
                 throw new NullReferenceException($"Не существует записей с заданными параметрами фильтра.");
             }
-            
+
         }
 
         public IList<CommentDto> GetAdvertComments(int advertId)
         {
-            var buf = _advertRepository.GetAll()
-                .Include(s => s.Comments)
-                .Where(d => d.Id == advertId);
-            Advert b = buf.FirstOrDefault();
-            return Mapper.Map<List<CommentDto>>(b.Comments.ToList());
+            try
+            {
+
+
+                var buf = _advertRepository.GetAll()
+                    .Include(s => s.Comments)
+                    .Where(d => d.Id == advertId);
+                Advert b = buf.FirstOrDefault();
+                return Mapper.Map<List<CommentDto>>(b.Comments.ToList());
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("При попытке получить комментарии объявления №" +
+advertId + " произошла ошибка. " + ex.Message);
+            }
         }
     }
 }
