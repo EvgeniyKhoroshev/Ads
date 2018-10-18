@@ -31,7 +31,7 @@ namespace AdsWebApi.Controllers
             return await _advertService.Get(id);
         }
         // GET api/values/5
-        [EnableCors("allow")]
+        //[EnableCors("allow")]
         [HttpGet("/api/[controller]/{id}/advertcomments")]
         public IList<CommentDto> GetAdvertComments(int id)
         {

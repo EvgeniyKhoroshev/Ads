@@ -7,6 +7,7 @@ namespace AppServices.Services.Base
 {
     public abstract class BaseService<T, Tid> : IServiceInterfaceBase<T, Tid>
     {
+
         public virtual void Delete(Tid id)
         {
             throw new NotImplementedException();

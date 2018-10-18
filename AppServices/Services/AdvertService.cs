@@ -21,19 +21,49 @@ namespace AppServices.Services
             _advertRepository = advertRepository;
 
         }
+        /// <summary>
+        /// Удаляет объявление по указанному идентификатору // 
+        /// Delete advert from database
+        /// </summary>
+        /// <param name="id"> Идентификатор объявления </param>
         public override void Delete(int id)
         {
-            _advertRepository.Delete(id);
+            try
+            {
+                _advertRepository.Delete(id);
+            }
+            catch (Exception ex)
+            {
+                throw new ArgumentException("При удалении объявления №{id} возникла ошибка. "
+                    + ex.Message);
+            }
         }
+        /// <summary>
+        /// Возвращает список существующих объявлений // 
+        /// Returns all existing adverts
+        /// </summary>
+        /// <returns>Возвращает список объявлений / 
+        /// Getting the adverts list</returns>
         public override IList<AdvertDto> GetAll()
         {
             IQueryable<Advert> adv = _advertRepository.GetAll();
+                //            .Include(t => t.Category)
+                //.Include(q => q.City)
+                //.Include(q => q.Status)
+                //.Include(q => q.Comments)
+                //.Include(q => q.Type);
             if (adv == null)
                 return null;
             AdvertDto[] result;
             result = Mapper.Map<AdvertDto[]>(adv.ToArray());
             return result;
         }
+        /// <summary>
+        /// Возвращает список существующих объявлений не включая дочерние // 
+        /// Returns all adverts excluding subsidiaries
+        /// </summary>
+        /// <returns>Возвращает список объявлений / 
+        /// Getting the adverts list</returns>
         public override async Task<int> SaveOrUpdate(AdvertDto entity)
         {
             int sm = await _advertRepository.SaveOrUpdate(Mapper.Map<Advert>(entity));
@@ -108,7 +138,7 @@ namespace AppServices.Services
             catch (Exception ex)
             {
                 throw new Exception("При попытке получить комментарии объявления №" +
-advertId + " произошла ошибка. " + ex.Message);
+                    advertId + " произошла ошибка. " + ex.Message);
             }
         }
     }
