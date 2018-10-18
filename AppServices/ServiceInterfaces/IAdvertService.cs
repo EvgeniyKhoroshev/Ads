@@ -15,5 +15,8 @@ namespace AppServices.ServiceInterfaces
         AdvertDto[] GetFiltred(FilterDto filter);
 
         IList<CommentDto> GetAdvertComments(int advertId);
+
+        IList<AdvertDto> GetAll_ToIndex();
+
     }
 }

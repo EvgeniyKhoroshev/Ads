@@ -15,7 +15,7 @@ namespace Ads.WebUI.Controllers
 
         AdvertsInfoDto _AdvertsInfoDto;
         public async Task<IActionResult> Index(
-            int? CategoryId, int? RegionId, decimal? Min, decimal? Max, int? CityId, int? Page, string Substring)
+            int? CategoryId, int? RegionId, decimal? Min, decimal? Max, int? CityId, string Substring, int Page = 1)
         {
             FilterDto filter = new FilterDto();
             filter.PriceRange.MaxValue = Max;
@@ -23,9 +23,8 @@ namespace Ads.WebUI.Controllers
             filter.RegionId = RegionId;
             filter.CityId = CityId;
             filter.CategoryId = CategoryId;
-            if (Page != null)
-            if (Page.Value > 0)
-                filter.Pagination.PageNumber = Page.Value;
+            if (Page > 0)
+                filter.Pagination.PageNumber = Page;
             filter.Substring = Substring;
             if (_AdvertsInfoDto == null)
                 _AdvertsInfoDto = await APIRequests.AdvInfoInit();

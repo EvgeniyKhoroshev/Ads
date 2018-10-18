@@ -47,11 +47,26 @@ namespace AppServices.Services
         public override IList<AdvertDto> GetAll()
         {
             IQueryable<Advert> adv = _advertRepository.GetAll();
-            //            .Include(t => t.Category)
-            //.Include(q => q.City)
-            //.Include(q => q.Status)
+            if (adv == null)
+                return null;
+            AdvertDto[] result;
+            result = Mapper.Map<AdvertDto[]>(adv.ToArray());
+            return result;
+        }
+        /// <summary>
+        /// Возвращает список существующих объявлений с данными для вывода на главную страницу // 
+        /// Returns all existing adverts with a data for index page output
+        /// </summary>
+        /// <returns>Возвращает список объявлений с данными для вывода на главную страницу / 
+        /// Getting the adverts list with a data for index page output</returns>
+        public IList<AdvertDto> GetAll_ToIndex()
+        {
+            IQueryable<Advert> adv = _advertRepository.GetAll()
+            .Include(t => t.Category)
+            .Include(q => q.City)
+            .Include(q => q.Status)
             //.Include(q => q.Comments)
-            //.Include(q => q.Type);
+            .Include(q => q.Type);
             if (adv == null)
                 return null;
             AdvertDto[] result;
@@ -116,7 +131,12 @@ namespace AppServices.Services
                 .Take(filter.Pagination.PageSize);
             try
             {
-                var entities = query.ToArray();
+                var entities = query
+                    .Include(t => t.Category)
+                    .Include(q => q.City)
+                    .Include(q => q.Status)
+                    .Include(q => q.Comments)
+                    .Include(q => q.Type).ToArray();
                 return Mapper.Map<AdvertDto[]>(entities);
             }
             catch (SqlException ex)

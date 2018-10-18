@@ -21,7 +21,7 @@ namespace AdsWebApi.Controllers
         [HttpGet]
         public IList<AdvertDto> Get()
         {
-            return _advertService.GetAll();
+            return _advertService.GetAll_ToIndex();
         }
 
         // GET api/values/5
