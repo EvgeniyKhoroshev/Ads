@@ -27,7 +27,7 @@
                 <form asp-action="Delete" asp-controller="Adverts" onsubmit='return confirm("Вы точно хотите удалить объявление?");'>
                     <a class="nav-item text-dark" asp-action="Details" asp-route-id="@item.Id">  </a>
                     <p>@item.Name</p>
-                    <p>@item.City</p>
+                    <p>@item.City.Name</p>
                     <p>@item.Price<hr />@item.Created</p>
                     <span class="adverts_actions">
                         <a class="nav-item text-dark" asp-action="Edit" asp-route-id="@item.Id">Изменить</a> |

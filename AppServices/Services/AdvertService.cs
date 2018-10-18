@@ -47,11 +47,11 @@ namespace AppServices.Services
         public override IList<AdvertDto> GetAll()
         {
             IQueryable<Advert> adv = _advertRepository.GetAll();
-                //            .Include(t => t.Category)
-                //.Include(q => q.City)
-                //.Include(q => q.Status)
-                //.Include(q => q.Comments)
-                //.Include(q => q.Type);
+            //            .Include(t => t.Category)
+            //.Include(q => q.City)
+            //.Include(q => q.Status)
+            //.Include(q => q.Comments)
+            //.Include(q => q.Type);
             if (adv == null)
                 return null;
             AdvertDto[] result;
@@ -83,7 +83,10 @@ namespace AppServices.Services
 
             return Mapper.Map<AdvertDto>(adv);
         }
-
+        /// <summary>
+        /// Возвращает массив объявлений, отфильтрованных по условиям, указанным в <paramref name="filter"/>.
+        /// </summary>
+        /// <param name="filter">Фильтр объявлений.</param>
         public AdvertDto[] GetFiltred(FilterDto filter)
         {
             var query = _advertRepository.GetAll();
@@ -95,7 +98,6 @@ namespace AppServices.Services
                 if (filter.PriceRange.MaxValue.HasValue)
                     query = query.Where(x => x.Price <= filter.PriceRange.MaxValue);
             }
-
             if (filter.RegionId.HasValue)
                 query = query.Where(x => x.City.RegionId == filter.RegionId);
 
@@ -103,7 +105,8 @@ namespace AppServices.Services
                 query = query.Where(x => x.CityId == filter.CityId);
 
             if (filter.CategoryId.HasValue)
-                query = query.Where(x => x.CategoryId == filter.CategoryId);
+                if (filter.CategoryId.Value > 0)
+                    query = query.Where(x => x.CategoryId == filter.CategoryId);
 
             if (!string.IsNullOrEmpty(filter.Substring))
                 query = query.Where(x => EF.Functions.Like(x.Name, $"%{filter.Substring}%") ||
@@ -116,19 +119,24 @@ namespace AppServices.Services
                 var entities = query.ToArray();
                 return Mapper.Map<AdvertDto[]>(entities);
             }
-            catch (SqlException)
+            catch (SqlException ex)
             {
-                throw new NullReferenceException($"Не существует записей с заданными параметрами фильтра.");
+                throw new NullReferenceException($"Не существует записей с заданными параметрами фильтра. " +
+                    ex.Message);
             }
-
         }
-
+        /// <summary>
+        /// Функция для получения списка комментариев объявления с заданным Id //
+        /// The function to get a comments from advert by the given advert Id
+        /// </summary>
+        /// <param name="advertId">Идентификатор объявления //
+        /// Advert Id</param>
+        /// <returns>Список комментариев, принадлежащих объявлению с заданным Id//
+        /// List of a comments from advert with a given Id</returns>
         public IList<CommentDto> GetAdvertComments(int advertId)
         {
             try
             {
-
-
                 var buf = _advertRepository.GetAll()
                     .Include(s => s.Comments)
                     .Where(d => d.Id == advertId);

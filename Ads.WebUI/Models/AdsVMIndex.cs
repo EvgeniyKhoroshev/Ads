@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Ads.Contracts.Dto;
+using System;
 
 namespace Ads.WebUI.Models
 {
@@ -19,7 +17,7 @@ namespace Ads.WebUI.Models
         /// <summary>
         /// Id города / City id
         /// </summary>
-        public string City { get; set; }
+        public City City { get; set; }
         /// <summary>
         /// Дата создания / Creation date 
         /// </summary>

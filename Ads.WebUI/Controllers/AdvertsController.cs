@@ -63,10 +63,6 @@ namespace Ads.WebUI.Controllers
                     _AdvertsInfoDto = await APIRequests.AdvInfoInit();
                 AdvertDto buf = await APIRequests.GetAdvert(id.Value);
                 AdsVMDetails result = Mapper.Map<AdsVMDetails>(buf);
-                result.Category = _AdvertsInfoDto.FindCategoryById(buf.CategoryId);
-                result.City = _AdvertsInfoDto.FindCityById(buf.CityId);
-                result.Type = _AdvertsInfoDto.FindTypeById(buf.TypeId);
-                result.Status = _AdvertsInfoDto.FindStatusById(buf.StatusId);
                 return View(result);
             }
             return View();
@@ -81,7 +77,6 @@ namespace Ads.WebUI.Controllers
             foreach (var r in await APIRequests.GetAdverts())
             {
                 adsVM = Mapper.Map<AdsVMIndex>(r);
-                adsVM.City = _AdvertsInfoDto.FindCityById(r.CityId);
                 ret.Add(adsVM);
             }
             return View(ret);
@@ -101,7 +96,6 @@ namespace Ads.WebUI.Controllers
             foreach (var r in result)
             {
                 adsVM = Mapper.Map<AdsVMIndex>(r);
-                adsVM.City = _AdvertsInfoDto.FindCityById(r.CityId);
                 ret.Add(adsVM);
             }
             return View(ret);
@@ -138,7 +132,6 @@ namespace Ads.WebUI.Controllers
             foreach (var r in source)
             {
                 adsVM = Mapper.Map<AdsVMIndex>(r);
-                adsVM.City = _AdvertsInfoDto.FindCityById(r.CityId);
                 ret.Add(adsVM);
             }
             return ret;

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Ads.Contracts.Dto;
+using System;
 
 namespace Ads.WebUI.Models
 {
@@ -14,10 +15,6 @@ namespace Ads.WebUI.Models
         /// </summary>
         public uint Price { get; set; }
         /// <summary>
-        /// Id города / City id
-        /// </summary>
-        public string City { get; set; }
-        /// <summary>
         /// Дата создания / Creation date 
         /// </summary>
         public DateTime Created { get; set; }
@@ -25,9 +22,22 @@ namespace Ads.WebUI.Models
         /// Описание объявления / Ads description
         /// </summary>
         public string Description { get; set; }
-
-        public string Type { get; set; }
-        public string Category { get; set; }
-        public string Status { get; set; }
+        /// <summary>
+        /// Город  / Город
+        /// </summary>
+        public City City { get; set; }
+        /// <summary>
+        /// Tип объявления / Ads type
+        /// </summary>
+        public AdvertType Type { get; set; }
+        /// <summary>
+        /// Cтатуc объявления / Ads status
+        /// </summary>
+        public Status Status { get; set; }
+        /// <summary>
+        /// Категория, в которой находится объявление / 
+        /// The category in which that advert contains
+        /// </summary>
+        public Category Category { get; set; }
     }
 }
