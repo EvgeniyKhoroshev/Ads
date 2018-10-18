@@ -32,7 +32,28 @@ namespace Ads.WebUI.Controllers
             return View(GetVMIndex(result));
 
         }
+        [HttpGet("[controller]/{id}/comments")]
+        public async Task<IList<CommentDto>> GetAdvertComments(int? id)
+        {
+            IList<CommentDto> result;
+            if (id.HasValue)
+                try
+                {
+                    result = await APIRequests.GetAdvertComments(id.Value);
+                    return result;
+                }
+                catch(Exception ex) { throw new ArgumentOutOfRangeException("Не удалось получить комментарии данного " +
+                    "объявления id = {id}, возможно такого объявления не существует. " + ex.Message); }
+            return null;
 
+        }
+        [HttpPost("[controller]/{AdvertId}/comments/add")]
+        public async Task<CommentDto> AddComment([FromBody]string Body, [FromBody] int AdvertId)
+        {
+            CommentDto cDto = new CommentDto(Body, AdvertId);
+            await APIRequests.SaveOrUpdateComment(cDto);
+            return cDto;
+        }
         public async Task<IActionResult> Create()
         {
             if (_AdvertsInfoDto == null)
@@ -87,7 +108,7 @@ namespace Ads.WebUI.Controllers
             f.PriceRange.MaxValue = MaxValue;
             f.PriceRange.MinValue = MinValue;
 
-            AdvertDto[] result =  await APIRequests.Filter(f);
+            AdvertDto[] result = await APIRequests.Filter(f);
             if (_AdvertsInfoDto == null)
                 _AdvertsInfoDto = await APIRequests.AdvInfoInit();
             List<AdsVMIndex> ret = new List<AdsVMIndex>();

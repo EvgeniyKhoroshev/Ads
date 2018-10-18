@@ -155,7 +155,7 @@ namespace Ads.WebUI.Controllers
                     HttpResponseMessage response = await httpClient.GetAsync($"http://localhost:56663/api/comments");
                     if (response.IsSuccessStatusCode)
                     {
-                        return await response.Content.ReadAsAsync<CommentDto[]>(); 
+                        return await response.Content.ReadAsAsync<CommentDto[]>();
                     }
                 }
             }

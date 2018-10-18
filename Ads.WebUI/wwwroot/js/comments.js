@@ -2,7 +2,7 @@
 var CommentsTagName = 'advert_comments';
 var comments;
 fetch_info = function (id) {
-    var f = 'https://localhost:44396/api/adverts/' + id + '/advertcomments/';
+    var f = 'https://localhost:44382/adverts/' + id + '/comments/';
     categories = fetch(f)
         .then(response => response.json())
         .then(json => comments = json)
@@ -24,11 +24,13 @@ function display_comments() {
         document.getElementById(CommentsTagName).innerHTML = '<p>Комментариев пока нет. </p> ';
     }
 }
-function add_comment(body, aId) {
-    var c = { 'Body': body, 'Id': null, 'AdvertId': aId, 'UserId': 0, 'Created': Date.Now(), 'Rating': 0 };
-    fetch('https://localhost:44396/api/comments/saveorupdate/', {
-        method: 'POST',
-        body: JSON.stringify(c),
-        Headers: {'Transfer-Encoding': 'chunked',  'Content-Type': 'application/json', 'charset': 'utf-8'}
+function add_comment() {
+    var body = document.getElementById('Body').value;
+    var advertId = document.getElementById('AdvertId').value;
+    var o = { 'Body': body, 'AdvertId': advertId };
+    fetch('https://localhost:44382/adverts/' + advertId + '/comments/add', {
+        method: 'post',
+        body: JSON.stringify(o),
+        Headers: {'Content-Type':'application/jsonp'}
     })
 }
