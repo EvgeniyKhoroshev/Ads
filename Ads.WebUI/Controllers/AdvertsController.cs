@@ -42,14 +42,15 @@ namespace Ads.WebUI.Controllers
                     result = await APIRequests.GetAdvertComments(id.Value);
                     return result;
                 }
-                catch(Exception ex) { throw new ArgumentOutOfRangeException("Не удалось получить комментарии данного " +
-                    "объявления id = {id}, возможно такого объявления не существует. " + ex.Message); }
+                catch (Exception ex)
+                {
+                    throw new ArgumentOutOfRangeException("Не удалось получить комментарии данного " +
+                        "объявления id = {id}, возможно такого объявления не существует. " + ex.Message);
+                }
             return null;
-
         }
-        [Consumes("application/json")]
-        [HttpPost("[controller]/{AdvertId}/comments/add")]
-        public async Task<CommentDto> AddComment([FromBody]string Body, int AdvertId)
+        [HttpGet("[controller]/{AdvertId}/comments/add")]
+        public async Task<CommentDto> AddComment(string Body, int AdvertId)
         {
             CommentDto cDto = new CommentDto(Body, AdvertId);
             await APIRequests.SaveOrUpdateComment(cDto);

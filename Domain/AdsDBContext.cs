@@ -1,11 +1,19 @@
 ﻿using Domain.Entities;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 
 namespace Domain
 {
-    public class AdsDBContext : DbContext
+    public class AdsDBContext : IdentityDbContext<User,
+        IdentityRole<int>, 
+        int, IdentityUserClaim<int>,
+        IdentityUserRole<int>, 
+        IdentityUserLogin<int>,
+        IdentityRoleClaim<int>, 
+        IdentityUserToken<int>>
     {
         public DbSet<Advert> Adverts { get; set; }
         public DbSet<Category> Categories { get; set; }
@@ -75,11 +83,6 @@ namespace Domain
         {
             Database.EnsureCreated();
         }
-
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            var ConnectionString = DBConfig.DB_DEFAULT_CONNECTION_STRING;
-            optionsBuilder.UseSqlServer(ConnectionString);
-        }
+        public AdsDBContext(DbContextOptions<AdsDBContext> options) : base(options) { }
     }
 }

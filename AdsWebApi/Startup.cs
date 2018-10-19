@@ -16,10 +16,10 @@ namespace AdsWebApi
 {
     public class Startup
     {
-        private Container container = new Container();
+        //private Container container = new Container();
         public Startup(IConfiguration configuration)
         {
-            AutoMapperConfig.Initialize();
+            //AutoMapperConfig.Initialize();
             Configuration = configuration;
         }
 
@@ -36,14 +36,14 @@ namespace AdsWebApi
                 .AllowAnyHeader();
             }));
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
-            IntegrateSimpleInjector(services);
+            services.AddDependencyInjection(Configuration.GetConnectionString("DefaultConnection"));
 
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-            InitializeContainer(app);
+            //InitializeContainer(app);
 
             if (env.IsDevelopment())
             {
@@ -53,29 +53,28 @@ namespace AdsWebApi
             {
                 app.UseHsts();
             }
-            container.Verify();
+            //container.Verify();
 
             app.UseHttpsRedirection();
             app.UseMvc();
         }
-        private void IntegrateSimpleInjector(IServiceCollection services)
-        {
-            container.Options.DefaultScopedLifestyle = new AsyncScopedLifestyle();
+        //private void IntegrateSimpleInjector(IServiceCollection services)
+        //{
+        //    container.Options.DefaultScopedLifestyle = new AsyncScopedLifestyle();
 
-            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+        //    services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
-            services.AddSingleton<IControllerActivator>(
-                new SimpleInjectorControllerActivator(container));
+        //    services.AddSingleton<IControllerActivator>(
+        //        new SimpleInjectorControllerActivator(container));
 
 
-            services.EnableSimpleInjectorCrossWiring(container);
-            services.UseSimpleInjectorAspNetRequestScoping(container);
-        }
-        private void InitializeContainer(IApplicationBuilder app)
-        {
-            SimpleRegistrar.RegisterAll(container);
-            // Allow Simple Injector to resolve services from ASP.NET Core.
-            container.AutoCrossWireAspNetComponents(app);
-        }
+        //    services.EnableSimpleInjectorCrossWiring(container);
+        //    services.UseSimpleInjectorAspNetRequestScoping(container);
+        //}
+        //private void InitializeContainer(IApplicationBuilder app)
+        //{
+        //    // Allow Simple Injector to resolve services from ASP.NET Core.
+        //    container.AutoCrossWireAspNetComponents(app);
+        //}
     }
 }
