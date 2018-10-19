@@ -13,7 +13,7 @@ namespace AppServices.Services.Base
             throw new NotImplementedException();
         }
 
-        public virtual Task<int> SaveOrUpdate(T Entity)
+        public virtual Task<T> SaveOrUpdate(T Entity)
         {
             throw new NotImplementedException();
         }

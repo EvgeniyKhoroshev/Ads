@@ -79,10 +79,11 @@ namespace AppServices.Services
         /// </summary>
         /// <returns>Возвращает список объявлений / 
         /// Getting the adverts list</returns>
-        public override async Task<int> SaveOrUpdate(AdvertDto entity)
+        public override async Task<AdvertDto> SaveOrUpdate(AdvertDto entity)
         {
-            int sm = await _advertRepository.SaveOrUpdate(Mapper.Map<Advert>(entity));
-            return sm;
+
+            var sm = await _advertRepository.SaveOrUpdate(Mapper.Map<Advert>(entity));
+            return Mapper.Map<AdvertDto>(sm);
         }
         /// <summary>
         /// Возвращает список существующих объявлений не включая дочерние // 

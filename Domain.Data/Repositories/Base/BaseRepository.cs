@@ -39,20 +39,19 @@ namespace Domain.Data.Repositories.Base
         /// <param name="entity"> Сущность для перезаписи или создания //
         /// The entity for a rewrite or create</param>
         /// <returns>Возвращает Id созданной или обновленной сущности</returns>
-        public virtual async Task<int> SaveOrUpdate(T entity)
+        public virtual async Task<T> SaveOrUpdate(T entity)
         {
             if (await _dbContext.Set<T>().ContainsAsync(entity))
             {
                 _dbContext.Set<T>().Update(entity);
                 await _dbContext.SaveChangesAsync();
-                return entity.Id;
             }
             else
             {
                 _dbContext.Set<T>().Add(entity);
                 _dbContext.SaveChanges();
             }
-            return 0;
+            return entity;
         }
 
         /// <summary>

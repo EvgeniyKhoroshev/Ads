@@ -45,10 +45,11 @@ namespace AppServices.Services
                 return result;
             }
         }
-        public override async Task<int> SaveOrUpdate(CommentDto entity)
+        public override async Task<CommentDto> SaveOrUpdate(CommentDto entity)
         {
-            return await _commentRepository.SaveOrUpdate(Mapper.Map<Comment>(entity));
-             
+            var sm = await _commentRepository.SaveOrUpdate(Mapper.Map<Comment>(entity));
+            return Mapper.Map<CommentDto>(sm);
+
         }
         /// <summary>
         /// Возвращает список существующих объявлений не включая дочерние // 

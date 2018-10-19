@@ -28,7 +28,7 @@ namespace AdsWebApi.Controllers
         }
         [EnableCors("allow")]
         [HttpPost("/api/[controller]/saveorupdate")]
-        public async Task<int> PostSaveOrUpdate([FromBody] CommentDto value)
+        public async Task<CommentDto> PostSaveOrUpdate([FromBody] CommentDto value)
         {
             return await _commentsService.SaveOrUpdate(value);
         }

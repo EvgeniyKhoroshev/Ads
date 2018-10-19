@@ -47,8 +47,9 @@ namespace Ads.WebUI.Controllers
             return null;
 
         }
+        [Consumes("application/json")]
         [HttpPost("[controller]/{AdvertId}/comments/add")]
-        public async Task<CommentDto> AddComment([FromBody]string Body, [FromBody] int AdvertId)
+        public async Task<CommentDto> AddComment([FromBody]string Body, int AdvertId)
         {
             CommentDto cDto = new CommentDto(Body, AdvertId);
             await APIRequests.SaveOrUpdateComment(cDto);

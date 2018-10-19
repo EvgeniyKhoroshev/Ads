@@ -31,6 +31,8 @@ function add_comment() {
     fetch('https://localhost:44382/adverts/' + advertId + '/comments/add', {
         method: 'post',
         body: JSON.stringify(o),
-        Headers: {'Content-Type':'application/jsonp'}
+        Headers: {
+            'Content-Type': 'application/jsonp',
+        'Accepts': 'application/json'}
     })
 }

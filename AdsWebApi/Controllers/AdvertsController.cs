@@ -40,7 +40,7 @@ namespace AdsWebApi.Controllers
         }
         // POST api/values
         [HttpPost("/api/[controller]/saveorupdate")]
-        public async Task<int> PostSaveOrUpdate([FromBody] AdvertDto value)
+        public async Task<AdvertDto> PostSaveOrUpdate([FromBody] AdvertDto value)
         {
             return await _advertService.SaveOrUpdate(value);
         }

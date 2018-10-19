@@ -5,7 +5,7 @@ namespace AppServices.ServiceInterfaces.Base
 {
     public interface IServiceInterfaceBase<T, Tid>
     {
-        Task<int> SaveOrUpdate(T Entity);
+        Task<T> SaveOrUpdate(T Entity);
         Task<T> Get(Tid id);
         IList<T> GetAll();
         void Delete(Tid id);
