@@ -16,16 +16,10 @@ namespace AppServices.Services
     public class AdvertService : Base.BaseService<AdvertDto, int>, IAdvertService
     {
         readonly IAdvertRepository _advertRepository;
-        readonly IMapper _mapper;
         public AdvertService(IAdvertRepository advertRepository)
         {
             _advertRepository = advertRepository;
             
-        }
-        public AdvertService(IMapper mapper,IAdvertRepository advertRepository)
-        {
-            _advertRepository = advertRepository;
-            _mapper = mapper;
         }
         public override void Delete(int id)
         {
