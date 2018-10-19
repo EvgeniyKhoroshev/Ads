@@ -1,8 +1,8 @@
 ﻿using Ads.Contracts.Dto;
 using Ads.Contracts.Dto.Filters;
 using AppServices.ServiceInterfaces;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
-using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -21,19 +21,26 @@ namespace AdsWebApi.Controllers
         [HttpGet]
         public IList<AdvertDto> Get()
         {
-            return _advertService.GetAllWithoutIncludes();
+            return _advertService.GetAll_ToIndex();
         }
 
         // GET api/values/5
         [HttpGet("{id}")]
         public async Task<ActionResult<AdvertDto>> Get(int id)
         {
-            return await _advertService.GetWithIncludes(id);
+            return await _advertService.Get(id);
         }
-
+        // GET api/values/5
+        //[EnableCors("allow")]
+        [HttpGet("/api/[controller]/{id}/advertcomments")]
+        public IList<CommentDto> GetAdvertComments(int id)
+        {
+            var result = _advertService.GetAdvertComments(id);
+            return result;
+        }
         // POST api/values
-        [HttpPost("/api/[controller]/create")]
-        public async Task<AdvertDto> PostCreate([FromBody] AdvertDto value)
+        [HttpPost("/api/[controller]/saveorupdate")]
+        public async Task<AdvertDto> PostSaveOrUpdate([FromBody] AdvertDto value)
         {
             return await _advertService.SaveOrUpdate(value);
         }

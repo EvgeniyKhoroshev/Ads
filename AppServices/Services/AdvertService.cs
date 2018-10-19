@@ -19,24 +19,70 @@ namespace AppServices.Services
         public AdvertService(IAdvertRepository advertRepository)
         {
             _advertRepository = advertRepository;
-            
+
         }
+        /// <summary>
+        /// Удаляет объявление по указанному идентификатору // 
+        /// Delete advert from database
+        /// </summary>
+        /// <param name="id"> Идентификатор объявления </param>
         public override void Delete(int id)
         {
-            _advertRepository.Delete(id);
+            try
+            {
+                _advertRepository.Delete(id);
+            }
+            catch (Exception ex)
+            {
+                throw new ArgumentException("При удалении объявления №{id} возникла ошибка. "
+                    + ex.Message);
+            }
         }
-        public override IList<AdvertDto> GetAllWithoutIncludes()
+        /// <summary>
+        /// Возвращает список существующих объявлений // 
+        /// Returns all existing adverts
+        /// </summary>
+        /// <returns>Возвращает список объявлений / 
+        /// Getting the adverts list</returns>
+        public override IList<AdvertDto> GetAll()
         {
             IQueryable<Advert> adv = _advertRepository.GetAll();
             if (adv == null)
                 return null;
-            AdvertDto [] result;
+            AdvertDto[] result;
             result = Mapper.Map<AdvertDto[]>(adv.ToArray());
             return result;
         }
+        /// <summary>
+        /// Возвращает список существующих объявлений с данными для вывода на главную страницу // 
+        /// Returns all existing adverts with a data for index page output
+        /// </summary>
+        /// <returns>Возвращает список объявлений с данными для вывода на главную страницу / 
+        /// Getting the adverts list with a data for index page output</returns>
+        public IList<AdvertDto> GetAll_ToIndex()
+        {
+            IQueryable<Advert> adv = _advertRepository.GetAll()
+            .Include(t => t.Category)
+            .Include(q => q.City)
+            .Include(q => q.Status)
+            //.Include(q => q.Comments)
+            .Include(q => q.Type);
+            if (adv == null)
+                return null;
+            AdvertDto[] result;
+            result = Mapper.Map<AdvertDto[]>(adv.ToArray());
+            return result;
+        }
+        /// <summary>
+        /// Возвращает список существующих объявлений не включая дочерние // 
+        /// Returns all adverts excluding subsidiaries
+        /// </summary>
+        /// <returns>Возвращает список объявлений / 
+        /// Getting the adverts list</returns>
         public override async Task<AdvertDto> SaveOrUpdate(AdvertDto entity)
         {
-            Advert sm = await _advertRepository.SaveOrUpdate(Mapper.Map<Advert>(entity));
+
+            var sm = await _advertRepository.SaveOrUpdate(Mapper.Map<Advert>(entity));
             return Mapper.Map<AdvertDto>(sm);
         }
         /// <summary>
@@ -45,28 +91,18 @@ namespace AppServices.Services
         /// </summary>
         /// <returns>Возвращает список объявлений / 
         /// Getting the adverts list</returns>
-        public override async Task<AdvertDto> GetWithoutIncludes(int id)
+        public override async Task<AdvertDto> Get(int id)
         {
-            Advert adv = await _advertRepository.GetWithoutIncludes(id);
+            Advert adv = await _advertRepository.GetAll().FirstOrDefaultAsync(t => t.Id == id);
             if (adv == null)
-                return null;
-            return  Mapper.Map<AdvertDto>(adv);
+                throw new ArgumentOutOfRangeException("Id", adv, "Не существует объявления с полученным Id.");
+
+            return Mapper.Map<AdvertDto>(adv);
         }
         /// <summary>
-        /// Возвращает список существующих объявлений включая дочерние // 
-        /// Returns all adverts including subsidiaries
+        /// Возвращает массив объявлений, отфильтрованных по условиям, указанным в <paramref name="filter"/>.
         /// </summary>
-        /// <returns>Возвращает список существующих объявлений включая дочерние / 
-        /// Returns all adverts including subsidiaries</returns>
-        public override async Task<AdvertDto> GetWithIncludes(int id)
-        {
-            Advert adv = await _advertRepository.GetWithIncludes(id);
-            if (adv == null)
-                return null;
-            var result = Mapper.Map<AdvertDto>(adv);
-            return result;
-        }
-
+        /// <param name="filter">Фильтр объявлений.</param>
         public AdvertDto[] GetFiltred(FilterDto filter)
         {
             var query = _advertRepository.GetAll();
@@ -78,7 +114,6 @@ namespace AppServices.Services
                 if (filter.PriceRange.MaxValue.HasValue)
                     query = query.Where(x => x.Price <= filter.PriceRange.MaxValue);
             }
-
             if (filter.RegionId.HasValue)
                 query = query.Where(x => x.City.RegionId == filter.RegionId);
 
@@ -86,7 +121,8 @@ namespace AppServices.Services
                 query = query.Where(x => x.CityId == filter.CityId);
 
             if (filter.CategoryId.HasValue)
-                query = query.Where(x => x.CategoryId == filter.CategoryId);
+                if (filter.CategoryId.Value > 0)
+                    query = query.Where(x => x.CategoryId == filter.CategoryId);
 
             if (!string.IsNullOrEmpty(filter.Substring))
                 query = query.Where(x => EF.Functions.Like(x.Name, $"%{filter.Substring}%") ||
@@ -96,13 +132,43 @@ namespace AppServices.Services
                 .Take(filter.Pagination.PageSize);
             try
             {
-                var entities = query.ToArray();
+                var entities = query
+                    .Include(t => t.Category)
+                    .Include(q => q.City)
+                    .Include(q => q.Status)
+                    .Include(q => q.Comments)
+                    .Include(q => q.Type).ToArray();
                 return Mapper.Map<AdvertDto[]>(entities);
             }
-            catch (SqlException) {
-                throw new NullReferenceException($"Не существует записей с заданными параметрами фильтра.");
+            catch (SqlException ex)
+            {
+                throw new NullReferenceException($"Не существует записей с заданными параметрами фильтра. " +
+                    ex.Message);
             }
-            
+        }
+        /// <summary>
+        /// Функция для получения списка комментариев объявления с заданным Id //
+        /// The function to get a comments from advert by the given advert Id
+        /// </summary>
+        /// <param name="advertId">Идентификатор объявления //
+        /// Advert Id</param>
+        /// <returns>Список комментариев, принадлежащих объявлению с заданным Id//
+        /// List of a comments from advert with a given Id</returns>
+        public IList<CommentDto> GetAdvertComments(int advertId)
+        {
+            try
+            {
+                var buf = _advertRepository.GetAll()
+                    .Include(s => s.Comments)
+                    .Where(d => d.Id == advertId);
+                Advert b = buf.FirstOrDefault();
+                return Mapper.Map<List<CommentDto>>(b.Comments.ToList());
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("При попытке получить комментарии объявления №" +
+                    advertId + " произошла ошибка. " + ex.Message);
+            }
         }
     }
 }
