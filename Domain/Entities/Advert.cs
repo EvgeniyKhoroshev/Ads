@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Buffers.Text;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace Domain.Entities

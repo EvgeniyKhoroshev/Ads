@@ -18,23 +18,6 @@ namespace Ads.Contracts.Dto
         /// </summary>
         public string Address { get; set; }
         /// <summary>
-        /// Id категории, в которой находится объявление / 
-        /// Id of the category in which that advert contains
-        /// </summary>
-        public int CategoryId { get; set; }
-        /// <summary>
-        /// Id cтатуca объявления / Id of a ads status
-        /// </summary>
-        public int StatusId { get; set; }
-        /// <summary>
-        /// Id типа объявления / Id of ads type
-        /// </summary>
-        public int TypeId { get; set; }
-        /// <summary>
-        /// Id города / City id
-        /// </summary>
-        public int CityId { get; set; }
-        /// <summary>
         /// Id владельца объявления / Id of a ads owner
         /// Связь будет реализована после добавления MS Identity / 
         /// The relation will be implemented after the MS Identity added
@@ -49,5 +32,22 @@ namespace Ads.Contracts.Dto
         /// Дата создания / Creation date 
         /// </summary>
         public DateTime Created { get; set; }
+        /// <summary>
+        /// Id города / City id
+        /// </summary>
+        public City City { get; set; }
+        /// <summary>
+        /// Tип объявления / Ads type
+        /// </summary>
+        public AdvertType Type { get; set; }
+        /// <summary>
+        /// Cтатуc объявления / Ads status
+        /// </summary>
+        public Status Status { get; set; }
+        /// <summary>
+        /// Категория, в которой находится объявление / 
+        /// The category in which that advert contains
+        /// </summary>
+        public Category Category { get; set; }
     }
 }

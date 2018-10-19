@@ -15,7 +15,7 @@ namespace Ads.WebUI.Controllers
 
         AdvertsInfoDto _AdvertsInfoDto;
         public async Task<IActionResult> Index(
-            int? CategoryId, int? RegionId, decimal? Min, decimal? Max, int? CityId, int? Page, string Substring)
+            int? CategoryId, int? RegionId, decimal? Min, decimal? Max, int? CityId, string Substring, int Page = 1)
         {
             FilterDto filter = new FilterDto();
             filter.PriceRange.MaxValue = Max;
@@ -23,9 +23,8 @@ namespace Ads.WebUI.Controllers
             filter.RegionId = RegionId;
             filter.CityId = CityId;
             filter.CategoryId = CategoryId;
-            if (Page != null)
-            if (Page.Value > 0)
-                filter.Pagination.PageNumber = Page.Value;
+            if (Page > 0)
+                filter.Pagination.PageNumber = Page;
             filter.Substring = Substring;
             if (_AdvertsInfoDto == null)
                 _AdvertsInfoDto = await APIRequests.AdvInfoInit();
@@ -33,17 +32,28 @@ namespace Ads.WebUI.Controllers
             return View(GetVMIndex(result));
 
         }
-        private List<AdsVMIndex> GetVMIndex(AdvertDto[] source)
+        [HttpGet("[controller]/{id}/comments")]
+        public async Task<IList<CommentDto>> GetAdvertComments(int? id)
         {
-            List<AdsVMIndex> ret = new List<AdsVMIndex>();
-            AdsVMIndex adsVM;
-            foreach (var r in source)
-            {
-                adsVM = Mapper.Map<AdsVMIndex>(r);
-                adsVM.City = _AdvertsInfoDto.FindCityById(r.CityId);
-                ret.Add(adsVM);
-            }
-            return ret;
+            IList<CommentDto> result;
+            if (id.HasValue)
+                try
+                {
+                    result = await APIRequests.GetAdvertComments(id.Value);
+                    return result;
+                }
+                catch(Exception ex) { throw new ArgumentOutOfRangeException("Не удалось получить комментарии данного " +
+                    "объявления id = {id}, возможно такого объявления не существует. " + ex.Message); }
+            return null;
+
+        }
+        [Consumes("application/json")]
+        [HttpPost("[controller]/{AdvertId}/comments/add")]
+        public async Task<CommentDto> AddComment([FromBody]string Body, int AdvertId)
+        {
+            CommentDto cDto = new CommentDto(Body, AdvertId);
+            await APIRequests.SaveOrUpdateComment(cDto);
+            return cDto;
         }
         public async Task<IActionResult> Create()
         {
@@ -74,10 +84,6 @@ namespace Ads.WebUI.Controllers
                     _AdvertsInfoDto = await APIRequests.AdvInfoInit();
                 AdvertDto buf = await APIRequests.GetAdvert(id.Value);
                 AdsVMDetails result = Mapper.Map<AdsVMDetails>(buf);
-                result.Category = _AdvertsInfoDto.FindCategoryById(buf.CategoryId);
-                result.City = _AdvertsInfoDto.FindCityById(buf.CityId);
-                result.Type = _AdvertsInfoDto.FindTypeById(buf.TypeId);
-                result.Status = _AdvertsInfoDto.FindStatusById(buf.StatusId);
                 return View(result);
             }
             return View();
@@ -92,7 +98,6 @@ namespace Ads.WebUI.Controllers
             foreach (var r in await APIRequests.GetAdverts())
             {
                 adsVM = Mapper.Map<AdsVMIndex>(r);
-                adsVM.City = _AdvertsInfoDto.FindCityById(r.CityId);
                 ret.Add(adsVM);
             }
             return View(ret);
@@ -104,7 +109,7 @@ namespace Ads.WebUI.Controllers
             f.PriceRange.MaxValue = MaxValue;
             f.PriceRange.MinValue = MinValue;
 
-            AdvertDto[] result =  await APIRequests.Filter(f);
+            AdvertDto[] result = await APIRequests.Filter(f);
             if (_AdvertsInfoDto == null)
                 _AdvertsInfoDto = await APIRequests.AdvInfoInit();
             List<AdsVMIndex> ret = new List<AdsVMIndex>();
@@ -112,20 +117,45 @@ namespace Ads.WebUI.Controllers
             foreach (var r in result)
             {
                 adsVM = Mapper.Map<AdsVMIndex>(r);
-                adsVM.City = _AdvertsInfoDto.FindCityById(r.CityId);
                 ret.Add(adsVM);
             }
             return View(ret);
         }
-        public IActionResult Privacy()
+        public async Task<IActionResult> Edit(int? id)
         {
-            return View();
+            if (_AdvertsInfoDto == null)
+                _AdvertsInfoDto = await APIRequests.AdvInfoInit();
+            AdvertDto buf = await APIRequests.GetAdvert(id.Value);
+            return View(buf);
+        }
+        [HttpPost]
+        public async Task<IActionResult> Edit(
+            [Bind("Id,Name,Description,Address,Price,CategoryId,CityId,TypeId,StatusId,Context")]AdvertDto advert)
+        {
+            await APIRequests.CreateAdvert(advert);
+            return RedirectToAction("Index");
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+
+
+
+
+
+        private List<AdsVMIndex> GetVMIndex(AdvertDto[] source)
+        {
+            List<AdsVMIndex> ret = new List<AdsVMIndex>();
+            AdsVMIndex adsVM;
+            foreach (var r in source)
+            {
+                adsVM = Mapper.Map<AdsVMIndex>(r);
+                ret.Add(adsVM);
+            }
+            return ret;
         }
     }
 }

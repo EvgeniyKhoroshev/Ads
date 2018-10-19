@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace Domain.Entities
+namespace Ads.Contracts.Dto
 {
     public class CommentDto 
     {
@@ -34,12 +34,12 @@ namespace Domain.Entities
         /// <summary>
         /// Конструктор c телом и Id владельца поста. / Class constructor with a body and id of a post
         /// </summary>
-        /// <param name="ownerID">Id владельца</param> 
+        /// <param name="AdvertID">Id объявления</param> 
         /// <param name="postBody">Тело поста</param> 
-        public CommentDto(string postBody, int ownerID)
+        public CommentDto(string postBody, int AdvertID)
         {
             Body = postBody;
-            UserId = ownerID;
+            AdvertId = AdvertID;
             Created = DateTime.Now;
             Rating = 0;
         }

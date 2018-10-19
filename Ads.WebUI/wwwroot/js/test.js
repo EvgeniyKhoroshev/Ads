@@ -21,7 +21,7 @@
 //----------------------------------------------------------------------------------------------//
 
 var CategoryTagName = 'category_output';
-var categories;
+var info, categories;
 fetch_info = function () {
     categories = fetch('https://localhost:44396/api/info/')
         .then(response => response.json())
