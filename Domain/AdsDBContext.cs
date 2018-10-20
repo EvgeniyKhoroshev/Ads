@@ -2,19 +2,20 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
 
 namespace Domain
 {
     public class AdsDBContext : IdentityDbContext<User,
-        IdentityRole<int>, 
+        IdentityRole<int>,
         int, IdentityUserClaim<int>,
-        IdentityUserRole<int>, 
+        IdentityUserRole<int>,
         IdentityUserLogin<int>,
-        IdentityRoleClaim<int>, 
+        IdentityRoleClaim<int>,
         IdentityUserToken<int>>
     {
+        public AdsDBContext(DbContextOptions<AdsDBContext> options) : base(options)
+        {
+        }
         public DbSet<Advert> Adverts { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<City> Cities { get; set; }
@@ -25,6 +26,25 @@ namespace Domain
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
+            base.OnModelCreating(builder);
+            builder.Entity<User>(t =>
+            {
+                t.ToTable("Users");
+                t.Ignore(user => user.TwoFactorEnabled);
+                t.Ignore(user => user.ConcurrencyStamp);
+                t.Ignore(user => user.LockoutEnabled);
+                t.Ignore(user => user.LockoutEnd);
+            });
+            builder.Entity<IdentityRole>(entity =>
+            {
+                entity.ToTable(name: "Roles");
+            });
+
+            builder.Entity<IdentityUserRole<int>>(entity =>
+            {
+                entity.ToTable(name: "UserRoles");
+            });
+
             builder.Entity<Comment>()
                 .Property(t => t.Id)
                 .UseSqlServerIdentityColumn();
@@ -75,14 +95,11 @@ namespace Domain
                 .WithMany(c => c.Adverts)
                 .HasForeignKey(c => c.CityId)
                 .OnDelete(DeleteBehavior.Restrict);
-            base.OnModelCreating(builder);
 
         }
-
-        public AdsDBContext()
-        {
-            Database.EnsureCreated();
-        }
-        public AdsDBContext(DbContextOptions<AdsDBContext> options) : base(options) { }
+        //public AdsDBContext()
+        //{
+        //    Database.EnsureCreated();
+        //}
     }
 }

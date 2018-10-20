@@ -3,8 +3,6 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Ads.WebUI.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -31,12 +29,6 @@ namespace Ads.WebUI
                 options.CheckConsentNeeded = context => true;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
-
-            services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(
-                    Configuration.GetConnectionString("DefaultConnection")));
-            services.AddDefaultIdentity<IdentityUser>()
-                .AddEntityFrameworkStores<ApplicationDbContext>();
             services.Configure<IdentityOptions>(options =>
             {
                 // Password settings.
@@ -95,7 +87,7 @@ namespace Ads.WebUI
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=Adverts}/{action=Index}/{id?}");
+                    template: "{controller=Adverts}/{action=Index}/{page?}");
             });
         }
     }

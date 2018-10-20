@@ -64,7 +64,7 @@ namespace Ads.WebUI.Controllers
         }
         [HttpPost]
         public async Task<IActionResult> Create(
-            [Bind("Name,Description,Address,Price,CategoryId,CityId,TypeId,StatusId,Context")]AdvertDto advert)
+            [Bind("Name,Description,Address,Price,Context,CategoryId,CityId,TypeId,StatusId")]AdvertDto advert)
         {
             advert.Created = DateTime.Now;
             await APIRequests.CreateAdvert(advert);

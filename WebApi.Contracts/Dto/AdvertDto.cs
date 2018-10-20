@@ -49,5 +49,9 @@ namespace Ads.Contracts.Dto
         /// The category in which that advert contains
         /// </summary>
         public Category Category { get; set; }
+        public int CategoryId { get; set; }
+        public int CityId { get; set; }
+        public int TypeId { get; set; }
+        public int StatusId { get; set; }
     }
 }
