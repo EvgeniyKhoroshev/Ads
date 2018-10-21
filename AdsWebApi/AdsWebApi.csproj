@@ -21,6 +21,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Ads.Common\Ads.Common.csproj" />
+    <ProjectReference Include="..\Ads.Tests\Ads.Tests.csproj" />
     <ProjectReference Include="..\AppServices\AppServices.csproj" />
     <ProjectReference Include="..\WebApi.ComponentRegistrar\WebApi.ComponentRegistrar.csproj" />
     <ProjectReference Include="..\WebApi.Contracts\Ads.Contracts.csproj" />
