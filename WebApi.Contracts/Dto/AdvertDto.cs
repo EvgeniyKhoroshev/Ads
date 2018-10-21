@@ -1,5 +1,6 @@
 ﻿using Ads.Contracts.Dto.Internal.Base;
 using System;
+using System.Collections.Generic;
 
 namespace Ads.Contracts.Dto
 {
@@ -49,6 +50,11 @@ namespace Ads.Contracts.Dto
         /// The category in which that advert contains
         /// </summary>
         public Category Category { get; set; }
+        /// <summary>
+        /// Коллекция фотографий объявления / 
+        /// Advert photos collection
+        /// </summary>
+        public virtual IEnumerable<ImageDto> Images { get; set; }
         public int CategoryId { get; set; }
         public int CityId { get; set; }
         public int TypeId { get; set; }

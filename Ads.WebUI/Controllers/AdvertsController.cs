@@ -7,6 +7,8 @@ using Ads.Contracts.Dto;
 using System;
 using AutoMapper;
 using Ads.Contracts.Dto.Filters;
+using Ads.WebUI.Controllers.Components;
+using Microsoft.AspNetCore.Http;
 
 namespace Ads.WebUI.Controllers
 {
@@ -29,7 +31,7 @@ namespace Ads.WebUI.Controllers
             if (_AdvertsInfoDto == null)
                 _AdvertsInfoDto = await APIRequests.AdvInfoInit();
             var result = await APIRequests.Filter(filter);
-            return View(GetVMIndex(result));
+            return View(Mapper.Map<AdsVMIndex[]>(result));
 
         }
         [HttpGet("[controller]/{id}/comments")]
@@ -64,10 +66,13 @@ namespace Ads.WebUI.Controllers
         }
         [HttpPost]
         public async Task<IActionResult> Create(
-            [Bind("Name,Description,Address,Price,Context,CategoryId,CityId,TypeId,StatusId")]AdvertDto advert)
+            [Bind("Name,Description,Address,Price,Context,CategoryId,CityId,TypeId,StatusId")]AdvertDto advert, List<IFormFile> Photos)
         {
-            advert.Created = DateTime.Now;
-            await APIRequests.CreateAdvert(advert);
+            List<ImageDto> s = null;
+            if (Photos.Count > 0)
+                s = await ImageProcessing.ImageToBase64(Photos, advert.Id);
+            advert.Images = s;
+            await APIRequests.SaveOrUpdate(advert);
             return Redirect("Index");
         }
         [HttpPost]
@@ -103,25 +108,25 @@ namespace Ads.WebUI.Controllers
             }
             return View(ret);
         }
-        [HttpPost]
-        public async Task<IActionResult> Filter(decimal? MinValue, decimal? MaxValue)
-        {
-            FilterDto f = new FilterDto();
-            f.PriceRange.MaxValue = MaxValue;
-            f.PriceRange.MinValue = MinValue;
+        //[HttpPost]
+        //public async Task<IActionResult> Filter(decimal? MinValue, decimal? MaxValue)
+        //{
+        //    FilterDto f = new FilterDto();
+        //    f.PriceRange.MaxValue = MaxValue;
+        //    f.PriceRange.MinValue = MinValue;
 
-            AdvertDto[] result = await APIRequests.Filter(f);
-            if (_AdvertsInfoDto == null)
-                _AdvertsInfoDto = await APIRequests.AdvInfoInit();
-            List<AdsVMIndex> ret = new List<AdsVMIndex>();
-            AdsVMIndex adsVM;
-            foreach (var r in result)
-            {
-                adsVM = Mapper.Map<AdsVMIndex>(r);
-                ret.Add(adsVM);
-            }
-            return View(ret);
-        }
+        //    AdvertDto[] result = await APIRequests.Filter(f);
+        //    if (_AdvertsInfoDto == null)
+        //        _AdvertsInfoDto = await APIRequests.AdvInfoInit();
+        //    List<AdsVMIndex> ret = new List<AdsVMIndex>();
+        //    AdsVMIndex adsVM;
+        //    foreach (var r in result)
+        //    {
+        //        adsVM = Mapper.Map<AdsVMIndex>(r);
+        //        ret.Add(adsVM);
+        //    }
+        //    return View(ret);
+        //}
         public async Task<IActionResult> Edit(int? id)
         {
             if (_AdvertsInfoDto == null)
@@ -131,9 +136,13 @@ namespace Ads.WebUI.Controllers
         }
         [HttpPost]
         public async Task<IActionResult> Edit(
-            [Bind("Id,Name,Description,Address,Price,CategoryId,CityId,TypeId,StatusId,Context")]AdvertDto advert)
+            [Bind("Id,Name,Description,Address,Price,CategoryId,CityId,TypeId,StatusId,Context")]AdvertDto advert, List<IFormFile> Photos)
         {
-            await APIRequests.CreateAdvert(advert);
+            List<ImageDto> s = null;
+            if (Photos.Count > 0)
+                s = await ImageProcessing.ImageToBase64(Photos, advert.Id);
+            advert.Images = s;
+            await APIRequests.SaveOrUpdate(advert);
             return RedirectToAction("Index");
         }
 
@@ -147,16 +156,6 @@ namespace Ads.WebUI.Controllers
 
 
 
-        private List<AdsVMIndex> GetVMIndex(AdvertDto[] source)
-        {
-            List<AdsVMIndex> ret = new List<AdsVMIndex>();
-            AdsVMIndex adsVM;
-            foreach (var r in source)
-            {
-                adsVM = Mapper.Map<AdsVMIndex>(r);
-                ret.Add(adsVM);
-            }
-            return ret;
-        }
+
     }
 }

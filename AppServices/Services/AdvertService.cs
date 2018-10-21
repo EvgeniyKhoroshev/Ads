@@ -93,7 +93,9 @@ namespace AppServices.Services
         /// Getting the adverts list</returns>
         public override async Task<AdvertDto> Get(int id)
         {
-            Advert adv = await _advertRepository.GetAll().FirstOrDefaultAsync(t => t.Id == id);
+            Advert adv = await _advertRepository.GetAll()
+                .Include(t => t.Images)
+                .FirstOrDefaultAsync(t => t.Id == id);
             if (adv == null)
                 throw new ArgumentOutOfRangeException("Id", adv, "Не существует объявления с полученным Id.");
 

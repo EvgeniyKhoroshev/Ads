@@ -25,6 +25,8 @@ namespace Ads.Common
                     .IgnoreAllSourcePropertiesWithAnInaccessibleSetter();
                 cfg.CreateMap<CommentDto, Comment>();
                 cfg.CreateMap<Comment, CommentDto>();
+                cfg.CreateMap<ImageDto, Image>()
+                    .ReverseMap();
             });
         }
     }

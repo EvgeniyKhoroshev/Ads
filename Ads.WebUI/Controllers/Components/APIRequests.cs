@@ -82,7 +82,7 @@ namespace Ads.WebUI.Controllers
             catch (Exception) { }
             return null;
         }
-        public static async Task<AdvertDto> CreateAdvert(AdvertDto advert)
+        public static async Task<AdvertDto> SaveOrUpdate(AdvertDto advert)
         {
             try
             {

@@ -1,5 +1,4 @@
-﻿using System.Buffers.Text;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace Domain.Entities
@@ -64,6 +63,11 @@ namespace Domain.Entities
         /// Advert comments collection
         /// </summary>
         public virtual IEnumerable<Comment> Comments { get; set; }
+        /// <summary>
+        /// Коллекция фотографий объявления / 
+        /// Advert photos collection
+        /// </summary>
+        public virtual IEnumerable<Image> Images { get; set; }
         public Advert()
         {
         }

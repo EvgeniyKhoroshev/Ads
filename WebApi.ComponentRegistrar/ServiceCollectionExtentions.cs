@@ -11,7 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace WebApi.ComponentRegistrar
 {
-    public static class ServiceCollectionExtention
+    public static class ServiceCollectionExtentions
     {
         public static IServiceCollection AddDependencyInjection(this IServiceCollection services, string connectionString)
         {

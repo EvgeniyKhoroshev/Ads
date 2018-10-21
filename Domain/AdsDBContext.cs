@@ -2,6 +2,8 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using System;
 
 namespace Domain
 {
@@ -13,6 +15,7 @@ namespace Domain
         IdentityRoleClaim<int>,
         IdentityUserToken<int>>
     {
+
         public AdsDBContext(DbContextOptions<AdsDBContext> options) : base(options)
         {
         }
@@ -23,6 +26,7 @@ namespace Domain
         public DbSet<Status> Statuses { get; set; }
         public DbSet<AdvertType> AdvertTypes { get; set; }
         public DbSet<Comment> Comments { get; set; }
+        public DbSet<Image> Images { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -44,12 +48,22 @@ namespace Domain
             {
                 entity.ToTable(name: "UserRoles");
             });
-
+            builder.Entity<Image>(t =>
+            {
+                t.Property(x => x.Id)
+                .UseSqlServerIdentityColumn();
+                t.Property(x => x.DefaultId)
+                .HasDefaultValue(1);
+            });
             builder.Entity<Comment>()
                 .Property(t => t.Id)
                 .UseSqlServerIdentityColumn();
             builder.Entity<Advert>()
                 .HasMany(t => t.Comments)
+                .WithOne(t => t.Advert)
+                .HasForeignKey(t => t.AdvertId);
+            builder.Entity<Advert>()
+                .HasMany(t => t.Images)
                 .WithOne(t => t.Advert)
                 .HasForeignKey(t => t.AdvertId);
             builder.Entity<City>()
@@ -100,6 +114,12 @@ namespace Domain
         //public AdsDBContext()
         //{
         //    Database.EnsureCreated();
+        //}       
+        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        //{
+
+        //        optionsBuilder.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=Ads;Trusted_Connection=True;MultipleActiveResultSets=true");
+
         //}
     }
 }

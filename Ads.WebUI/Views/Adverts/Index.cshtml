@@ -1,4 +1,4 @@
-﻿@model List<AdsVMIndex>
+﻿@model AdsVMIndex[]
 @{
     ViewData["Title"] = "Home Page";
 }
@@ -26,6 +26,7 @@
             <li id="advert_list" class="list-group-item nav-item">
                 <form asp-action="Delete" asp-controller="Adverts" onsubmit='return confirm("Вы точно хотите удалить объявление?");'>
                     <a class="nav-item text-dark" asp-action="Details" asp-route-id="@item.Id">  </a>
+                    <span><img class="img-rounded" id="index_img" src="~/images/default.png" alt="Default image" /></span>
                     <p>@item.Name</p>
                     <p>@item.City.Name</p>
                     <p>@item.Price<hr />@item.Created</p>

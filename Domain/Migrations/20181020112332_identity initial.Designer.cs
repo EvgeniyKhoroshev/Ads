@@ -4,14 +4,16 @@ using Domain;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Domain.Migrations
 {
     [DbContext(typeof(AdsDBContext))]
-    partial class AdsDBContextModelSnapshot : ModelSnapshot
+    [Migration("20181020112332_identity initial")]
+    partial class identityinitial
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -128,29 +130,6 @@ namespace Domain.Migrations
                     b.HasIndex("AdvertId");
 
                     b.ToTable("Comments");
-                });
-
-            modelBuilder.Entity("Domain.Entities.Image", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("AdvertId");
-
-                    b.Property<string>("Content");
-
-                    b.Property<int>("DefaultId")
-                        .ValueGeneratedOnAdd()
-                        .HasDefaultValue(1);
-
-                    b.Property<string>("Name");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("AdvertId");
-
-                    b.ToTable("Images");
                 });
 
             modelBuilder.Entity("Domain.Entities.Region", b =>
@@ -383,14 +362,6 @@ namespace Domain.Migrations
                 {
                     b.HasOne("Domain.Entities.Advert", "Advert")
                         .WithMany("Comments")
-                        .HasForeignKey("AdvertId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("Domain.Entities.Image", b =>
-                {
-                    b.HasOne("Domain.Entities.Advert", "Advert")
-                        .WithMany("Images")
                         .HasForeignKey("AdvertId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
