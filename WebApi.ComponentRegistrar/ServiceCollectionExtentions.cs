@@ -18,6 +18,8 @@ namespace WebApi.ComponentRegistrar
             services.AddDbContext<AdsDBContext>(options => options.UseSqlServer(connectionString));
             services.AddIdentity<User, IdentityRole<int>>()
                 .AddEntityFrameworkStores<AdsDBContext>();
+            services.AddTransient<IAuthenticationService, AuthenticationService>();
+            services.AddTransient<IUserService, UserService>();
             services.AddTransient<ICommentsRepository, CommentsRepository>();
             services.AddTransient<ICommentsService, CommentsService>();
             services.AddTransient<IAdvertRepository, AdvertRepository>();
