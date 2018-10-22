@@ -52,7 +52,8 @@ namespace Domain.Entities
         /// Связь будет реализована после добавления MS Identity / 
         /// The relation will be implemented after the MS Identity added
         /// </summary>
-        public int UserId { get; set; }
+        public int? UserId { get; set; }
+        public User User { get; set; }
         /// <summary>
         /// Контекст объявления для расширения функционала / 
         /// Ads context for a functional extends

@@ -62,7 +62,9 @@ namespace Domain.Migrations
 
                     b.Property<int>("TypeId");
 
-                    b.Property<int>("UserId");
+                    b.Property<int?>("UserId")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValue(0);
 
                     b.HasKey("Id");
 
@@ -73,6 +75,8 @@ namespace Domain.Migrations
                     b.HasIndex("StatusId");
 
                     b.HasIndex("TypeId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Adverts");
                 });
@@ -368,6 +372,11 @@ namespace Domain.Migrations
                     b.HasOne("Domain.Entities.AdvertType", "Type")
                         .WithMany("Adverts")
                         .HasForeignKey("TypeId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("Domain.Entities.User", "User")
+                        .WithMany("Adverts")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Restrict);
                 });
 

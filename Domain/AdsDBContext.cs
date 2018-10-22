@@ -59,6 +59,19 @@ namespace Domain
                 .Property(t => t.Id)
                 .UseSqlServerIdentityColumn();
             builder.Entity<Advert>()
+                .HasOne(t => t.User)
+                .WithMany(t => t.Adverts)
+                .HasForeignKey(t => t.UserId)
+                .OnDelete(DeleteBehavior.Restrict);
+            builder.Entity<User>()
+                .HasMany(t => t.Adverts)
+                .WithOne(t => t.User)
+                .HasForeignKey(t => t.UserId)
+                .OnDelete(DeleteBehavior.Restrict);
+            builder.Entity<Advert>()
+                .Property(t => t.UserId)
+                .HasDefaultValue(0);
+            builder.Entity<Advert>()
                 .HasMany(t => t.Comments)
                 .WithOne(t => t.Advert)
                 .HasForeignKey(t => t.AdvertId);
@@ -113,12 +126,12 @@ namespace Domain
         }
         //public AdsDBContext()
         //{
-        //    Database.EnsureCreated();
-        //}       
+        //    //Database.EnsureCreated();
+        //}
         //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         //{
 
-        //        optionsBuilder.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=Ads;Trusted_Connection=True;MultipleActiveResultSets=true");
+        //    optionsBuilder.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=Ads;Trusted_Connection=True;MultipleActiveResultSets=true");
 
         //}
     }

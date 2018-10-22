@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
+using Ads.WebUI.Controllers.Components;
+
 
 namespace Ads.WebUI
 {
@@ -13,7 +15,6 @@ namespace Ads.WebUI
     {
         public Startup(IConfiguration configuration)
         {
-            WebUIAutoMapperConfig.Initialize();
             Configuration = configuration;
             
         }
@@ -29,6 +30,8 @@ namespace Ads.WebUI
                 options.CheckConsentNeeded = context => true;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
+            //services.AddDependencyInjection(Configuration.GetConnectionString("DefaultConnection"));
+            //WebUIAutoMapperConfig.Initialize();
             services.Configure<IdentityOptions>(options =>
             {
                 // Password settings.
@@ -59,7 +62,6 @@ namespace Ads.WebUI
                 options.AccessDeniedPath = "/Identity/Account/AccessDenied";
                 options.SlidingExpiration = true;
             });
-
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
 
@@ -80,7 +82,6 @@ namespace Ads.WebUI
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
-
             app.UseAuthentication();
 
             app.UseMvc(routes =>

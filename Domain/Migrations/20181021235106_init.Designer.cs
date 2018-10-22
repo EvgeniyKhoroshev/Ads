@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Domain.Migrations
 {
     [DbContext(typeof(AdsDBContext))]
-    [Migration("20181020112332_identity initial")]
-    partial class identityinitial
+    [Migration("20181021235106_init")]
+    partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -64,7 +64,9 @@ namespace Domain.Migrations
 
                     b.Property<int>("TypeId");
 
-                    b.Property<int>("UserId");
+                    b.Property<int?>("UserId")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValue(0);
 
                     b.HasKey("Id");
 
@@ -75,6 +77,8 @@ namespace Domain.Migrations
                     b.HasIndex("StatusId");
 
                     b.HasIndex("TypeId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Adverts");
                 });
@@ -130,6 +134,29 @@ namespace Domain.Migrations
                     b.HasIndex("AdvertId");
 
                     b.ToTable("Comments");
+                });
+
+            modelBuilder.Entity("Domain.Entities.Image", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("AdvertId");
+
+                    b.Property<string>("Content");
+
+                    b.Property<int>("DefaultId")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValue(1);
+
+                    b.Property<string>("Name");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AdvertId");
+
+                    b.ToTable("Images");
                 });
 
             modelBuilder.Entity("Domain.Entities.Region", b =>
@@ -348,6 +375,11 @@ namespace Domain.Migrations
                         .WithMany("Adverts")
                         .HasForeignKey("TypeId")
                         .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("Domain.Entities.User", "User")
+                        .WithMany("Adverts")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Restrict);
                 });
 
             modelBuilder.Entity("Domain.Entities.City", b =>
@@ -362,6 +394,14 @@ namespace Domain.Migrations
                 {
                     b.HasOne("Domain.Entities.Advert", "Advert")
                         .WithMany("Comments")
+                        .HasForeignKey("AdvertId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Domain.Entities.Image", b =>
+                {
+                    b.HasOne("Domain.Entities.Advert", "Advert")
+                        .WithMany("Images")
                         .HasForeignKey("AdvertId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });

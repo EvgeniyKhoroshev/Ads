@@ -1,0 +1,24 @@
+﻿@model Ads.Contracts.Dto.UserLoginDto
+@{
+    ViewData["Title"] = "SignIn";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Вход</h2>
+<div>
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+        <div class="form-group">
+            @Html.ValidationSummary(true)
+            @Html.LabelFor(model => model.UserName, "Имя пользователя", new { @class = "control-label" })
+            @Html.EditorFor(model => model.UserName)
+            @Html.LabelFor(model => model.Password, "Введите пароль", new { @class = "control-label" })
+            @Html.EditorFor(model => model.Password, new { @type = "password" })
+            @*@Html.LabelFor(model => model.Password, "Подтверждение пароля", new { @class = "control-label" })
+                @Html.EditorFor(model => model.Password, new { @type = "password" })*@
+            <input type="submit" name="SignIn" />
+        </div>
+    }
+</div>
+
