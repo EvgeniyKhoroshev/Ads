@@ -14,14 +14,8 @@ namespace Ads.Tests
                     .IgnoreAllPropertiesWithAnInaccessibleSetter()
                     .IgnoreAllSourcePropertiesWithAnInaccessibleSetter();
                 cfg.CreateMap<AdvertDto, Advert>()
-                .ForMember(dest => dest.CategoryId,
-                opt => opt.MapFrom(x => x.Category.Id))
-                .ForMember(dest => dest.TypeId,
-                opt => opt.MapFrom(x => x.Type.Id))
-                .ForMember(dest => dest.StatusId,
-                opt => opt.MapFrom(x => x.Status.Id))
-                .ForMember(dest => dest.CityId,
-                opt => opt.MapFrom(x => x.City.Id));
+                    .IgnoreAllPropertiesWithAnInaccessibleSetter()
+                    .IgnoreAllSourcePropertiesWithAnInaccessibleSetter();
                 cfg.CreateMap<AdvertsInfo, AdvertsInfoDto>();
                 cfg.CreateMap<AdvertsInfoDto, AdvertsInfo>();
                 cfg.CreateMap<CommentDto, Comment>();

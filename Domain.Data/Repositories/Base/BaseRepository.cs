@@ -49,7 +49,7 @@ namespace Domain.Data.Repositories.Base
             else
             {
                 _dbContext.Set<T>().Add(entity);
-                _dbContext.SaveChanges();
+                await _dbContext.SaveChangesAsync();
             }
             return entity;
         }
@@ -66,7 +66,7 @@ namespace Domain.Data.Repositories.Base
                 _dbContext.Set<T>().Remove(Get(Id).Result);
                 _dbContext.SaveChanges();
             }
-            catch (Exception ex) { throw new ArgumentOutOfRangeException("При удалении объявления № {Id} произошла ошибка. " 
+            catch (Exception ex) { throw new ArgumentOutOfRangeException($"При удалении объявления № {Id} произошла ошибка. " 
                 +ex.Message); }
         }
         /// <summary>

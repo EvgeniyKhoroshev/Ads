@@ -138,7 +138,8 @@ namespace AppServices.Services
                     .Include(q => q.City)
                     .Include(q => q.Status)
                     .Include(q => q.Comments)
-                    .Include(q => q.Type).ToArray();
+                    .Include(q => q.Type)
+                    .Include(q => q.City.Region).ToArray();
                 return Mapper.Map<AdvertDto[]>(entities);
             }
             catch (SqlException ex)
