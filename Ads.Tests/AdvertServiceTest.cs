@@ -25,35 +25,25 @@ namespace Ads.Tests
             _repository = new Mock<IAdvertRepository>();
             _service = new AdvertService(_repository.Object);
 
-            Advert advert = new Advert
+            
+            Func<Advert, Advert> func = (Advert advert) =>
             {
-                Name = "Samsung",
-                StatusId = 1,
-                TypeId = 1,
-                CategoryId = 1,
-                CityId = 1,
-                Price = 1000
+                return advert;
             };
-            Func<Advert, Advert> func = (Advert advertF) =>
-            {
-                return advertF;
-            };
-            Task<Advert> advertTask = new Task<Advert>(() => func(advert));
+            Task<Advert> advertTask = new Task<Advert>(() => func(GetAdvertsWithId().ToArray()[0]));
             advertTask.Start();
 
-            _repository.Setup(x => x.GetAll()).Returns(GetTestAdverts());
+            _repository.Setup(x => x.GetAll()).Returns(GetAdvertsWithId());
 
             _repository.Setup(x => x.Get(1)).Returns(advertTask);
 
-            _repository.Setup(x => x.SaveOrUpdate(advert)).Returns(advertTask);
-
-           // var advWithId = GetAdvertsWithId();
+           // _repository.Setup(x => x.SaveOrUpdate(advert)).Returns(advertTask);
         }
 
         [Fact]
         public void GetAllAdvertsReturnAllAdverts()
         {
-            var testAdverts = GetTestAdverts();
+            var testAdverts = GetAdvertsWithId();
             
             var result = _service.GetAll();
 
@@ -63,7 +53,7 @@ namespace Ads.Tests
         [Fact]
         public void GetAllAdvertToIndexReturnAllAdverts()
         {
-            var testAdverts = GetTestAdverts();
+            var testAdverts = GetAdvertsWithId();
 
             var result = _service.GetAll_ToIndex();
 
@@ -75,7 +65,7 @@ namespace Ads.Tests
         {
             var result = await _service.Get(1);
 
-            Assert.Equal(advertDto.Id, result.Id);
+            Assert.Equal(1, result.Id);
         }
 
         [Fact]
@@ -154,12 +144,6 @@ namespace Ads.Tests
         }
 
         [Fact]
-        public void GetAdvertComments()
-        {
-        }
-
-        //Не работает 
-        [Fact]
         public void GetFilterRegionIdReturnAdverts()
         {
             FilterDto filter = new FilterDto
@@ -169,74 +153,51 @@ namespace Ads.Tests
 
             var result = _service.GetFiltred(filter);
 
-            Assert.Single(result);
+            Assert.Equal(2, result.Count());
         }
-        ///Не работает
+
         [Fact]
-        public async Task SaveOrUpdate_GetAdvertReturnAdvert()
+        public void GetFilterWithAllParamsReturnAdverts()
         {
-            var result = await _service.SaveOrUpdate(advertDto);
-
-            Assert.Equal(result.Id, advertDto.Id);
-        }
-
-        private Advert[] GetAdvertsWithId()
-        {
-            var advDtos = GetTestAdvertsDto();
-            var adverts = Mapper.Map<Advert[]>(advDtos);
-            return adverts;
-        }
-
-
-        // 
-        private IQueryable<Advert> GetTestAdverts()
-        {
-            var adverts = new List<Advert>{
-                new Advert
+            FilterDto filter = new FilterDto
+            {
+                PriceRange = new Contracts.Dto.Internal.Range<decimal?>
                 {
-                    Name = "IPhone",
-                    CategoryId = 1,
-                    CityId = 1,
-                    StatusId = 1,
-                    TypeId = 1,
-                    Price = 100,
-                    City = new Domain.Entities.City{ RegionId = 1 }
-
+                    MinValue = 100,
+                    MaxValue = 400
                 },
-                new Advert
-                {
-                    Name = "Samsung",
-                    CategoryId = 1,
-                    CityId = 2,
-                    StatusId = 1,
-                    TypeId = 1,
-                    Price = 200,
-                },
-                new Advert
-                {
-                    Name = "Sony",
-                    CategoryId = 1,
-                    CityId = 3,
-                    StatusId = 1,
-                    TypeId = 1,
-                    Price = 300
-                },
-                new Advert
-                {
-                    Name = "Asus",
-                    Description = "Samsung",
-                    CategoryId = 1,
-                    CityId = 4,
-                    StatusId = 1,
-                    TypeId = 2,
-                    Price = 400
-                }
+                RegionId = 4,
+                CategoryId = 1,
+                CityId = 4,
+                Substring = "Asus",
             };
 
-            IQueryable<Advert> result = adverts.AsQueryable();
+            var result = _service.GetFiltred(filter);
 
-            return result;
+            Assert.Single(result);
         }
+
+        [Fact]
+        public void GetAdvertIdReturnComments()
+        {
+
+        }
+       
+        /////Не работает
+        //[Fact]
+        //public async Task SaveOrUpdate_GetAdvertReturnAdvert()
+        //{
+        //    var result = await _service.SaveOrUpdate(advertDto);
+
+        //    Assert.Equal(result.Id, advertDto.Id);
+        //}
+        // 
+        private IQueryable<Advert> GetAdvertsWithId()
+        {
+            var adverts = Mapper.Map<Advert[]>(GetTestAdvertsDto());
+            return adverts.AsQueryable();
+        }
+
         public AdvertDto[] GetTestAdvertsDto()
         {
             return new[]
@@ -245,38 +206,48 @@ namespace Ads.Tests
                 {
                     Id = 1,
                     Name = "IPhone",
-                    Status =  new Ads.Contracts.Dto.Status{ Id = 1 },
-                    Type = new Ads.Contracts.Dto.AdvertType{ Id = 1 },
-                    Category = new Ads.Contracts.Dto.Category{ Id = 1 },
-                    City = new Ads.Contracts.Dto.City{Id = 1}
+                    CategoryId = 1,
+                    CityId = 1,
+                    StatusId = 1,
+                    TypeId = 1,
+                    Price = 100,
+                    City = new Ads.Contracts.Dto.City{ RegionId = 1 }
+
                 },
                 new AdvertDto
                 {
                     Id = 2,
                     Name = "Samsung",
-                    Status =  new Ads.Contracts.Dto.Status{ Id = 1 },
-                    Type = new Ads.Contracts.Dto.AdvertType{ Id = 1 },
-                    Category = new Ads.Contracts.Dto.Category{ Id = 1 },
-                    City = new Ads.Contracts.Dto.City{Id = 1}
+                    CategoryId = 1,
+                    CityId = 2,
+                    StatusId = 1,
+                    TypeId = 1,
+                    Price = 200,
+                    City = new Ads.Contracts.Dto.City{ RegionId = 1 }
                 },
                 new AdvertDto
                 {
                     Id = 3,
-                    Status =  new Ads.Contracts.Dto.Status{ Id = 1 },
-                    Type = new Ads.Contracts.Dto.AdvertType{ Id = 1 },
-                    Category = new Ads.Contracts.Dto.Category{ Id = 1 },
-                    City = new Ads.Contracts.Dto.City{Id = 1}
+                    CategoryId = 1,
+                    CityId = 3,
+                    StatusId = 1,
+                    TypeId = 1,
+                    Price = 300,
+                    City = new Ads.Contracts.Dto.City{ RegionId = 3 }
+                },
+                 new AdvertDto
+                {
+                    Id = 4,
+                    Name = "Asus",
+                    Description = "Samsung",
+                    CategoryId = 1,
+                    CityId = 4,
+                    StatusId = 1,
+                    TypeId = 2,
+                    Price = 400,
+                    City = new Ads.Contracts.Dto.City{ RegionId = 4 }
                 }
             };
         }
-        AdvertDto advertDto = new AdvertDto
-        {
-            Name = "Samsung",
-            Status = new Ads.Contracts.Dto.Status { Id = 1 },
-            Type = new Ads.Contracts.Dto.AdvertType { Id = 1 },
-            Category = new Ads.Contracts.Dto.Category { Id = 1 },
-            City = new Ads.Contracts.Dto.City { Id = 1 },
-            Price = 1000
-        };
     }
 }

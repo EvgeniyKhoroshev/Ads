@@ -116,7 +116,8 @@ namespace AppServices.Services
                     query = query.Where(x => x.Price <= filter.PriceRange.MaxValue);
             }
             if (filter.RegionId.HasValue)
-                query = query.Where(x => x.City.RegionId == filter.RegionId);
+                query = query.Include(x => x.City)
+                    .Where(x => x.City.RegionId == filter.RegionId);
 
             if (filter.CityId.HasValue)
                 query = query.Where(x => x.CityId == filter.CityId);

@@ -16,6 +16,9 @@ namespace Ads.Tests
                 cfg.CreateMap<AdvertDto, Advert>()
                     .IgnoreAllPropertiesWithAnInaccessibleSetter()
                     .IgnoreAllSourcePropertiesWithAnInaccessibleSetter();
+                cfg.CreateMap<Ads.Contracts.Dto.City, Domain.Entities.City>()
+                    .IgnoreAllPropertiesWithAnInaccessibleSetter()
+                    .IgnoreAllSourcePropertiesWithAnInaccessibleSetter();
                 cfg.CreateMap<AdvertsInfo, AdvertsInfoDto>();
                 cfg.CreateMap<AdvertsInfoDto, AdvertsInfo>();
                 cfg.CreateMap<CommentDto, Comment>();
