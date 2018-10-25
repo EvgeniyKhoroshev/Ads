@@ -29,8 +29,16 @@ namespace Domain.Data.Repositories.Base
         /// <returns>Сущность</returns>
         public virtual async Task<T> Get(int id)
         {
-            var result = await _dbContext.Set<T>().FirstOrDefaultAsync(t => t.Id == id);
-            return result;
+            try
+            {
+                var result = await _dbContext.Set<T>().FirstOrDefaultAsync(t => t.Id == id);
+                return result;
+            }
+            catch (Exception ex)
+            {
+                string error = "При попытке получить запись из БД произошла ошибка. " + ex.Message;
+                throw new NullReferenceException(string.Join(Environment.NewLine, error), ex);
+            }
         }
         /// <summary>
         /// Перезаписывает сущность, если экземпляр с таким ID уже существует, в противном случае создает новую //
@@ -46,12 +54,12 @@ namespace Domain.Data.Repositories.Base
                 if (await _dbContext.Set<T>().ContainsAsync(entity))
                 {
                     _dbContext.Set<T>().Update(entity);
-                    _dbContext.SaveChanges();
+                    await _dbContext.SaveChangesAsync();
                 }
                 else
                 {
                     _dbContext.Set<T>().Add(entity);
-                    _dbContext.SaveChanges();
+                    await _dbContext.SaveChangesAsync();
                 }
             }
             catch (DbUpdateException ex)
@@ -74,10 +82,10 @@ namespace Domain.Data.Repositories.Base
                 _dbContext.Set<T>().Remove(Get(Id).Result);
                 _dbContext.SaveChanges();
             }
-            catch (Exception ex)
+            catch (DbUpdateException ex)
             {
-                throw new ArgumentOutOfRangeException("При удалении объявления № {Id} произошла ошибка. "
-+ ex.Message);
+                string error = "При удалении записи из базы произошла ошибка. " + ex.Message;
+                throw new DbUpdateException(string.Join(Environment.NewLine, error), ex);
             }
         }
         /// <summary>
@@ -87,12 +95,11 @@ namespace Domain.Data.Repositories.Base
         /// <returns>Список сущностей // List of an entity</returns>
         public virtual IQueryable<T> GetAll()
         {
-            try
-            { return _dbContext.Set<T>(); }
+            try { return _dbContext.Set<T>(); }
             catch (Exception ex)
             {
-                throw new NullReferenceException("При попытке получить записи из БД произошла ошибка. " +
-ex.Message);
+                string error = "При создании запроса к БД произошла ошибка. " + ex.Message;
+                throw new NullReferenceException(string.Join(Environment.NewLine, error), ex);
             }
         }
     }
