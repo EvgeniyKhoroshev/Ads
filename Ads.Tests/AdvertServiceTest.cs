@@ -16,26 +16,26 @@ namespace Ads.Tests
 {
     public class AdvertServiceTest
     {
-        private Mock<IAdvertRepository> _repository;
-        private AdvertService _service;
+        private Mock<IAdvertRepository> _advertRepository;
+        private AdvertService _advertService;
 
         public AdvertServiceTest()
         {
             AutoMapperConfig.Initialize();
-            _repository = new Mock<IAdvertRepository>();
-            _service = new AdvertService(_repository.Object);
+            _advertRepository = new Mock<IAdvertRepository>();
+            _advertService = new AdvertService(_advertRepository.Object);
 
             
             Func<Advert, Advert> func = (Advert advert) =>
             {
                 return advert;
             };
-            Task<Advert> advertTask = new Task<Advert>(() => func(GetAdvertsWithId().ToArray()[0]));
+            Task<Advert> advertTask = new Task<Advert>(() => func(MapAdvertDtoToAdverts().ToArray()[0]));
             advertTask.Start();
 
-            _repository.Setup(x => x.GetAll()).Returns(GetAdvertsWithId());
+            _advertRepository.Setup(x => x.GetAll()).Returns(MapAdvertDtoToAdverts());
 
-            _repository.Setup(x => x.Get(1)).Returns(advertTask);
+            _advertRepository.Setup(x => x.Get(1)).Returns(advertTask);
 
            // _repository.Setup(x => x.SaveOrUpdate(advert)).Returns(advertTask);
         }
@@ -43,9 +43,9 @@ namespace Ads.Tests
         [Fact]
         public void GetAllAdvertsReturnAllAdverts()
         {
-            var testAdverts = GetAdvertsWithId();
+            var testAdverts = MapAdvertDtoToAdverts();
             
-            var result = _service.GetAll();
+            var result = _advertService.GetAll();
 
             Assert.Equal(testAdverts.ToList().Count(), result.Count);
         }
@@ -53,9 +53,9 @@ namespace Ads.Tests
         [Fact]
         public void GetAllAdvertToIndexReturnAllAdverts()
         {
-            var testAdverts = GetAdvertsWithId();
+            var testAdverts = MapAdvertDtoToAdverts();
 
-            var result = _service.GetAll_ToIndex();
+            var result = _advertService.GetAll_ToIndex();
 
             Assert.Equal(testAdverts.ToList().Count(), result.Count);
         }
@@ -63,7 +63,7 @@ namespace Ads.Tests
         [Fact]
         public async Task GetIdReturnAdvert()
         {
-            var result = await _service.Get(1);
+            var result = await _advertService.Get(1);
 
             Assert.Equal(1, result.Id);
         }
@@ -76,7 +76,7 @@ namespace Ads.Tests
                 CategoryId = 1
             };
 
-            var result = _service.GetFiltred(filter);
+            var result = _advertService.GetFiltred(filter);
 
             Assert.Equal(4, result.Count());
         }
@@ -89,7 +89,7 @@ namespace Ads.Tests
                 CityId = 3
             };
 
-            var result = _service.GetFiltred(filter);
+            var result = _advertService.GetFiltred(filter);
 
             Assert.Single(result);
         }
@@ -107,7 +107,7 @@ namespace Ads.Tests
             };
       
 
-            var result = _service.GetFiltred(filter);
+            var result = _advertService.GetFiltred(filter);
 
             Assert.Equal(4, result.Count());
         }
@@ -120,7 +120,7 @@ namespace Ads.Tests
                 Substring = "Samsung"
             };
 
-            var result = _service.GetFiltred(filter);
+            var result = _advertService.GetFiltred(filter);
 
             Assert.Equal(2, result.Count());
         }
@@ -138,7 +138,7 @@ namespace Ads.Tests
             };
 
 
-            var result = _service.GetFiltred(filter);
+            var result = _advertService.GetFiltred(filter);
 
             Assert.Equal(3, result.Count());
         }
@@ -151,7 +151,7 @@ namespace Ads.Tests
                 RegionId = 1
             };
 
-            var result = _service.GetFiltred(filter);
+            var result = _advertService.GetFiltred(filter);
 
             Assert.Equal(2, result.Count());
         }
@@ -172,7 +172,7 @@ namespace Ads.Tests
                 Substring = "Asus",
             };
 
-            var result = _service.GetFiltred(filter);
+            var result = _advertService.GetFiltred(filter);
 
             Assert.Single(result);
         }
@@ -180,7 +180,9 @@ namespace Ads.Tests
         [Fact]
         public void GetAdvertIdReturnComments()
         {
+            var result = _advertService.GetAdvertComments(1);
 
+            Assert.Equal(3, result.Count());
         }
        
         /////Не работает
@@ -192,13 +194,29 @@ namespace Ads.Tests
         //    Assert.Equal(result.Id, advertDto.Id);
         //}
         // 
-        private IQueryable<Advert> GetAdvertsWithId()
+
+        private IQueryable<Advert> MapAdvertDtoToAdverts()
         {
             var adverts = Mapper.Map<Advert[]>(GetTestAdvertsDto());
+            adverts[0].Comments = new List<Comment>
+            {
+                new Comment
+                {
+                    Body = "Так себе!"
+                },
+                new Comment
+                {
+                    Body = "Нормально."
+                },
+                new Comment
+                {
+                    Body = "Сойдет."
+                }
+            };
             return adverts.AsQueryable();
         }
 
-        public AdvertDto[] GetTestAdvertsDto()
+        private AdvertDto[] GetTestAdvertsDto()
         {
             return new[]
             {
