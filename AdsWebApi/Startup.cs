@@ -1,4 +1,5 @@
-﻿using Domain;
+﻿using AdsWebApi.Security;
+using Domain;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -26,7 +27,7 @@ namespace AdsWebApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
+            services.JWTSecurityExtention();
             services.AddDependencyInjection(Configuration.GetConnectionString("DefaultConnection"));
             services.AddCors(o => o.AddPolicy("allow", builder =>
             {
@@ -56,26 +57,9 @@ namespace AdsWebApi
             }
             //container.Verify();
 
+            app.UseAuthentication();
             app.UseHttpsRedirection();
             app.UseMvc();
         }
-        //private void IntegrateSimpleInjector(IServiceCollection services)
-        //{
-        //    container.Options.DefaultScopedLifestyle = new AsyncScopedLifestyle();
-
-        //    services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-
-        //    services.AddSingleton<IControllerActivator>(
-        //        new SimpleInjectorControllerActivator(container));
-
-
-        //    services.EnableSimpleInjectorCrossWiring(container);
-        //    services.UseSimpleInjectorAspNetRequestScoping(container);
-        //}
-        //private void InitializeContainer(IApplicationBuilder app)
-        //{
-        //    // Allow Simple Injector to resolve services from ASP.NET Core.
-        //    container.AutoCrossWireAspNetComponents(app);
-        //}
     }
 }

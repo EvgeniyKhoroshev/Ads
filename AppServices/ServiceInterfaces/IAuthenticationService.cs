@@ -8,6 +8,8 @@ namespace AppServices.ServiceInterfaces
 {
     public interface IAuthenticationService
     {
+        string GetToken();
+        Task<string> JWTSignInAsync(UserLoginDto loginDto);
         /// <summary>
         /// Сервис для авторизации пользователя /
         /// User authorization service

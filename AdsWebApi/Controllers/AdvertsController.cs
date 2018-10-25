@@ -1,6 +1,8 @@
 ﻿using Ads.Contracts.Dto;
 using Ads.Contracts.Dto.Filters;
 using AppServices.ServiceInterfaces;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
@@ -26,6 +28,7 @@ namespace AdsWebApi.Controllers
 
         // GET api/values/5
         [HttpGet("{id}")]
+        //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public async Task<ActionResult<AdvertDto>> Get(int id)
         {
             return await _advertService.Get(id);

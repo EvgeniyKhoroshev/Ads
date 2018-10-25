@@ -1,18 +1,30 @@
 ﻿using Ads.Contracts.Dto;
 using Ads.Contracts.Dto.Filters;
+using Ads.WebUI.Controllers.Components.ApiRequests.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using System.Net.Http;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 /// <summary>
 /// Класс для работы с HTTP запросами к API/ 
 /// The class for a connection with API by a HTTP query
 /// </summary>
-namespace Ads.WebUI.Controllers
+namespace Ads.WebUI.Components.ApiRequests
 {
     public class APIRequests
     {
+        readonly IAdvertRequest _advertRequest;
+        readonly ICommentRequest _commentRequest;
+        public APIRequests(IAdvertRequest advertRequest,
+            ICommentRequest commentRequest)
+        {
+            _advertRequest = advertRequest;
+            _commentRequest = commentRequest;
+        }
+
         /// <summary>
         /// Инициализатор обьекта, в котором хранится дополнительная информация об объявлениях/ 
         /// The class for a connection with API by a HTTP query
@@ -49,73 +61,69 @@ namespace Ads.WebUI.Controllers
             catch (Exception) { }
             return null;
         }
-        public static async Task<AdvertDto> GetAdvert(int id)
+        public async Task<AdvertDto> GetAdvert(int id)
         {
-            try
-            {
-                using (var httpClient = new HttpClient())
-                {
-                    HttpResponseMessage response = await httpClient.GetAsync($"http://localhost:56663/api/adverts/{id}");
-                    if (response.IsSuccessStatusCode)
-                    {
-                        return await response.Content.ReadAsAsync<AdvertDto>();
-                    }
-                }
-            }
-            catch (Exception) { }
-            return null;
+            return await _advertRequest.Get(id);
         }
-        public static async Task<List<AdvertDto>> GetAdverts()
-        {
+        //public static async Task<List<AdvertDto>> GetAdverts()
+        //{
 
-            try
-            {
-                using (var httpClient = new HttpClient())
-                {
-                    HttpResponseMessage response = await httpClient.GetAsync($"http://localhost:56663/api/adverts");
-                    if (response.IsSuccessStatusCode)
-                    {
-                        return await response.Content.ReadAsAsync<List<AdvertDto>>();
-                    }
-                }
-            }
-            catch (Exception) { }
-            return null;
-        }
-        public static async Task<AdvertDto> SaveOrUpdate(AdvertDto advert)
+        //    try
+        //    {
+        //        using (var httpClient = new HttpClient())
+        //        {
+        //            HttpResponseMessage response = await httpClient.GetAsync($"http://localhost:56663/api/adverts");
+        //            if (response.IsSuccessStatusCode)
+        //            {
+        //                return await response.Content.ReadAsAsync<List<AdvertDto>>();
+        //            }
+        //        }
+        //    }
+        //    catch (Exception) { }
+        //    return null;
+        //}
+        public static async Task<JwtSecurityToken> SignIn(UserLoginDto user)
         {
             try
             {
                 using (var httpClient = new HttpClient())
                 {
-                    HttpResponseMessage response = await httpClient.PostAsJsonAsync($"http://localhost:56663/api/adverts/saveorupdate", advert);
+                    HttpResponseMessage response = await httpClient.PostAsJsonAsync($"http://localhost:56663/api/authorization/signin", user);
                     if (response.IsSuccessStatusCode)
                     {
-                        return await response.Content.ReadAsAsync<AdvertDto>();
+                        var jwtToken = await response.Content.ReadAsStringAsync();
+                        var h = new JwtSecurityTokenHandler();
+                        var s = h.ReadJwtToken(jwtToken) as JwtSecurityToken;
+                        return s;
+                    }
+                }
+            }
+            catch (Exception ex) { throw new ArithmeticException("Something went wrong. " + ex.Message); }
+            return null;
+        }
+        public static async Task CreateUser(CreateUserDto user)
+        {
+            try
+            {
+                using (var httpClient = new HttpClient())
+                {
+                    HttpResponseMessage response = await httpClient.PostAsJsonAsync($"http://localhost:56663/api/authorization/create", user);
+                    if (response.IsSuccessStatusCode)
+                    {
+                        await response.Content.ReadAsAsync<CreateUserDto>();
                     }
                 }
             }
             catch (Exception) { }
-            return null;
+        }
+        public async Task<AdvertDto> SaveOrUpdate(AdvertDto advert)
+        {
+            return await _advertRequest.SaveOrUpdate(advert);
         }
 
-        public static async Task<CommentDto> SaveOrUpdateComment(CommentDto c)
+        public async Task<CommentDto> SaveOrUpdate(CommentDto comment)
         {
-            c.Created = DateTime.Now;
-            c.Rating = 0;
-            try
-            {
-                using (var httpClient = new HttpClient())
-                {
-                    HttpResponseMessage response = await httpClient.PostAsJsonAsync($"http://localhost:56663/api/comments/saveorupdate", c);
-                    if (response.IsSuccessStatusCode)
-                    {
-                        return await response.Content.ReadAsAsync<CommentDto>();
-                    }
-                }
-            }
-            catch (Exception) { }
-            return null;
+            return await _commentRequest.SaveOrUpdate(comment);
         }
 
         public static async Task<AdvertDto[]> Filter(FilterDto advert)
@@ -134,34 +142,17 @@ namespace Ads.WebUI.Controllers
             catch (Exception) { }
             return null;
         }
-        public static async Task DeleteAdvert(int id)
+        public async Task DeleteAdvert(int id)
         {
-            try
-            {
-                using (var httpClient = new HttpClient())
-                {
-                    HttpResponseMessage response = await httpClient.DeleteAsync($"http://localhost:56663/api/adverts/{id}");
-                }
-            }
-            catch(Exception) { }
+            await _advertRequest.Delete(id);
         }
-
-        public static async Task<CommentDto[]> GetComments_Request()
+        public async Task DeleteComment(int id)
         {
-            try
-            {
-                using (var httpClient = new HttpClient())
-                {
-                    HttpResponseMessage response = await httpClient.GetAsync($"http://localhost:56663/api/comments");
-                    if (response.IsSuccessStatusCode)
-                    {
-                        return await response.Content.ReadAsAsync<CommentDto[]>();
-                    }
-                }
-            }
-            catch (Exception ex) { throw new Exception("Возникло исключение при попытке получить комментарии. "+
-                ex.Message); }
-            return null;
+            await _commentRequest.Delete(id);
+        }
+        public async Task<IList<CommentDto>> GetComments()
+        {
+            return await _commentRequest.GetAll();
         }
     }
 

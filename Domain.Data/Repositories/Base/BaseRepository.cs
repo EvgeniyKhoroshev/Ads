@@ -41,15 +41,23 @@ namespace Domain.Data.Repositories.Base
         /// <returns>Возвращает Id созданной или обновленной сущности</returns>
         public virtual async Task<T> SaveOrUpdate(T entity)
         {
-            if (await _dbContext.Set<T>().ContainsAsync(entity))
+            try
             {
-                _dbContext.Set<T>().Update(entity);
-                await _dbContext.SaveChangesAsync();
+                if (await _dbContext.Set<T>().ContainsAsync(entity))
+                {
+                    _dbContext.Set<T>().Update(entity);
+                    _dbContext.SaveChanges();
+                }
+                else
+                {
+                    _dbContext.Set<T>().Add(entity);
+                    _dbContext.SaveChanges();
+                }
             }
-            else
+            catch (DbUpdateException ex)
             {
-                _dbContext.Set<T>().Add(entity);
-                _dbContext.SaveChanges();
+                string error = "При создании/обновлении записи в базе произошла ошибка. " + ex.Message;
+                throw new DbUpdateException(string.Join(Environment.NewLine, error), ex);
             }
             return entity;
         }
@@ -66,8 +74,11 @@ namespace Domain.Data.Repositories.Base
                 _dbContext.Set<T>().Remove(Get(Id).Result);
                 _dbContext.SaveChanges();
             }
-            catch (Exception ex) { throw new ArgumentOutOfRangeException("При удалении объявления № {Id} произошла ошибка. " 
-                +ex.Message); }
+            catch (Exception ex)
+            {
+                throw new ArgumentOutOfRangeException("При удалении объявления № {Id} произошла ошибка. "
++ ex.Message);
+            }
         }
         /// <summary>
         /// Получение всех записей из БД //
@@ -78,8 +89,11 @@ namespace Domain.Data.Repositories.Base
         {
             try
             { return _dbContext.Set<T>(); }
-            catch(Exception ex) { throw new NullReferenceException("При попытке получить записи из БД произошла ошибка. "+
-                ex.Message); }
+            catch (Exception ex)
+            {
+                throw new NullReferenceException("При попытке получить записи из БД произошла ошибка. " +
+ex.Message);
+            }
         }
     }
 }

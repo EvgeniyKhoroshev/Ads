@@ -21,7 +21,6 @@ namespace AppServices.Services
         {
             if (user == null)
                 throw new ArgumentNullException(nameof(user));
-
             User entityUser = Mapper.Map<User>(user);
 
             var result = await _userManager.CreateAsync(entityUser, user.Password);

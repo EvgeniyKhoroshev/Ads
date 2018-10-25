@@ -1,4 +1,5 @@
 ﻿using Ads.Contracts.Dto;
+using Ads.WebUI.Components.ApiRequests;
 using AppServices.ServiceInterfaces;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -10,21 +11,13 @@ namespace Ads.WebUI.Controllers
 {
     public class AuthenticationsController : Controller
     {
-        private readonly IUserService _userService;
-        private readonly IAuthenticationService _authenticationService;
-
-        public AuthenticationsController(IUserService userService, IAuthenticationService authenticationService)
-        {
-            _userService = userService;
-            _authenticationService = authenticationService;
-        }
         [HttpGet]
         public IActionResult SignIn() => View();
         [HttpPost]
         public async Task<IActionResult> SignIn(UserLoginDto user)
         {
 
-            await _authenticationService.SignInUserAsync(user);
+            await APIRequests.SignIn(user);
 
             return RedirectToAction("Index", "Adverts");
         }
@@ -33,7 +26,7 @@ namespace Ads.WebUI.Controllers
         [HttpPost]
         public async Task<IActionResult> SignUp(CreateUserDto user)
         {
-            await _userService.CreateUserAsync(user);
+            await APIRequests.CreateUser(user);
             return RedirectToAction("Index", "Adverts");
         }
     }

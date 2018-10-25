@@ -9,12 +9,17 @@ using AutoMapper;
 using Ads.Contracts.Dto.Filters;
 using Ads.WebUI.Controllers.Components;
 using Microsoft.AspNetCore.Http;
+using Ads.WebUI.Components.ApiRequests;
 
 namespace Ads.WebUI.Controllers
 {
     public class AdvertsController : Controller
     {
-
+        readonly APIRequests _requests;
+        public AdvertsController (APIRequests requests)
+        {
+            _requests = requests;
+        }
         AdvertsInfoDto _AdvertsInfoDto;
         public async Task<IActionResult> Index(
             int? CategoryId, int? RegionId, decimal? Min, decimal? Max, int? CityId, string Substring, int Page = 1)
@@ -55,7 +60,7 @@ namespace Ads.WebUI.Controllers
         public async Task<CommentDto> AddComment(string Body, int AdvertId)
         {
             CommentDto cDto = new CommentDto(Body, AdvertId);
-            await APIRequests.SaveOrUpdateComment(cDto);
+            await _requests.SaveOrUpdate(cDto);
             return cDto;
         }
         public async Task<IActionResult> Create()
@@ -72,13 +77,13 @@ namespace Ads.WebUI.Controllers
             if (Photos.Count > 0)
                 s = await ImageProcessing.ImageToBase64(Photos, advert.Id);
             advert.Images = s;
-            await APIRequests.SaveOrUpdate(advert);
+            await _requests.SaveOrUpdate(advert);
             return Redirect("Index");
         }
         [HttpPost]
         public async Task<IActionResult> Delete(int? Id)
         {
-            await APIRequests.DeleteAdvert(Id.Value);
+            await _requests.DeleteAdvert(Id.Value);
             return RedirectToAction("Index");
         }
         [HttpGet]
@@ -88,26 +93,13 @@ namespace Ads.WebUI.Controllers
             {
                 if (_AdvertsInfoDto == null)
                     _AdvertsInfoDto = await APIRequests.AdvInfoInit();
-                AdvertDto buf = await APIRequests.GetAdvert(id.Value);
+                AdvertDto buf = await _requests.GetAdvert(id.Value);
                 AdsVMDetails result = Mapper.Map<AdsVMDetails>(buf);
                 return View(result);
             }
             return View();
         }
-        [HttpGet]
-        public async Task<IActionResult> Filter()
-        {
-            if (_AdvertsInfoDto == null)
-                _AdvertsInfoDto = await APIRequests.AdvInfoInit();
-            List<AdsVMIndex> ret = new List<AdsVMIndex>();
-            AdsVMIndex adsVM;
-            foreach (var r in await APIRequests.GetAdverts())
-            {
-                adsVM = Mapper.Map<AdsVMIndex>(r);
-                ret.Add(adsVM);
-            }
-            return View(ret);
-        }
+
         //[HttpPost]
         //public async Task<IActionResult> Filter(decimal? MinValue, decimal? MaxValue)
         //{
@@ -131,7 +123,7 @@ namespace Ads.WebUI.Controllers
         {
             if (_AdvertsInfoDto == null)
                 _AdvertsInfoDto = await APIRequests.AdvInfoInit();
-            AdvertDto buf = await APIRequests.GetAdvert(id.Value);
+            AdvertDto buf = await _requests.GetAdvert(id.Value);
             return View(buf);
         }
         [HttpPost]
@@ -142,7 +134,8 @@ namespace Ads.WebUI.Controllers
             if (Photos.Count > 0)
                 s = await ImageProcessing.ImageToBase64(Photos, advert.Id);
             advert.Images = s;
-            await APIRequests.SaveOrUpdate(advert);
+            advert.UserId = 1;
+            await _requests.SaveOrUpdate(advert);
             return RedirectToAction("Index");
         }
 
