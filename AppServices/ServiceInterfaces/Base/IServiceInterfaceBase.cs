@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using Ads.Contracts.Dto.Internal;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace AppServices.ServiceInterfaces.Base
@@ -31,6 +33,5 @@ namespace AppServices.ServiceInterfaces.Base
         /// </summary>
         /// <param name="id"> Идентификатор объекта </param>
         void Delete(Tid id);
-
     }
 }

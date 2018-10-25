@@ -1,4 +1,5 @@
 ﻿using Ads.Contracts.Dto;
+using Ads.Contracts.Dto.Internal;
 using System;
 
 namespace Ads.WebUI.Models
@@ -22,5 +23,9 @@ namespace Ads.WebUI.Models
         /// Дата создания / Creation date 
         /// </summary>
         public DateTime Created { get; set; }
+        /// <summary>
+        /// Информация для пагинации/ Pagination info
+        /// </summary>
+        public Page Page { get; set; }
     }
 }

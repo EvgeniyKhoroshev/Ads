@@ -1,6 +1,10 @@
-﻿using AppServices.ServiceInterfaces.Base;
+﻿using Ads.Contracts.Dto.Filters;
+using Ads.Contracts.Dto.Internal;
+using AppServices.ServiceInterfaces.Base;
 using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace AppServices.Services.Base
@@ -46,5 +50,6 @@ namespace AppServices.Services.Base
         {
             throw new NotImplementedException();
         }
+
     }
 }

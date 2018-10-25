@@ -1,6 +1,5 @@
-﻿using System;
+﻿using Ads.Contracts.Dto.Filters;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace Ads.WebUI.Controllers.Components.ApiRequests.Interfaces.Base
@@ -47,5 +46,14 @@ namespace Ads.WebUI.Controllers.Components.ApiRequests.Interfaces.Base
         /// <param name="Id"> Идентификатор <paramref name="entityName"/> / 
         /// Id of a <paramref name="entityName"/></param>
         Task Delete(Tid id);
+        /// <summary>
+        /// Http запрос к API для получения всех <paramref name="entity"/> с фильтром
+        /// / HTTP request to getting all of <paramref name="entity"/> with filter
+        /// </summary>
+        /// <param name="entityName">Подстрока запроса к Api / 
+        /// URL substring to request api</param>
+        /// <returns> Сохраненная сущность /
+        /// List of <paramref name="entity"/></returns>
+        Task<IList<T>> GetFiltred(FilterDto filter);
     }
 }

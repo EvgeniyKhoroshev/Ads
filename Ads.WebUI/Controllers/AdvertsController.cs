@@ -35,8 +35,14 @@ namespace Ads.WebUI.Controllers
             filter.Substring = Substring;
             if (_AdvertsInfoDto == null)
                 _AdvertsInfoDto = await APIRequests.AdvInfoInit();
-            var result = await APIRequests.Filter(filter);
-            return View(Mapper.Map<AdsVMIndex[]>(result));
+            var adverts = await _requests.Filter(filter);
+            PagedIndexVM result = new PagedIndexVM
+            {
+                Adverts = Mapper.Map<AdsVMIndex[]>(adverts),
+                Page = filter.Pagination
+            };
+            result.Page.TotalPages = result.Adverts.Length / result.Page.PageSize + 1;
+            return View(result);
 
         }
         [HttpGet("[controller]/{id}/comments")]
@@ -133,6 +139,7 @@ namespace Ads.WebUI.Controllers
             List<ImageDto> s = null;
             if (Photos.Count > 0)
                 s = await ImageProcessing.ImageToBase64(Photos, advert.Id);
+            // Затычка для пользователей.
             advert.Images = s;
             advert.UserId = 1;
             await _requests.SaveOrUpdate(advert);

@@ -1,4 +1,5 @@
-﻿using Ads.WebUI.Controllers.Components.ApiRequests.Interfaces.Base;
+﻿using Ads.Contracts.Dto.Filters;
+using Ads.WebUI.Controllers.Components.ApiRequests.Interfaces.Base;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
@@ -93,7 +94,35 @@ namespace Ads.WebUI.Controllers.Components.ApiRequests.BaseRequest
             }
             catch (HttpRequestException ex)
             {
-                string err = "При попытке выполнить GetAll(" + entityName + ") произошла ошибка. " + ex.Message;
+                string err = "При попытке выполнить запрос GetAll(" + entityName + ") произошла ошибка. " + ex.Message;
+                throw new HttpRequestException(string.Join(Environment.NewLine, err));
+            }
+            return default(IList<T>);
+        }
+        /// <summary>
+        /// Http запрос к API для получения всех <paramref name="entity"/> с фильтром
+        /// / HTTP request to getting all of <paramref name="entity"/> with filter
+        /// </summary>
+        /// <param name="entityName">Подстрока запроса к Api / 
+        /// URL substring to request api</param>
+        /// <returns> Сохраненная сущность /
+        /// List of <paramref name="entity"/></returns>
+        public virtual async Task<IList<T>> GetFiltred(FilterDto filter)
+        {
+            try
+            {
+                using (httpClient)
+                {
+                    HttpResponseMessage response = await httpClient.PostAsJsonAsync(_apiUrl + entityName+"/filter", filter);
+                    if (response.IsSuccessStatusCode)
+                    {
+                        return await response.Content.ReadAsAsync<IList<T>>();
+                    }
+                }
+            }
+            catch (HttpRequestException ex)
+            {
+                string err = "При попытке выполнить запрос GetFiltred(" + entityName + ") произошла ошибка. " + ex.Message;
                 throw new HttpRequestException(string.Join(Environment.NewLine, err));
             }
             return default(IList<T>);

@@ -1,4 +1,4 @@
-﻿@model AdsVMIndex[]
+﻿@model PagedIndexVM
 @{
     ViewData["Title"] = "Home Page";
 }
@@ -21,7 +21,7 @@
 </div>
 <div class="cat_list">
     <ul class="list-group">
-        @foreach (var item in Model)
+        @foreach (var item in Model.Adverts)
         {
             <li id="advert_list" class="list-group-item nav-item">
                 <form asp-action="Delete" asp-controller="Adverts" onsubmit='return confirm("Вы точно хотите удалить объявление?");'>
@@ -39,5 +39,12 @@
             </li>
         }
     </ul>
-
+        @if (Model.Page.PageNumber > 1)
+        {
+            <a href="~/?page=@(--Model.Page.PageNumber)">Предыдущая страница</a>
+        }
+        @if (Model.Page.PageNumber < Model.Page.TotalPages)
+        {
+            <a href="~/?page=@(++Model.Page.PageNumber)">Следующая страница</a>
+        }
 </div>

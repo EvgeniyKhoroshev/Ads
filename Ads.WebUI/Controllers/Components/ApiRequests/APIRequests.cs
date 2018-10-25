@@ -126,21 +126,22 @@ namespace Ads.WebUI.Components.ApiRequests
             return await _commentRequest.SaveOrUpdate(comment);
         }
 
-        public static async Task<AdvertDto[]> Filter(FilterDto advert)
+        public async Task<IList<AdvertDto>> Filter(FilterDto filter)
         {
-            try
-            {
-                using (var httpClient = new HttpClient())
-                {
-                    HttpResponseMessage response = await httpClient.PostAsJsonAsync($"http://localhost:56663/api/adverts/filter", advert);
-                    if (response.IsSuccessStatusCode)
-                    {
-                        return await response.Content.ReadAsAsync<AdvertDto[]>();
-                    }
-                }
-            }
-            catch (Exception) { }
-            return null;
+            return await _advertRequest.GetFiltred(filter);
+            //try
+            //{
+            //    using (var httpClient = new HttpClient())
+            //    {
+            //        HttpResponseMessage response = await httpClient.PostAsJsonAsync($"http://localhost:56663/api/adverts/filter", advert);
+            //        if (response.IsSuccessStatusCode)
+            //        {
+            //            return await response.Content.ReadAsAsync<AdvertDto[]>();
+            //        }
+            //    }
+            //}
+            //catch (Exception) { }
+            //return null;
         }
         public async Task DeleteAdvert(int id)
         {
