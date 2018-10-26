@@ -99,7 +99,7 @@ namespace Ads.Tests
         {
             FilterDto filter = new FilterDto
             {
-                Pagination = new Contracts.Dto.Internal.Page<int>
+                Pagination = new Contracts.Dto.Internal.Page
                 {
                     PageSize = 4,
                     PageNumber = 1
