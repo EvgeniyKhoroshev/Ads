@@ -93,7 +93,8 @@ namespace AppServices.Services
         /// Getting the adverts list</returns>
         public override async Task<AdvertDto> Get(int id)
         {
-            Advert adv = await _advertRepository.GetAll().FirstOrDefaultAsync(t => t.Id == id);
+            Advert adv = await _advertRepository.Get(id);
+                //.GetAll().FirstOrDefaultAsync(t => t.Id == id);
             if (adv == null)
                 throw new ArgumentOutOfRangeException("Id", adv, "Не существует объявления с полученным Id.");
 
@@ -115,7 +116,8 @@ namespace AppServices.Services
                     query = query.Where(x => x.Price <= filter.PriceRange.MaxValue);
             }
             if (filter.RegionId.HasValue)
-                query = query.Where(x => x.City.RegionId == filter.RegionId);
+                query = query.Include(x => x.City)
+                    .Where(x => x.City.RegionId == filter.RegionId);
 
             if (filter.CityId.HasValue)
                 query = query.Where(x => x.CityId == filter.CityId);
@@ -137,7 +139,8 @@ namespace AppServices.Services
                     .Include(q => q.City)
                     .Include(q => q.Status)
                     .Include(q => q.Comments)
-                    .Include(q => q.Type).ToArray();
+                    .Include(q => q.Type)
+                    .Include(q => q.City.Region).ToArray();
                 return Mapper.Map<AdvertDto[]>(entities);
             }
             catch (SqlException ex)

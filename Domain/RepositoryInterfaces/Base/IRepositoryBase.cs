@@ -25,5 +25,15 @@ namespace Domain.RepositoryInterfaces.Base
         /// <returns> Общую информацию для заполнения(отображения) объявлений / 
         /// Base infromation to entity filling </returns>
         IQueryable<T> GetAll();
+
+        /// <summary>
+        /// Возвращает возвращает объявление по id // 
+        /// Returns all adverts excluding subsidiaries
+        /// </summary>
+        /// <returns>Возвращает объявление / 
+        /// Getting the adverts list</returns>
+        Task<T> Get(Tid Id);
+
+
     }
 }
