@@ -8,6 +8,7 @@ using Domain.RepositoryInterfaces;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using System;
 
 namespace WebApi.ComponentRegistrar
 {
@@ -16,8 +17,22 @@ namespace WebApi.ComponentRegistrar
         public static IServiceCollection AddDependencyInjection(this IServiceCollection services, string connectionString)
         {
             services.AddDbContext<AdsDBContext>(options => options.UseSqlServer(connectionString));
-            services.AddIdentity<User, IdentityRole<int>>()
-                .AddEntityFrameworkStores<AdsDBContext>();
+            services.AddIdentity<User, IdentityRole<int>>(
+               options =>
+               {
+                   options.Password.RequireDigit = false;
+                   options.Password.RequireLowercase = false;
+                   options.Password.RequireNonAlphanumeric = false;
+                   options.Password.RequireUppercase = false;
+                   options.Password.RequiredLength = 6;
+                   options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(10);
+                   options.Lockout.MaxFailedAccessAttempts = 5;
+
+                   // INITIALIZE TOKEN PROVIDER DESCRIPTOR FOR PRE-RESET PASSWORD'S TIME SPAN
+                   options.Tokens.ProviderMap.Add("Default", new TokenProviderDescriptor(typeof(TokenProviderDescriptor)));
+               })
+                .AddEntityFrameworkStores<AdsDBContext>()
+                .AddDefaultTokenProviders();
             services.AddTransient<IAuthenticationService, AuthenticationService>();
             services.AddTransient<IUserService, UserService>();
             services.AddTransient<ICommentsRepository, CommentsRepository>();
@@ -26,6 +41,7 @@ namespace WebApi.ComponentRegistrar
             services.AddTransient<IAdvertService, AdvertService>();
             services.AddTransient<IAdvertInfoRepository<AdvertsInfo, int>, AdvertInfoRepository>();
             services.AddTransient<IInfoService, InfoService>();
+
 
             AutoMapperConfig.Initialize();
 

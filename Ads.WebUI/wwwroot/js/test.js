@@ -38,13 +38,14 @@ function DrawTree(tree) {
     }
 }
 function DrawLevel(level) {
-    document.getElementById(CategoryTagName).innerHTML += '<br>';
+    document.getElementById(CategoryTagName).innerHTML = "";
+    //document.getElementById(CategoryTagName).innerHTML += '<br>';
     console.log(level);
     var i = 0;
     for (i; i < level.length; ++i) {
         DrawCategory(level[i]);
     }
-    document.getElementById(CategoryTagName).innerHTML += '<br>';
+    //document.getElementById(CategoryTagName).innerHTML += '<br>';
 }
 function GetTree(init) {
     var index = init;
@@ -92,12 +93,13 @@ function SelectCategory(item) {
         console.log("eof " + item);
     }
     else {
+    document.getElementById(CategoryTagName).innerHTML = "";
         console.log(item);
         var index = 0;
         for (index; index < item.length; ++index) {
             DrawCategory(item[index]);
         }
-        document.getElementById(CategoryTagName).innerHTML += '<br>';
+        //document.getElementById(CategoryTagName).innerHTML += '<br>';
     }
 }
 function DrawCategory(cat) {
@@ -113,7 +115,7 @@ function HideCategories(selectedId) {
     var out = "";
     for (i; i >= 0; --i)
         out += s[i].name + ' >> ';
-    document.getElementById(CategoryTagName).innerHTML = '<button type="button" class="btn btn-default btn-xs btn-block" style="border: none;" onclick="DrawTree(GetTree(' + selectedId + '))">' + out + '</button>';
+    document.getElementById(CategoryTagName).innerHTML = '<button type="button" class="btn btn-default btn-xs btn-block" style="border: none;" onclick="SelectCategory(GetCategoryLevel(null))>' + out + '</button>';
 }
 function SetCategoryTagName(name) {
     CategoryTagName = name;
