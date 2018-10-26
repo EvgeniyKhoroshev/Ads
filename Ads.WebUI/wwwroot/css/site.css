@@ -8,6 +8,10 @@ body {
     padding:5px;
     border: 1px solid #e6e1e1;
 }
+#index_img{
+    max-height: 200px;
+    max-width: 200px;
+}
 .adverts_actions {
     vertical-align: bottom;
     position: absolute;

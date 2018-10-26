@@ -1,5 +1,6 @@
 ﻿using Ads.Contracts.Dto;
 using System;
+using System.Collections.Generic;
 
 namespace Ads.WebUI.Models
 {
@@ -39,5 +40,7 @@ namespace Ads.WebUI.Models
         /// The category in which that advert contains
         /// </summary>
         public Category Category { get; set; }
+        public virtual IEnumerable<ImageDto> Images { get; set; }
+
     }
 }

@@ -21,11 +21,7 @@ namespace AppServices.Services
             _advertRepository = advertRepository;
 
         }
-        /// <summary>
-        /// Удаляет объявление по указанному идентификатору // 
-        /// Delete advert from database
-        /// </summary>
-        /// <param name="id"> Идентификатор объявления </param>
+        /// <inheritdoc/>
         public override void Delete(int id)
         {
             try
@@ -38,12 +34,8 @@ namespace AppServices.Services
                     + ex.Message);
             }
         }
-        /// <summary>
-        /// Возвращает список существующих объявлений // 
-        /// Returns all existing adverts
-        /// </summary>
-        /// <returns>Возвращает список объявлений / 
-        /// Getting the adverts list</returns>
+
+        /// <inheritdoc/>
         public override IList<AdvertDto> GetAll()
         {
             IQueryable<Advert> adv = _advertRepository.GetAll();
@@ -53,12 +45,8 @@ namespace AppServices.Services
             result = Mapper.Map<AdvertDto[]>(adv.ToArray());
             return result;
         }
-        /// <summary>
-        /// Возвращает список существующих объявлений с данными для вывода на главную страницу // 
-        /// Returns all existing adverts with a data for index page output
-        /// </summary>
-        /// <returns>Возвращает список объявлений с данными для вывода на главную страницу / 
-        /// Getting the adverts list with a data for index page output</returns>
+
+        /// <inheritdoc/>
         public IList<AdvertDto> GetAll_ToIndex()
         {
             IQueryable<Advert> adv = _advertRepository.GetAll()
@@ -73,37 +61,26 @@ namespace AppServices.Services
             result = Mapper.Map<AdvertDto[]>(adv.ToArray());
             return result;
         }
-        /// <summary>
-        /// Возвращает список существующих объявлений не включая дочерние // 
-        /// Returns all adverts excluding subsidiaries
-        /// </summary>
-        /// <returns>Возвращает список объявлений / 
-        /// Getting the adverts list</returns>
+        /// <inheritdoc/>
         public override async Task<AdvertDto> SaveOrUpdate(AdvertDto entity)
         {
 
             var sm = await _advertRepository.SaveOrUpdate(Mapper.Map<Advert>(entity));
             return Mapper.Map<AdvertDto>(sm);
         }
-        /// <summary>
-        /// Возвращает список существующих объявлений не включая дочерние // 
-        /// Returns all adverts excluding subsidiaries
-        /// </summary>
-        /// <returns>Возвращает список объявлений / 
-        /// Getting the adverts list</returns>
+        /// <inheritdoc/>
         public override async Task<AdvertDto> Get(int id)
         {
-            Advert adv = await _advertRepository.Get(id);
-                //.GetAll().FirstOrDefaultAsync(t => t.Id == id);
+            Advert adv = await _advertRepository.GetAll()
+                .Include(t => t.Images)
+                .FirstOrDefaultAsync(t => t.Id == id);
             if (adv == null)
                 throw new ArgumentOutOfRangeException("Id", adv, "Не существует объявления с полученным Id.");
 
             return Mapper.Map<AdvertDto>(adv);
         }
-        /// <summary>
-        /// Возвращает массив объявлений, отфильтрованных по условиям, указанным в <paramref name="filter"/>.
-        /// </summary>
-        /// <param name="filter">Фильтр объявлений.</param>
+
+        /// <inheritdoc/>
         public AdvertDto[] GetFiltred(FilterDto filter)
         {
             var query = _advertRepository.GetAll();
@@ -116,9 +93,7 @@ namespace AppServices.Services
                     query = query.Where(x => x.Price <= filter.PriceRange.MaxValue);
             }
             if (filter.RegionId.HasValue)
-                query = query.Include(x => x.City)
-                    .Where(x => x.City.RegionId == filter.RegionId);
-
+                query = query.Where(x => x.City.RegionId == filter.RegionId);
             if (filter.CityId.HasValue)
                 query = query.Where(x => x.CityId == filter.CityId);
 
@@ -139,8 +114,7 @@ namespace AppServices.Services
                     .Include(q => q.City)
                     .Include(q => q.Status)
                     .Include(q => q.Comments)
-                    .Include(q => q.Type)
-                    .Include(q => q.City.Region).ToArray();
+                    .Include(q => q.Type).ToArray();
                 return Mapper.Map<AdvertDto[]>(entities);
             }
             catch (SqlException ex)
@@ -149,14 +123,8 @@ namespace AppServices.Services
                     ex.Message);
             }
         }
-        /// <summary>
-        /// Функция для получения списка комментариев объявления с заданным Id //
-        /// The function to get a comments from advert by the given advert Id
-        /// </summary>
-        /// <param name="advertId">Идентификатор объявления //
-        /// Advert Id</param>
-        /// <returns>Список комментариев, принадлежащих объявлению с заданным Id//
-        /// List of a comments from advert with a given Id</returns>
+
+        /// <inheritdoc/>
         public IList<CommentDto> GetAdvertComments(int advertId)
         {
             try

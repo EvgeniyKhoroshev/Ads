@@ -1,12 +1,24 @@
 ﻿using Domain.Entities;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using System;
-using System.Collections.Generic;
 
 namespace Domain
 {
-    public class AdsDBContext : DbContext
+    public class AdsDBContext : IdentityDbContext<User,
+        IdentityRole<int>,
+        int, IdentityUserClaim<int>,
+        IdentityUserRole<int>,
+        IdentityUserLogin<int>,
+        IdentityRoleClaim<int>,
+        IdentityUserToken<int>>
     {
+
+        public AdsDBContext(DbContextOptions<AdsDBContext> options) : base(options)
+        {
+        }
         public DbSet<Advert> Adverts { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<City> Cities { get; set; }
@@ -14,14 +26,57 @@ namespace Domain
         public DbSet<Status> Statuses { get; set; }
         public DbSet<AdvertType> AdvertTypes { get; set; }
         public DbSet<Comment> Comments { get; set; }
+        public DbSet<Image> Images { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
+            base.OnModelCreating(builder);
+            builder.Entity<User>(t =>
+            {
+                t.ToTable("Users");
+                t.Ignore(user => user.TwoFactorEnabled);
+                t.Ignore(user => user.ConcurrencyStamp);
+                t.Ignore(user => user.LockoutEnabled);
+                t.Ignore(user => user.LockoutEnd);
+            });
+            builder.Entity<IdentityRole>(entity =>
+            {
+                entity.ToTable(name: "Roles");
+            });
+
+            builder.Entity<IdentityUserRole<int>>(entity =>
+            {
+                entity.ToTable(name: "UserRoles");
+            });
+            builder.Entity<Image>(t =>
+            {
+                t.Property(x => x.Id)
+                .UseSqlServerIdentityColumn();
+                t.Property(x => x.DefaultId)
+                .HasDefaultValue(1);
+            });
             builder.Entity<Comment>()
                 .Property(t => t.Id)
                 .UseSqlServerIdentityColumn();
             builder.Entity<Advert>()
+                .HasOne(t => t.User)
+                .WithMany(t => t.Adverts)
+                .HasForeignKey(t => t.UserId)
+                .OnDelete(DeleteBehavior.Restrict);
+            builder.Entity<User>()
+                .HasMany(t => t.Adverts)
+                .WithOne(t => t.User)
+                .HasForeignKey(t => t.UserId)
+                .OnDelete(DeleteBehavior.Restrict);
+            builder.Entity<Advert>()
+                .Property(t => t.UserId)
+                .HasDefaultValue(0);
+            builder.Entity<Advert>()
                 .HasMany(t => t.Comments)
+                .WithOne(t => t.Advert)
+                .HasForeignKey(t => t.AdvertId);
+            builder.Entity<Advert>()
+                .HasMany(t => t.Images)
                 .WithOne(t => t.Advert)
                 .HasForeignKey(t => t.AdvertId);
             builder.Entity<City>()
@@ -67,19 +122,17 @@ namespace Domain
                 .WithMany(c => c.Adverts)
                 .HasForeignKey(c => c.CityId)
                 .OnDelete(DeleteBehavior.Restrict);
-            base.OnModelCreating(builder);
 
         }
+        //public AdsDBContext()
+        //{
+        //    //Database.EnsureCreated();
+        //}
+        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        //{
 
-        public AdsDBContext()
-        {
-            Database.EnsureCreated();
-        }
+        //    optionsBuilder.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=Ads;Trusted_Connection=True;MultipleActiveResultSets=true");
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            var ConnectionString = DBConfig.DB_DEFAULT_CONNECTION_STRING;
-            optionsBuilder.UseSqlServer(ConnectionString);
-        }
+        //}
     }
 }

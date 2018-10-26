@@ -1,5 +1,4 @@
-﻿using System.Buffers.Text;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace Domain.Entities
@@ -53,7 +52,8 @@ namespace Domain.Entities
         /// Связь будет реализована после добавления MS Identity / 
         /// The relation will be implemented after the MS Identity added
         /// </summary>
-        public int UserId { get; set; }
+        public int? UserId { get; set; }
+        public User User { get; set; }
         /// <summary>
         /// Контекст объявления для расширения функционала / 
         /// Ads context for a functional extends
@@ -64,8 +64,14 @@ namespace Domain.Entities
         /// Advert comments collection
         /// </summary>
         public virtual IEnumerable<Comment> Comments { get; set; }
+        /// <summary>
+        /// Коллекция фотографий объявления / 
+        /// Advert photos collection
+        /// </summary>
+        public virtual IEnumerable<Image> Images { get; set; }
         public Advert()
         {
         }
     }
 }
+

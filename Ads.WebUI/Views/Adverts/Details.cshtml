@@ -6,7 +6,19 @@
 <div>
     <ul class="list-group">
         <li class="list-group-item nav-item" style="margin-top:10px;">
+            <span><img class="img-circle small" src="~/images/default.png" alt="Default image" /></span>
             <h3 style="text-align: center">@Model.Name</h3><hr /><br />
+            @if (Model.Images.Count() > 0)
+            {
+
+                @foreach (var i in Model.Images)
+                {
+                    var src = string.Format("data:image/gif;base64,{0}", i.Content);
+                    <span class="img-circle small">
+                        <img class="img-responsive" src='@src' />
+                    </span><hr />
+                }
+            }
             <form asp-action="Delete" asp-controller="Adverts" onsubmit='return confirm("Вы точно хотите удалить объявление?");'>
                 Город: @Model.City <hr />Категория: @Model.Category<hr /> Цена: @Model.Price <br />
                 <hr />@Model.Description<hr /> Дата: @Model.Created <hr /><br />
@@ -22,7 +34,7 @@
         <ul class="list-group" id="advert_comments"></ul>
         <div class="col-md-4">
             <p>Написать комментарий: </p>
-            <form asp-controller="Adverts" asp-action="SaveOrUpdate" method="post">
+            <form asp-controller="Comments" id="add" asp-action="SaveOrUpdate" method="post">
                 <input hidden id="AdvertId" value="@Model.Id" />
                 <input id="Body" class="form-control" />
                 <input type="button" onclick="add_comment()" value="Оставить комментарий" class="btn btn-default" />

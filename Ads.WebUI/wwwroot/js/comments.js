@@ -28,11 +28,15 @@ function add_comment() {
     var body = document.getElementById('Body').value;
     var advertId = document.getElementById('AdvertId').value;
     var o = { 'Body': body, 'AdvertId': advertId };
-    fetch('https://localhost:44382/adverts/' + advertId + '/comments/add', {
-        method: 'post',
-        body: JSON.stringify(o),
-        Headers: {
-            'Content-Type': 'application/jsonp',
-        'Accepts': 'application/json'}
-    })
+    //document.getElementById('add').submit();
+    fetch('https://localhost:44382/adverts/' + advertId + '/comments/add/' + body + '/');
 }
+
+//, {
+//    method: 'get',
+//        body: JSON.stringify(o),
+//            Headers: {
+//        'Content-Type': 'application/jsonp',
+//            'Accepts': 'application/json'
+//    }
+//}

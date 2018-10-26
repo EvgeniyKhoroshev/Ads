@@ -1,0 +1,26 @@
+﻿@model Ads.Contracts.Dto.CreateUserDto
+@{
+    ViewData["Title"] = "SignUp";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Регистрация</h2>
+<div>
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+    <div class="form-group">
+        @Html.ValidationSummary(true)
+        @Html.LabelFor(model => model.Email, "Введите E-mail: ", new { @class = "control-label" })
+        @Html.EditorFor(model => model.Email, new { @type = "email" })
+        @Html.LabelFor(model => model.UserName, "Имя пользователя", new { @class = "control-label" })
+        @Html.EditorFor(model => model.UserName)
+        @Html.LabelFor(model => model.Password, "Введите пароль", new { @class = "control-label" })
+        @Html.EditorFor(model => model.Password, new { @type = "password" })
+        <input type="submit" name="SignUp" />
+        @*@Html.LabelFor(model => model.Password, "Подтверждение пароля", new { @class = "control-label" })
+        @Html.EditorFor(model => model.Password, new { @type = "password" })*@
+    </div>
+    }
+</div>
+

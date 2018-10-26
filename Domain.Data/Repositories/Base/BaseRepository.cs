@@ -29,8 +29,16 @@ namespace Domain.Data.Repositories.Base
         /// <returns>Сущность</returns>
         public virtual async Task<T> Get(int id)
         {
-            var result = await _dbContext.Set<T>().FirstOrDefaultAsync(t => t.Id == id);
-            return result;
+            try
+            {
+                var result = await _dbContext.Set<T>().FirstOrDefaultAsync(t => t.Id == id);
+                return result;
+            }
+            catch (Exception ex)
+            {
+                string error = "При попытке получить запись из БД произошла ошибка. " + ex.Message;
+                throw new NullReferenceException(string.Join(Environment.NewLine, error), ex);
+            }
         }
         /// <summary>
         /// Перезаписывает сущность, если экземпляр с таким ID уже существует, в противном случае создает новую //
@@ -41,15 +49,23 @@ namespace Domain.Data.Repositories.Base
         /// <returns>Возвращает Id созданной или обновленной сущности</returns>
         public virtual async Task<T> SaveOrUpdate(T entity)
         {
-            if (await _dbContext.Set<T>().ContainsAsync(entity))
+            try
             {
-                _dbContext.Set<T>().Update(entity);
-                await _dbContext.SaveChangesAsync();
+                if (await _dbContext.Set<T>().ContainsAsync(entity))
+                {
+                    _dbContext.Set<T>().Update(entity);
+                    await _dbContext.SaveChangesAsync();
+                }
+                else
+                {
+                    _dbContext.Set<T>().Add(entity);
+                    await _dbContext.SaveChangesAsync();
+                }
             }
-            else
+            catch (DbUpdateException ex)
             {
-                _dbContext.Set<T>().Add(entity);
-                await _dbContext.SaveChangesAsync();
+                string error = "При создании/обновлении записи в базе произошла ошибка. " + ex.Message;
+                throw new DbUpdateException(string.Join(Environment.NewLine, error), ex);
             }
             return entity;
         }
@@ -66,8 +82,11 @@ namespace Domain.Data.Repositories.Base
                 _dbContext.Set<T>().Remove(Get(Id).Result);
                 _dbContext.SaveChanges();
             }
-            catch (Exception ex) { throw new ArgumentOutOfRangeException($"При удалении объявления № {Id} произошла ошибка. " 
-                +ex.Message); }
+            catch (DbUpdateException ex)
+            {
+                string error = "При удалении записи из базы произошла ошибка. " + ex.Message;
+                throw new DbUpdateException(string.Join(Environment.NewLine, error), ex);
+            }
         }
         /// <summary>
         /// Получение всех записей из БД //
@@ -76,10 +95,12 @@ namespace Domain.Data.Repositories.Base
         /// <returns>Список сущностей // List of an entity</returns>
         public virtual IQueryable<T> GetAll()
         {
-            try
-            { return _dbContext.Set<T>(); }
-            catch(Exception ex) { throw new NullReferenceException("При попытке получить записи из БД произошла ошибка. "+
-                ex.Message); }
+            try { return _dbContext.Set<T>(); }
+            catch (Exception ex)
+            {
+                string error = "При создании запроса к БД произошла ошибка. " + ex.Message;
+                throw new NullReferenceException(string.Join(Environment.NewLine, error), ex);
+            }
         }
     }
 }
