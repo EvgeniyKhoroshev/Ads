@@ -60,12 +60,10 @@ namespace AppServices.Services
         public override async Task<CommentDto> Get(int id)
         {
 
-            var adv = _commentRepository
-                .GetAll()
-                .Select(t => t.Id == id);
+            var adv = await _commentRepository.Get(id);
             if (adv == null)
                 return null;
-            return Mapper.Map<CommentDto>(await adv.FirstOrDefaultAsync());
+            return Mapper.Map<CommentDto>(adv);
         }
         /// <summary>
         /// Возвращает список существующих объявлений включая дочерние // 

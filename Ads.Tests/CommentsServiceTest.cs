@@ -31,8 +31,8 @@ namespace Ads.Tests
             Task<Comment> commentTask = new Task<Comment>(() => func(MapCommentDtoToComment().ToArray()[0]));
             commentTask.Start();
 
-            _commentRepository.Setup(x => x.GetAll()).Returns(MapCommentDtoToComment());
-           // _commentRepository.Setup(x => x.Get(1)).Returns(commentTask);
+            //_commentRepository.Setup(x => x.GetAll()).Returns(MapCommentDtoToComment());
+            _commentRepository.Setup(x => x.Get(1)).Returns(commentTask);
         }
 
         [Fact]

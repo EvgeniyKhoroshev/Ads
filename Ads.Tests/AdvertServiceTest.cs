@@ -63,7 +63,7 @@ namespace Ads.Tests
         [Fact]
         public async Task GetIdReturnAdvert()
         {
-            var result = await _advertService.Get(1);
+             var result = await _advertService.Get(1);
 
             Assert.Equal(1, result.Id);
         }
