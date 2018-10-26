@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using Xunit;
 
 namespace Ads.Tests
@@ -23,7 +24,15 @@ namespace Ads.Tests
             _commentRepository = new Mock<ICommentsRepository>();
             _commentService = new CommentsService(_commentRepository.Object);
 
+            Func<Comment, Comment> func = (Comment comment) =>
+            {
+                return comment;
+            };
+            Task<Comment> commentTask = new Task<Comment>(() => func(MapCommentDtoToComment().ToArray()[0]));
+            commentTask.Start();
+
             _commentRepository.Setup(x => x.GetAll()).Returns(MapCommentDtoToComment());
+           // _commentRepository.Setup(x => x.Get(1)).Returns(commentTask);
         }
 
         [Fact]
@@ -32,6 +41,14 @@ namespace Ads.Tests
             var result = _commentService.GetAll();
 
             Assert.Equal(6, result.Count());
+        }
+
+        [Fact]
+        public async Task GetIdReturnComment()
+        {
+            var result = await _commentService.Get(1);
+
+            Assert.Equal(1, result.Id);
         }
 
         private IQueryable<Comment> MapCommentDtoToComment()
@@ -46,31 +63,37 @@ namespace Ads.Tests
             {
                 new CommentDto
                 {
+                    Id = 1,
                     AdvertId = 1,
                     Body = "Круто!"
                 },
                 new CommentDto
-                {
+                {   
+                    Id = 2,
                     AdvertId = 1,
                     Body = "Работает!"
                 },
                 new CommentDto
                 {
+                    Id = 3,
                     AdvertId = 1,
                     Body = "Если не работает - за работает!"
                 },
                 new CommentDto
                 {
+                    Id = 4,
                     AdvertId = 2,
                     Body = "А тут ид = 2!"
                 },
                 new CommentDto
                 {
+                    Id = 5,
                     AdvertId = 2,
                     Body = "И тут 2!"
                 },
                 new CommentDto
                 {
+                    Id = 6,
                     AdvertId = 3,
                     Body = "А тут 3!"
                 }
