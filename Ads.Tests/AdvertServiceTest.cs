@@ -37,7 +37,7 @@ namespace Ads.Tests
 
             _advertRepository.Setup(x => x.Get(1)).Returns(advertTask);
 
-           // _repository.Setup(x => x.SaveOrUpdate(advert)).Returns(advertTask);
+            _advertRepository.Setup(x => x.SaveOrUpdate(It.IsAny<Advert>())).Returns(advertTask);
         }
 
         [Fact]
@@ -184,16 +184,17 @@ namespace Ads.Tests
 
             Assert.Equal(3, result.Count());
         }
-       
-        /////Не работает
-        //[Fact]
-        //public async Task SaveOrUpdate_GetAdvertReturnAdvert()
-        //{
-        //    var result = await _service.SaveOrUpdate(advertDto);
 
-        //    Assert.Equal(result.Id, advertDto.Id);
-        //}
-        // 
+        // Не работает
+        [Fact]
+        public async Task SaveOrUpdate_GetAdvertReturnAdvert()
+        {
+            var buf = GetTestAdvertsDto().ToArray()[0];
+            var result = await _advertService.SaveOrUpdate(buf);
+
+            Assert.Equal(result.Id, buf.Id);
+        }
+
 
         private IQueryable<Advert> MapAdvertDtoToAdverts()
         {
