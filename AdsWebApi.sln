@@ -33,6 +33,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ads.Common", "Ads.Common\Ad
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Data Access Layer", "Data Access Layer", "{BE5E5BF5-2CDC-4F1B-882D-6477D362E7E2}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ads.Tests", "Ads.Tests\Ads.Tests.csproj", "{2A56AD3F-80C3-47DB-896D-35F02A9A5F3E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -71,6 +73,10 @@ Global
 		{DFAA3963-5AA3-4960-8454-B9883129C20F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DFAA3963-5AA3-4960-8454-B9883129C20F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DFAA3963-5AA3-4960-8454-B9883129C20F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2A56AD3F-80C3-47DB-896D-35F02A9A5F3E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2A56AD3F-80C3-47DB-896D-35F02A9A5F3E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2A56AD3F-80C3-47DB-896D-35F02A9A5F3E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2A56AD3F-80C3-47DB-896D-35F02A9A5F3E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -87,6 +93,7 @@ Global
 		{E69B2705-49CC-4478-B2F0-368433801F2D} = {AA4A1977-29AE-4E8D-9999-B880C0E04134}
 		{3480EF56-10A4-47FE-B69C-42CB477DE4B9} = {09E829C0-99D6-4630-AF03-AE7925A377AB}
 		{DFAA3963-5AA3-4960-8454-B9883129C20F} = {1609E221-11A0-480D-B15A-5850304B0EBB}
+		{2A56AD3F-80C3-47DB-896D-35F02A9A5F3E} = {E69B2705-49CC-4478-B2F0-368433801F2D}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {FF1CD632-BBCA-48FB-9332-68534A5823FF}
