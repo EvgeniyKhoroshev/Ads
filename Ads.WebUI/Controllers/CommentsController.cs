@@ -4,27 +4,39 @@ using Microsoft.AspNetCore.Mvc;
 using Ads.WebUI.Models;
 using Ads.Contracts.Dto;
 using Ads.WebUI.Components.ApiRequests;
+using System;
+using System.Linq;
+using Authentication.Contracts.CookieAuthentication;
 
 namespace Ads.WebUI.Controllers
 {
     public class CommentsController : Controller
     {
+        private int currentUserId;
         readonly APIRequests _requests;
         public CommentsController(APIRequests requests)
         {
+            currentUserId = Convert.ToInt32(
+                HttpContext.User.Claims.FirstOrDefault(
+                t => t.Type == CookieCustomClaimNames.UserId).Value);
             _requests = requests;
         }
         [HttpPost]
         public async Task<IActionResult> SaveOrUpdate(
             [Bind("Body,AdvertId")]CommentDto c)
         {
+            if (!User.Identity.IsAuthenticated)
+                return RedirectToAction("SignIn", "Authentication" );
+            c.UserId = currentUserId;
             await _requests.SaveOrUpdate(c);
-            return RedirectToAction("Details?id=${c.AdvertId}" ,"Adverts", c.AdvertId);
+            return RedirectToAction("Details", new { controller = "Adverts", id= c.AdvertId});
 
         }
         [HttpPost]
         public async Task<IActionResult> Delete(int? Id)
         {
+            if (!User.Identity.IsAuthenticated)
+                return RedirectToAction("SignIn", "Authentication");
             await _requests.DeleteComment(Id.Value);
             return RedirectToAction("Index");
         }

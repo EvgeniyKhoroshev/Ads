@@ -31,20 +31,23 @@
                     <p>@item.City.Name</p>
                     <p>@item.Price<hr />@item.Created</p>
                     <span class="adverts_actions">
-                        <a class="nav-item text-dark" asp-action="Edit" asp-route-id="@item.Id">Изменить</a> |
+                        @if (User.Identity.IsAuthenticated)
+                        {   <a class="nav-item text-dark" asp-action="Edit" asp-route-id="@item.Id">Изменить |</a> }
                         <a class="nav-item text-dark" asp-action="Details" asp-route-id="@item.Id">Детали</a> |
-                        <button type="submit" asp-controller="Adverts" asp-action="Delete" class="btn btn-primary" asp-route-id="@item.Id">Удалить</button>
+                        @if (User.Identity.IsAuthenticated) {
+                            {  <button type="submit" asp-controller="Adverts" asp-action="Delete" class="btn btn-primary" ifp-route-id="@item.Id">Удалить</button> }
+                   }
                     </span>
                 </form>
             </li>
         }
     </ul>
-        @if (Model.Page.PageNumber > 1)
-        {
-            <a href="~/?page=@(--Model.Page.PageNumber)">Предыдущая страница</a>
-        }
-        @if (Model.Page.PageNumber < Model.Page.TotalPages)
-        {
-            <a href="~/?page=@(++Model.Page.PageNumber)">Следующая страница</a>
-        }
+    @if (Model.Page.PageNumber > 1)
+    {
+        <a href="~/?page=@(--Model.Page.PageNumber)">Предыдущая страница</a>
+    }
+    @if (Model.Page.PageNumber < Model.Page.TotalPages)
+    {
+        <a href="~/?page=@(++Model.Page.PageNumber)">Следующая страница</a>
+    }
 </div>

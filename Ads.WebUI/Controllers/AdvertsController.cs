@@ -11,6 +11,7 @@ using Ads.WebUI.Controllers.Components;
 using Microsoft.AspNetCore.Http;
 using Ads.WebUI.Components.ApiRequests;
 using Authentication.Contracts.CookieAuthentication;
+using System.Linq;
 
 namespace Ads.WebUI.Controllers
 {
@@ -73,7 +74,7 @@ namespace Ads.WebUI.Controllers
         public async Task<IActionResult> Create()
         {
             if (!User.Identity.IsAuthenticated)
-                RedirectToAction("SignIn", "Authentication");
+                return RedirectToAction("SignIn", "Authentication");
             if (_AdvertsInfoDto == null)
                 _AdvertsInfoDto = await APIRequests.AdvInfoInit();
             return View(_AdvertsInfoDto);
@@ -82,13 +83,20 @@ namespace Ads.WebUI.Controllers
         public async Task<IActionResult> Create(
             [Bind("Name,Description,Address,Price,Context,CategoryId,CityId,TypeId,StatusId")]AdvertDto advert, List<IFormFile> Photos)
         {
-            advert.UserId = 1;
             List<ImageDto> s = null;
-            if (Photos.Count > 0)
-                s = await ImageProcessing.ImageToBase64(Photos, advert.Id);
-            advert.Images = s;
-            await _requests.SaveOrUpdate(advert);
-            return Redirect("Index");
+            int currentUserId = Convert.ToInt32(HttpContext.User.Claims.FirstOrDefault(t => t.Type == CookieCustomClaimNames.UserId).Value);
+            if ((currentUserId > 0) && (HttpContext.User.Identity.IsAuthenticated))
+            {
+                advert.UserId = currentUserId;
+                advert.UserId = 1;
+                if (Photos.Count > 0)
+                    s = await ImageProcessing.ImageToBase64(Photos, advert.Id);
+                advert.Images = s;
+                await _requests.SaveOrUpdate(advert);
+                return Redirect("Index");
+            }
+            RedirectToAction("SignIn", "Authentication");
+            return Unauthorized();
         }
         [HttpPost]
         public async Task<IActionResult> Delete(int? Id)
