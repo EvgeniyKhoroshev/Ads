@@ -28,7 +28,7 @@ namespace AdsWebApi.Controllers
 
         // GET api/values/5
         [HttpGet("{id}")]
-        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         //[Authorize("Bearer")]
         public async Task<ActionResult<AdvertDto>> Get(int id)
         {
