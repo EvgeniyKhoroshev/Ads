@@ -1,6 +1,7 @@
 ﻿using Ads.Common;
 using AppServices.ServiceInterfaces;
 using AppServices.Services;
+using Authentication.AppServices.JwtAuthentication;
 using Domain;
 using Domain.Data.Repositories;
 using Domain.Entities;
@@ -41,7 +42,10 @@ namespace WebApi.ComponentRegistrar
             services.AddTransient<IAdvertService, AdvertService>();
             services.AddTransient<IAdvertInfoRepository<AdvertsInfo, int>, AdvertInfoRepository>();
             services.AddTransient<IInfoService, InfoService>();
-
+            
+            // Jwt services
+            services.AddScoped<IJwtTokenService, JwtTokenService>();
+            services.AddScoped<IJwtAuthenticationService, JwtAuthenticationService>();
 
             AutoMapperConfig.Initialize();
 

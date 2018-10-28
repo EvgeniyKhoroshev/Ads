@@ -1,10 +1,10 @@
 
     @if (User.Identity.IsAuthenticated)
     {
-        <form asp-controller="Authentication" asp-page="/Account/SignOut" asp-route-returnUrl="@Url.Action("Index", "Adverts")" method="post" id="logoutForm" class="navbar-right">
+        <form asp-controller="Authentication" asp-action="signout" asp-route-returnUrl="@Url.Action("Index", "Adverts")" method="post" id="logoutForm" class="navbar-right">
             <ul class="nav navbar-nav navbar-right">
                 <li>
-                    <a asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @User.Identity.Name !</a>
+                    <a asp-area="Identity" asp-page="/Index" title="Manage">Hello @User.Identity.Name !</a>
                 </li>
                 <li>
                     <button type="submit" class="btn btn-link navbar-btn navbar-link">Logout</button>
@@ -15,7 +15,7 @@
     else
     {
         <ul class="nav navbar-nav navbar-right">
-            <li><a asp-controller="Authentications" asp-action="SignUp">Register</a></li>
-            <li><a asp-controller="Authentications" asp-action="SignIn">Login</a></li>
+            <li><a asp-controller="Authentication" asp-action="SignUp">Register</a></li>
+            <li><a asp-controller="Authentication" asp-action="SignIn">Login</a></li>
         </ul>
     } 

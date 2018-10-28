@@ -10,6 +10,7 @@ using Ads.Contracts.Dto.Filters;
 using Ads.WebUI.Controllers.Components;
 using Microsoft.AspNetCore.Http;
 using Ads.WebUI.Components.ApiRequests;
+using Authentication.Contracts.CookieAuthentication;
 
 namespace Ads.WebUI.Controllers
 {
@@ -71,6 +72,8 @@ namespace Ads.WebUI.Controllers
         }
         public async Task<IActionResult> Create()
         {
+            if (!User.Identity.IsAuthenticated)
+                RedirectToAction("SignIn", "Authentication");
             if (_AdvertsInfoDto == null)
                 _AdvertsInfoDto = await APIRequests.AdvInfoInit();
             return View(_AdvertsInfoDto);
@@ -79,6 +82,7 @@ namespace Ads.WebUI.Controllers
         public async Task<IActionResult> Create(
             [Bind("Name,Description,Address,Price,Context,CategoryId,CityId,TypeId,StatusId")]AdvertDto advert, List<IFormFile> Photos)
         {
+            advert.UserId = 1;
             List<ImageDto> s = null;
             if (Photos.Count > 0)
                 s = await ImageProcessing.ImageToBase64(Photos, advert.Id);

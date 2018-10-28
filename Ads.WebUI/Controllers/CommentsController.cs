@@ -19,7 +19,7 @@ namespace Ads.WebUI.Controllers
             [Bind("Body,AdvertId")]CommentDto c)
         {
             await _requests.SaveOrUpdate(c);
-            return RedirectToAction("Details/" + c.AdvertId, "Adverts");
+            return RedirectToAction("Details?id=${c.AdvertId}" ,"Adverts", c.AdvertId);
 
         }
         [HttpPost]

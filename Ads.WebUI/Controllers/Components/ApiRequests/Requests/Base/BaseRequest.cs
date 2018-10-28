@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Ads.WebUI.Controllers.Components.ApiRequests.BaseRequest
 {
-    public abstract class BaseRequest<T, Tid> : IBaseRequest<T, Tid>
+    public abstract class BaseRequest<T, Tid> : IBaseRequest<T, Tid>, IDisposable
     {
         private HttpClient httpClient;
         private string entityName;
@@ -156,6 +156,11 @@ namespace Ads.WebUI.Controllers.Components.ApiRequests.BaseRequest
                 throw new HttpRequestException(string.Join(Environment.NewLine, err));
             }
             return default(T);
+        }
+
+        public void Dispose()
+        {
+            ((IDisposable)httpClient).Dispose();
         }
     }
 }

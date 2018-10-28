@@ -34,10 +34,10 @@
         <ul class="list-group" id="advert_comments"></ul>
         <div class="col-md-4">
             <p>Написать комментарий: </p>
-            <form asp-controller="Comments" id="add" asp-action="SaveOrUpdate" method="post">
-                <input hidden id="AdvertId" value="@Model.Id" />
-                <input id="Body" class="form-control" />
-                <input type="button" onclick="add_comment()" value="Оставить комментарий" class="btn btn-default" />
+            <form asp-controller="Comments" asp-action="SaveOrUpdate"  id="add"  method="post">
+                <input hidden name="AdvertId" value="@Model.Id" />
+                <input name="Body" class="form-control" />
+                <input type="submit" value="Оставить комментарий" class="btn btn-default" />
             </form>
         </div>
     </div>

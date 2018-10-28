@@ -9,6 +9,9 @@ using System;
 using Ads.WebUI.Controllers.Components;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Ads.WebUI.ServiceExtentions;
+using Authentication.Contracts.JwtAuthentication.Options;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Authentication.AppServices.CookieAuthentication;
 
 namespace Ads.WebUI
 {
@@ -17,7 +20,7 @@ namespace Ads.WebUI
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
-            
+
         }
 
         public IConfiguration Configuration { get; }
@@ -25,36 +28,25 @@ namespace Ads.WebUI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+
             services.Configure<CookiePolicyOptions>(options =>
             {
                 // This lambda determines whether user consent for non-essential cookies is needed for a given request.
                 options.CheckConsentNeeded = context => true;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
+            services.Configure<JwtClientAuthenticationOptions>(Configuration.GetSection("JwtAuthentication"));
+            services.Configure<JwtBaseAuthenticationOptions>(Configuration.GetSection("JwtAuthentication"));
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddSingleton<IActionContextAccessor, ActionContextAccessor>();
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, o =>    {
+                    o.LoginPath = "/authentication/signin";
+                });
+            services.AddScoped<IJwtBasedCookieAuthenticationService, JwtBasedCookieAuthenticationService>();
             WebUIAutoMapperConfig.Initialize();
             services.APIRequestsRegistration();
-            //services.Configure<IdentityOptions>(options =>
-            //{
-            //    // Password settings.
-            //    options.Password.RequireDigit = true;
-            //    options.Password.RequireLowercase = true;
-            //    options.Password.RequireNonAlphanumeric = true;
-            //    options.Password.RequireUppercase = false;
-            //    options.Password.RequiredLength = 8;
-            //    options.Password.RequiredUniqueChars = 0;
 
-            //    // Lockout settings.
-            //    options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
-            //    options.Lockout.MaxFailedAccessAttempts = 5;
-            //    options.Lockout.AllowedForNewUsers = true;
-
-            //    // User settings.
-            //    options.User.AllowedUserNameCharacters =
-            //    "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
-            //    options.User.RequireUniqueEmail = false;
-            //});
             //services.ConfigureApplicationCookie(options =>
             //{
             //    // Cookie settings
@@ -84,7 +76,7 @@ namespace Ads.WebUI
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-            app.UseCookiePolicy();
+            app.UseAuthentication();
 
             app.UseMvc(routes =>
             {

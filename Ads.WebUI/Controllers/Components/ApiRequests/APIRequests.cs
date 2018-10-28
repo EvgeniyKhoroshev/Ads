@@ -1,6 +1,9 @@
 ﻿using Ads.Contracts.Dto;
 using Ads.Contracts.Dto.Filters;
 using Ads.WebUI.Controllers.Components.ApiRequests.Interfaces;
+using Authentication.Contracts.Basic;
+using Authentication.Contracts.JwtAuthentication;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
@@ -82,19 +85,17 @@ namespace Ads.WebUI.Components.ApiRequests
         //    catch (Exception) { }
         //    return null;
         //}
-        public static async Task<JwtSecurityToken> SignIn(UserLoginDto user)
+        public static async Task<ActionResult<JwtAuthenticationToken>> SignIn(BasicAuthenticationRequest user)
         {
             try
             {
                 using (var httpClient = new HttpClient())
                 {
-                    HttpResponseMessage response = await httpClient.PostAsJsonAsync($"http://localhost:56663/api/authorization/signin", user);
+                    HttpResponseMessage response = await httpClient.PostAsJsonAsync($"http://localhost:56663/JwtAuthentication", user);
                     if (response.IsSuccessStatusCode)
                     {
-                        var jwtToken = await response.Content.ReadAsStringAsync();
-                        var h = new JwtSecurityTokenHandler();
-                        var s = h.ReadJwtToken(jwtToken) as JwtSecurityToken;
-                        return s;
+                        var jwtToken = await response.Content.ReadAsAsync<JwtAuthenticationToken>();
+                        return jwtToken;
                     }
                 }
             }

@@ -1,22 +1,43 @@
 ﻿using AppServices.ServiceInterfaces;
+using Authentication.AppServices.JwtAuthentication;
+using Authentication.Contracts.JwtAuthentication.Options;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting.Internal;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
+using System;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace AdsWebApi.Security
 {
-    public static class ServiceCollectionSecurityExtention
+    public static class ServiceCollectionSecurityExtension
     {
-        public static readonly string _validIssuer = "https://localhost:44396";
-        public static readonly string _validAudience = "https://localhost:44382";
-        public static readonly string _securityKey = "C-137@# Try To Encode";
-
-        public static void JWTSecurityExtention(this IServiceCollection services)
+        public static void JWTSecurityExtention(this IServiceCollection services, JwtServerAuthenticationOptions jwtOptions)
         {
-            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_securityKey));
+            /// Configure Identity
+            services.Configure<IdentityOptions>(options =>
+            {
+                // Password settings.
+                options.Password.RequireDigit = true;
+                options.Password.RequireLowercase = true;
+                options.Password.RequireNonAlphanumeric = true;
+                options.Password.RequireUppercase = false;
+                options.Password.RequiredLength = 8;
+                options.Password.RequiredUniqueChars = 0;
+
+                // Lockout settings.
+                options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(60);
+                options.Lockout.MaxFailedAccessAttempts = 5;
+                options.Lockout.AllowedForNewUsers = true;
+
+                // User settings.
+                options.User.AllowedUserNameCharacters =
+                "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
+                options.User.RequireUniqueEmail = false;
+            });
             services.AddAuthentication(o =>
             {
                 o.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -24,16 +45,11 @@ namespace AdsWebApi.Security
             })
                 .AddJwtBearer(options =>
                 {
-                    options.TokenValidationParameters = new TokenValidationParameters
-                    {
-                        ValidateIssuer = false,
-                        ValidateAudience = false,
-                        ValidateLifetime = true,
-                        ValidateIssuerSigningKey = true,
-                        ValidIssuer = _validIssuer,
-                        ValidAudience = _validAudience,
-                        IssuerSigningKey = securityKey
-                    };
+                    options.SaveToken = true;
+                    options.Audience = jwtOptions.Audience;
+                    options.ClaimsIssuer = jwtOptions.Issuer;
+                    options.TokenValidationParameters = JwtDefaultsProvider.GetTokenValidationParameters(
+                        jwtOptions.Issuer, jwtOptions.Audience, jwtOptions.Secret);
                 });
             services.AddAuthorization(auth =>
             {
