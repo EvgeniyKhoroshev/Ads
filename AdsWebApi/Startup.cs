@@ -57,8 +57,6 @@ namespace AdsWebApi
             {
                 app.UseHsts();
             }
-            //container.Verify();
-
             app.UseAuthentication();
             app.UseHttpsRedirection();
             app.UseMvc();

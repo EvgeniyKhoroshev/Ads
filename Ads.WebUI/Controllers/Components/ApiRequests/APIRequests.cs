@@ -1,8 +1,10 @@
 ﻿using Ads.Contracts.Dto;
 using Ads.Contracts.Dto.Filters;
 using Ads.WebUI.Controllers.Components.ApiRequests.Interfaces;
+using Authentication.AppServices.Extensions;
 using Authentication.Contracts.Basic;
 using Authentication.Contracts.JwtAuthentication;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -21,11 +23,16 @@ namespace Ads.WebUI.Components.ApiRequests
     {
         readonly IAdvertRequest _advertRequest;
         readonly ICommentRequest _commentRequest;
+        readonly IHttpContextAccessor _context;
+        readonly string _authToken;
         public APIRequests(IAdvertRequest advertRequest,
-            ICommentRequest commentRequest)
+            ICommentRequest commentRequest,
+            IHttpContextAccessor context)
         {
             _advertRequest = advertRequest;
             _commentRequest = commentRequest;
+            _context = context;
+            _authToken = _context.HttpContext.User.GetAuthToken();
         }
 
         /// <summary>
@@ -66,25 +73,8 @@ namespace Ads.WebUI.Components.ApiRequests
         }
         public async Task<AdvertDto> GetAdvert(int id)
         {
-            return await _advertRequest.Get(id);
+            return await _advertRequest.Get(id, _authToken);
         }
-        //public static async Task<List<AdvertDto>> GetAdverts()
-        //{
-
-        //    try
-        //    {
-        //        using (var httpClient = new HttpClient())
-        //        {
-        //            HttpResponseMessage response = await httpClient.GetAsync($"http://localhost:56663/api/adverts");
-        //            if (response.IsSuccessStatusCode)
-        //            {
-        //                return await response.Content.ReadAsAsync<List<AdvertDto>>();
-        //            }
-        //        }
-        //    }
-        //    catch (Exception) { }
-        //    return null;
-        //}
         public static async Task<ActionResult<JwtAuthenticationToken>> SignIn(BasicAuthenticationRequest user)
         {
             try
@@ -119,12 +109,12 @@ namespace Ads.WebUI.Components.ApiRequests
         }
         public async Task<AdvertDto> SaveOrUpdate(AdvertDto advert)
         {
-            return await _advertRequest.SaveOrUpdate(advert);
+            return await _advertRequest.SaveOrUpdate(advert, _authToken);
         }
 
         public async Task<CommentDto> SaveOrUpdate(CommentDto comment)
         {
-            return await _commentRequest.SaveOrUpdate(comment);
+            return await _commentRequest.SaveOrUpdate(comment, _authToken);
         }
 
         public async Task<IList<AdvertDto>> Filter(FilterDto filter)
@@ -146,11 +136,11 @@ namespace Ads.WebUI.Components.ApiRequests
         }
         public async Task DeleteAdvert(int id)
         {
-            await _advertRequest.Delete(id);
+            await _advertRequest.Delete(id, _authToken);
         }
         public async Task DeleteComment(int id)
         {
-            await _commentRequest.Delete(id);
+            await _commentRequest.Delete(id, _authToken);
         }
         public async Task<IList<CommentDto>> GetComments()
         {

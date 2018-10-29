@@ -1,9 +1,14 @@
 ﻿using Ads.Contracts.Dto.Filters;
 using Ads.WebUI.Controllers.Components.ApiRequests.Interfaces.Base;
+using Authentication.AppServices.Extensions;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
+using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
+using System.Text;
 
 namespace Ads.WebUI.Controllers.Components.ApiRequests.BaseRequest
 {
@@ -25,14 +30,18 @@ namespace Ads.WebUI.Controllers.Components.ApiRequests.BaseRequest
         /// URL substring to request api</param>
         /// <param name="Id"> Идентификатор <paramref name="entityName"/> / 
         /// Id of a <paramref name="entityName"/></param>
-        public virtual async Task Delete(Tid id)
+        public virtual async Task Delete(Tid id, string token)
         {
             try
             {
-                using (httpClient)
+                var request = new HttpRequestMessage(HttpMethod.Delete, $"{ _apiUrl }{entityName}/{id}")
                 {
-                    HttpResponseMessage response = await httpClient.DeleteAsync(_apiUrl + entityName + "/"+id);
+                    Headers = {
+                    { HttpRequestHeader.ContentType.ToString(), "application/json"},
+                    { HttpRequestHeader.Authorization.ToString(), $"Bearer {token}"}
                 }
+                };
+                HttpResponseMessage response = await httpClient.SendAsync(request);
             }
             catch (HttpRequestException ex)
             {
@@ -51,22 +60,26 @@ namespace Ads.WebUI.Controllers.Components.ApiRequests.BaseRequest
         /// Id of a <paramref name="entityName"/></param>
         /// <returns> Найденная сущность /
         /// The founded entity </returns>
-        public virtual async Task<T> Get(Tid Id)
+        public virtual async Task<T> Get(Tid Id, string token)
         {
             try
             {
-                using (httpClient)
+                var request = new HttpRequestMessage(HttpMethod.Get, $"{ _apiUrl }{entityName}/{Id}")
                 {
-                    HttpResponseMessage response = await httpClient.GetAsync(_apiUrl + entityName + "/"+Id);
-                    if (response.IsSuccessStatusCode)
-                    {
-                        return await response.Content.ReadAsAsync<T>();
-                    }
+                    Headers = {
+                    { HttpRequestHeader.ContentType.ToString(), "application/json"},
+                    { HttpRequestHeader.Authorization.ToString(), $"Bearer {token}"}
+                }
+                };
+                HttpResponseMessage response = await httpClient.SendAsync(request);
+                if (response.IsSuccessStatusCode)
+                {
+                    return await response.Content.ReadAsAsync<T>();
                 }
             }
             catch (HttpRequestException ex)
             {
-                string err = "При попытке выполнить Get(" + entityName + ", id = "+Id+") произошла ошибка. " + ex.Message;
+                string err = "При попытке выполнить Get(" + entityName + ", id = " + Id + ") произошла ошибка. " + ex.Message;
                 throw new HttpRequestException(string.Join(Environment.NewLine, err));
             }
             return default(T);
@@ -113,7 +126,7 @@ namespace Ads.WebUI.Controllers.Components.ApiRequests.BaseRequest
             {
                 using (httpClient)
                 {
-                    HttpResponseMessage response = await httpClient.PostAsJsonAsync(_apiUrl + entityName+"/filter", filter);
+                    HttpResponseMessage response = await httpClient.PostAsJsonAsync(_apiUrl + entityName + "/filter", filter);
                     if (response.IsSuccessStatusCode)
                     {
                         return await response.Content.ReadAsAsync<IList<T>>();
@@ -137,27 +150,40 @@ namespace Ads.WebUI.Controllers.Components.ApiRequests.BaseRequest
         ///  The parameter to SaveOrUpdate request</param>
         /// <returns>Сохраненная сущность /
         /// Saved entity</returns>
-        public virtual async Task<T> SaveOrUpdate(T entity)
+        public virtual async Task<T> SaveOrUpdate(T entity, string token)
         {
             try
             {
                 using (httpClient)
                 {
-                    HttpResponseMessage response = await httpClient.PostAsJsonAsync(_apiUrl + entityName+"/saveorupdate", entity);
+                    HttpResponseMessage response = await httpClient.PostAsJsonAsync(_apiUrl + entityName + "/saveorupdate", entity);
                     if (response.IsSuccessStatusCode)
                     {
                         return await response.Content.ReadAsAsync<T>();
                     }
                 }
+                //var request = new HttpRequestMessage(HttpMethod.Post, _apiUrl + entityName + "/saveorupdate")
+                //{
+                //    Headers = {
+                //    { HttpRequestHeader.ContentType.ToString(), "application/json"},
+                //    { HttpRequestHeader.Authorization.ToString(), $"Bearer {token}"}
+                //    }
+                //};
+                //var json = JsonConvert.SerializeObject(entity);
+                //request.Content = new ByteArrayContent(Encoding.UTF8.GetBytes(json));
+                //HttpResponseMessage response = await httpClient.SendAsync(request);
+                //if (response.IsSuccessStatusCode)
+                //{
+                //    return await response.Content.ReadAsAsync<T>();
+                //}
             }
-            catch (HttpRequestException ex)
+            catch (Exception ex)
             {
-                string err = "При попытке выполнить SaveOrUpdate(" + entityName + ") произошла ошибка. " + ex.Message;
-                throw new HttpRequestException(string.Join(Environment.NewLine, err));
+                string err = $"При попытке выполнить SaveOrUpdate({entityName}) произошла ошибка. {ex.Message}";
+                throw new Exception(string.Join(Environment.NewLine, err));
             }
             return default(T);
         }
-
         public void Dispose()
         {
             ((IDisposable)httpClient).Dispose();

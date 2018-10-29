@@ -52,8 +52,6 @@ namespace Domain
             {
                 t.Property(x => x.Id)
                 .UseSqlServerIdentityColumn();
-                t.Property(x => x.DefaultId)
-                .HasDefaultValue(1);
             });
             builder.Entity<Comment>()
                 .Property(t => t.Id)

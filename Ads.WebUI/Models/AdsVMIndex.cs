@@ -1,11 +1,16 @@
 ﻿using Ads.Contracts.Dto;
 using Ads.Contracts.Dto.Internal;
 using System;
+using System.Collections.Generic;
 
 namespace Ads.WebUI.Models
 {
     public class AdsVMIndex
     {
+        /// <summary>
+        /// Фотография объявления по-умолчанию
+        /// </summary>
+        public IEnumerable<string> Images { get; set; }
         public int Id { get; set; }
         /// <summary>
         /// Название объявления / Advert name

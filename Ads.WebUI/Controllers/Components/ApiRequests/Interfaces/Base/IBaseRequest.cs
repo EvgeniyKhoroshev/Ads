@@ -16,7 +16,7 @@ namespace Ads.WebUI.Controllers.Components.ApiRequests.Interfaces.Base
         /// Id of a <paramref name="entityName"/></param>
         /// <returns> Найденная сущность /
         /// The founded entity </returns>
-        Task<T> Get(Tid Id);
+        Task<T> Get(Tid Id, string token);
         /// <summary>
         /// Http запрос к API для получения всех <paramref name="entity"/>
         /// / HTTP request to getting all of <paramref name="entity"/>
@@ -36,7 +36,7 @@ namespace Ads.WebUI.Controllers.Components.ApiRequests.Interfaces.Base
         ///  The parameter to SaveOrUpdate request</param>
         /// <returns>Сохраненная сущность /
         /// Saved entity</returns>
-        Task<T> SaveOrUpdate(T entity);
+        Task<T> SaveOrUpdate(T entity, string token);
         /// <summary>
         /// Http запрос к API для удаления <paramref name="entityName"/> по Id
         /// / HTTP request to deleting a <paramref name="entityName"/> by Id
@@ -45,7 +45,7 @@ namespace Ads.WebUI.Controllers.Components.ApiRequests.Interfaces.Base
         /// URL substring to request api</param>
         /// <param name="Id"> Идентификатор <paramref name="entityName"/> / 
         /// Id of a <paramref name="entityName"/></param>
-        Task Delete(Tid id);
+        Task Delete(Tid id, string token);
         /// <summary>
         /// Http запрос к API для получения всех <paramref name="entity"/> с фильтром
         /// / HTTP request to getting all of <paramref name="entity"/> with filter

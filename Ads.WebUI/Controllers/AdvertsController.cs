@@ -99,9 +99,11 @@ namespace Ads.WebUI.Controllers
             return Unauthorized();
         }
         [HttpPost]
-        public async Task<IActionResult> Delete(int? Id)
+        public async Task<IActionResult> Delete(int? Id, int userId)
         {
-            await _requests.DeleteAdvert(Id.Value);
+            int currentUserId = Convert.ToInt32(HttpContext.User.Claims.FirstOrDefault(t => t.Type == CookieCustomClaimNames.UserId).Value);
+            if ((currentUserId > 0) && (HttpContext.User.Identity.IsAuthenticated) && (currentUserId == userId))
+                await _requests.DeleteAdvert(Id.Value);
             return RedirectToAction("Index");
         }
         [HttpGet]

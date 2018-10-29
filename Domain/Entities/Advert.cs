@@ -9,7 +9,7 @@ namespace Domain.Entities
         /// Название объявления / Advert name
         /// </summary>
         [Required]
-        public string Name{ get; set; }
+        public string Name { get; set; }
         /// <summary>
         /// Описание объявления / Ads description
         /// </summary>
@@ -69,6 +69,7 @@ namespace Domain.Entities
         /// Advert photos collection
         /// </summary>
         public virtual IEnumerable<Image> Images { get; set; }
+        //public string DefaultImage { get; set; }
         public Advert()
         {
         }

@@ -6,7 +6,7 @@
 <div>
     <ul class="list-group">
         <li class="list-group-item nav-item" style="margin-top:10px;">
-            <span><img class="img-circle small" src="~/images/default.png" alt="Default image" /></span>
+            <span><img class="img-responsive" src="~/images/default.jpg" alt="Default image" /></span>
             <h3 style="text-align: center">@Model.Name</h3><hr /><br />
             @if (Model.Images.Count() > 0)
             {
@@ -34,7 +34,7 @@
         <ul class="list-group" id="advert_comments"></ul>
         <div class="col-md-4">
             <p>Написать комментарий: </p>
-            <form asp-controller="Comments" asp-action="SaveOrUpdate"  id="add"  method="post">
+            <form asp-controller="Comments" asp-action="SaveOrUpdate" id="add" method="post">
                 <input hidden name="AdvertId" value="@Model.Id" />
                 <input name="Body" class="form-control" />
                 <input type="submit" value="Оставить комментарий" class="btn btn-default" />

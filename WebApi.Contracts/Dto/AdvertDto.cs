@@ -6,6 +6,8 @@ namespace Ads.Contracts.Dto
 {
     public class AdvertDto : Base
     {
+        //public string DefaultImage { get; set; }
+
         /// <summary>
         /// Описание объявления / Ads description
         /// </summary>
@@ -59,5 +61,9 @@ namespace Ads.Contracts.Dto
         public int CityId { get; set; }
         public int TypeId { get; set; }
         public int StatusId { get; set; }
+        public AdvertDto()
+        {
+            Created = DateTime.Now;
+        }
     }
 }
