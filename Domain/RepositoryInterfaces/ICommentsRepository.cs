@@ -1,7 +1,9 @@
 ﻿using Domain.Entities;
+using Domain.RepositoryInterfaces.Base;
+
 namespace Domain.RepositoryInterfaces
 {
-    public interface ICommentsRepository : Base.IRepositoryBase<Comment, int>
+    public interface ICommentsRepository : IRepositoryBase<Comment, int>
     {
     }
 }

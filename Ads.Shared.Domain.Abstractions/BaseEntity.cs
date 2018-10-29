@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace Domain.Entities.Base
+namespace Ads.Shared.Domain.Abstractions
 {
     public class BaseEntity : EntityWithTypedIdBase<int>
     {

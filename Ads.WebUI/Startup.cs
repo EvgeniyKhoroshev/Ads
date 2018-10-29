@@ -1,17 +1,12 @@
 ﻿using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using System;
-using Ads.WebUI.Controllers.Components;
-using Microsoft.AspNetCore.Mvc.Infrastructure;
-using Ads.WebUI.ServiceExtentions;
+using Ads.WebUI.ServiceExtensions;
 using Authentication.Contracts.JwtAuthentication.Options;
 using Microsoft.AspNetCore.Authentication.Cookies;
-using Authentication.AppServices.CookieAuthentication;
 
 namespace Ads.WebUI
 {
@@ -35,28 +30,19 @@ namespace Ads.WebUI
                 options.CheckConsentNeeded = context => true;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
+            // Getting the Jwt auth options
             services.Configure<JwtClientAuthenticationOptions>(Configuration.GetSection("JwtAuthentication"));
             services.Configure<JwtBaseAuthenticationOptions>(Configuration.GetSection("JwtAuthentication"));
-            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-            services.AddSingleton<IActionContextAccessor, ActionContextAccessor>();
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, o =>    {
                     o.LoginPath = "/authentication/signin";
                 });
-            services.AddScoped<IJwtBasedCookieAuthenticationService, JwtBasedCookieAuthenticationService>();
-            WebUIAutoMapperConfig.Initialize();
-            services.APIRequestsRegistration();
+            // Custom service collection extensions
+            services.ServiceCollectionExtension();
+            services.AutoMapperInitialize();
+            services.ClientRequestsRegistration();
+            services.JwtAuthRegistration();
 
-            //services.ConfigureApplicationCookie(options =>
-            //{
-            //    // Cookie settings
-            //    options.Cookie.HttpOnly = true;
-            //    options.ExpireTimeSpan = TimeSpan.FromMinutes(5);
-
-            //    options.LoginPath = "/Identity/Account/Login";
-            //    options.AccessDeniedPath = "/Identity/Account/AccessDenied";
-            //    options.SlidingExpiration = true;
-            //});
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
 

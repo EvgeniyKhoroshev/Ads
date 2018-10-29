@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Ads.Shared.Domain.Abstractions;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
@@ -6,7 +7,7 @@ using System.Threading.Tasks;
 namespace Domain.Data.Repositories.Base
 {
     public abstract class BaseRepository<T, Tid> : RepositoryInterfaces.Base.IRepositoryBase<T, int>
-        where T : Entities.Base.BaseEntity
+        where T : BaseEntity
     {
         /// <summary>
         /// Контекст БД / DB context

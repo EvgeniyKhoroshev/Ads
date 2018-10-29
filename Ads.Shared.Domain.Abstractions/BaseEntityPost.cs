@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace Domain.Entities.Base
+namespace Ads.Shared.Domain.Abstractions
 {
     public class BaseEntityPost : BaseEntity
     {
@@ -38,7 +38,6 @@ namespace Domain.Entities.Base
         /// </summary>
         public BaseEntityPost()
         {
-            Body = "";
             Created = DateTime.Now;
             Rating = 0;
         }

@@ -1,10 +1,10 @@
-﻿using Domain.Entities.Base;
+﻿using Ads.Shared.Domain.Abstractions;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Domain.Entities
 {
-    public class Region : Base.EntityWithTypedIdBase<int>
+    public class Region : EntityWithTypedIdBase<int>
     {
         /// <summary>
         /// Название региона / name of region

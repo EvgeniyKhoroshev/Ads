@@ -10,7 +10,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Domain\Domain.csproj" />
-    <ProjectReference Include="..\WebApi.Contracts\Ads.Contracts.csproj" />
+    <ProjectReference Include="..\WebApi.Contracts\Ads.CoreService.Contracts.csproj" />
   </ItemGroup>
 
   <ItemGroup>

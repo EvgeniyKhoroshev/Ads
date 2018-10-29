@@ -1,4 +1,4 @@
-﻿namespace Domain.Entities.Base
+﻿namespace Ads.Shared.Domain.Abstractions
 {
     public abstract class EntityWithTypedIdBase<TId>
     {

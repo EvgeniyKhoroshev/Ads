@@ -1,9 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using Ads.Shared.Domain.Abstractions;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace Domain.Entities
 {
-    public class Advert : Base.BaseEntity
+    public class Advert : BaseEntity
     {
         /// <summary>
         /// Название объявления / Advert name

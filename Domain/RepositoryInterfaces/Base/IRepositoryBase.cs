@@ -1,9 +1,10 @@
-﻿using System.Linq;
+﻿using Ads.Shared.Domain.Abstractions;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Domain.RepositoryInterfaces.Base
 {
-    public interface IRepositoryBase<T, Tid> where  T : Entities.Base.EntityWithTypedIdBase<Tid>
+    public interface IRepositoryBase<T, Tid> where  T : EntityWithTypedIdBase<Tid>
     {
         /// <summary>
         /// Удаление сущности по Id // 

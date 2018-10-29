@@ -12,10 +12,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\AppServices\AppServices.csproj" />
+    <ProjectReference Include="..\AppServices\Ads.CoreService.AppServices.csproj" />
     <ProjectReference Include="..\Authentication.AppServices\Authentication.AppServices.csproj" />
     <ProjectReference Include="..\Authentication.Contracts\Authentication.Contracts.csproj" />
-    <ProjectReference Include="..\WebApi.Contracts\Ads.Contracts.csproj" />
+    <ProjectReference Include="..\WebApi.Contracts\Ads.CoreService.Contracts.csproj" />
   </ItemGroup>
 
 </Project>

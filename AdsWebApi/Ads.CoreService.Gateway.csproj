@@ -25,11 +25,11 @@
   <ItemGroup>
     <ProjectReference Include="..\Ads.Common\Ads.Common.csproj" />
     <ProjectReference Include="..\Ads.Tests\Ads.Tests.csproj" />
-    <ProjectReference Include="..\AppServices\AppServices.csproj" />
+    <ProjectReference Include="..\AppServices\Ads.CoreService.AppServices.csproj" />
     <ProjectReference Include="..\Authentication.AppServices\Authentication.AppServices.csproj" />
     <ProjectReference Include="..\Authentication.Contracts\Authentication.Contracts.csproj" />
-    <ProjectReference Include="..\WebApi.ComponentRegistrar\WebApi.ComponentRegistrar.csproj" />
-    <ProjectReference Include="..\WebApi.Contracts\Ads.Contracts.csproj" />
+    <ProjectReference Include="..\WebApi.ComponentRegistrar\Ads.CoreService.ComponentRegistrar.csproj" />
+    <ProjectReference Include="..\WebApi.Contracts\Ads.CoreService.Contracts.csproj" />
   </ItemGroup>
 
   <ProjectExtensions><VisualStudio><UserProperties appsettings_1json__JSONSchema="" /></VisualStudio></ProjectExtensions>

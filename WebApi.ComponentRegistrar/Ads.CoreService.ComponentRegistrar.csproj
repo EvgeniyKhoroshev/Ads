@@ -11,7 +11,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Ads.Common\Ads.Common.csproj" />
-    <ProjectReference Include="..\AppServices\AppServices.csproj" />
+    <ProjectReference Include="..\AppServices\Ads.CoreService.AppServices.csproj" />
     <ProjectReference Include="..\Authentication.AppServices\Authentication.AppServices.csproj" />
     <ProjectReference Include="..\Domain.Data\Domain.Data.csproj" />
     <ProjectReference Include="..\Domain\Domain.csproj" />
