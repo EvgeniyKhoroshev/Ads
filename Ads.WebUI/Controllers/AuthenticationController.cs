@@ -3,6 +3,8 @@ using Ads.WebUI.Components.ApiRequests;
 using AppServices.ServiceInterfaces;
 using Authentication.AppServices.CookieAuthentication;
 using Authentication.Contracts.Basic;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -38,6 +40,13 @@ namespace Ads.WebUI.Controllers
             return RedirectToAction("Index", "Adverts");
             //await APIRequests.SignIn(user);
 
+        }
+        [HttpGet]
+        public async Task<IActionResult> SignOut()
+        {
+            await APIRequests.SignOut();
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            return RedirectToAction("Index", "Adverts");
         }
         [HttpGet]
         public IActionResult SignUp() => View();

@@ -71,6 +71,21 @@ namespace Ads.WebUI.Components.ApiRequests
             catch (Exception) { }
             return null;
         }
+        public static async Task SignOut()
+        {
+            try
+            {
+                using (var httpClient = new HttpClient())
+                {
+                    HttpResponseMessage response = await httpClient.GetAsync($"http://localhost:56663/authentication/signout");
+                    if (response.IsSuccessStatusCode)
+                    {
+                        var jwtToken = await response.Content.ReadAsAsync<JwtAuthenticationToken>();
+                    }
+                }
+            }
+            catch (Exception ex) { throw new ArithmeticException("Something went wrong. " + ex.Message); }
+        }
         public async Task<AdvertDto> GetAdvert(int id)
         {
             return await _advertRequest.Get(id, _authToken);

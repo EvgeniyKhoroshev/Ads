@@ -33,12 +33,19 @@
         <hr />
         <ul class="list-group" id="advert_comments"></ul>
         <div class="col-md-4">
-            <p>Написать комментарий: </p>
-            <form asp-controller="Comments" asp-action="SaveOrUpdate" id="add" method="post">
-                <input hidden name="AdvertId" value="@Model.Id" />
-                <input name="Body" class="form-control" />
-                <input type="submit" value="Оставить комментарий" class="btn btn-default" />
-            </form>
+            @if (!User.Identity.IsAuthenticated)
+            {
+                <p>Только зарегестрированные пользователи могут оставлять комментарии.</p>
+            }
+            else
+            {
+                <p>Написать комментарий: </p>
+                <form asp-controller="Comments" asp-action="SaveOrUpdate" id="add" method="post">
+                    <input hidden name="AdvertId" value="@Model.Id" />
+                    <input name="Body" class="form-control" />
+                    <input type="submit" value="Оставить комментарий" class="btn btn-default" />
+                </form>
+            }
         </div>
     </div>
 </div>

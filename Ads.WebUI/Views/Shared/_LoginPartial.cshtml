@@ -4,10 +4,10 @@
         <form asp-controller="Authentication" asp-action="signout" asp-route-returnUrl="@Url.Action("Index", "Adverts")" method="post" id="logoutForm" class="navbar-right">
             <ul class="nav navbar-nav navbar-right">
                 <li>
-                    <a asp-area="Identity" asp-page="/Index" title="Manage">Hello @User.Claims.FirstOrDefault(c => c.Type == CookieCustomClaimNames.UserName).Value!</a>
+                    <a asp-area="Identity" asp-page="/Index" title="Manage">Hello @User.Claims.FirstOrDefault(c => c.Type == CookieCustomClaimNames.UserName).Value ! </a>
                 </li>
                 <li>
-                    <button type="submit" class="btn btn-link navbar-btn navbar-link">Logout</button>
+                    <a href="/authentication/signout">Logout </a>
                 </li>
             </ul>
         </form>

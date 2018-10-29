@@ -7,6 +7,7 @@ using Ads.WebUI.Components.ApiRequests;
 using System;
 using System.Linq;
 using Authentication.Contracts.CookieAuthentication;
+using Microsoft.AspNetCore.Http;
 
 namespace Ads.WebUI.Controllers
 {
@@ -14,10 +15,12 @@ namespace Ads.WebUI.Controllers
     {
         private int currentUserId;
         readonly APIRequests _requests;
-        public CommentsController(APIRequests requests)
+        IHttpContextAccessor _context;
+        public CommentsController(APIRequests requests, IHttpContextAccessor context)
         {
+            _context = context;
             currentUserId = Convert.ToInt32(
-                HttpContext.User.Claims.FirstOrDefault(
+                _context.HttpContext.User.Claims.FirstOrDefault(
                 t => t.Type == CookieCustomClaimNames.UserId).Value);
             _requests = requests;
         }

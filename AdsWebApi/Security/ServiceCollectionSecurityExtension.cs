@@ -45,6 +45,7 @@ namespace AdsWebApi.Security
             })
                 .AddJwtBearer(options =>
                 {
+                    options.RequireHttpsMetadata = false;
                     options.SaveToken = true;
                     options.Audience = jwtOptions.Audience;
                     options.ClaimsIssuer = jwtOptions.Issuer;

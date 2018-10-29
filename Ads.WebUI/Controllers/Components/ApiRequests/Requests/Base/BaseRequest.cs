@@ -21,7 +21,7 @@ namespace Ads.WebUI.Controllers.Components.ApiRequests.BaseRequest
             entityName = Name;
             httpClient = new HttpClient();
         }
-        private readonly string _apiUrl = "http://localhost:56663/api/";
+        private readonly string _apiUrl = "https://localhost:44396/api/";
         /// <summary>
         /// Http запрос к API для удаления <paramref name="entityName"/> по Id
         /// / HTTP request to deleting a <paramref name="entityName"/> by Id
@@ -34,6 +34,10 @@ namespace Ads.WebUI.Controllers.Components.ApiRequests.BaseRequest
         {
             try
             {
+                httpClient.DefaultRequestHeaders.Authorization = new
+                System.Net.Http.Headers.AuthenticationHeaderValue(
+                HttpRequestHeader.Authorization.ToString(), $"Bearer {token}"
+                );
                 var request = new HttpRequestMessage(HttpMethod.Delete, $"{ _apiUrl }{entityName}/{id}")
                 {
                     Headers = {
@@ -64,6 +68,10 @@ namespace Ads.WebUI.Controllers.Components.ApiRequests.BaseRequest
         {
             try
             {
+                httpClient.DefaultRequestHeaders.Authorization = new
+                System.Net.Http.Headers.AuthenticationHeaderValue(
+                HttpRequestHeader.Authorization.ToString(), $"Bearer {token}"
+                );
                 var request = new HttpRequestMessage(HttpMethod.Get, $"{ _apiUrl }{entityName}/{Id}")
                 {
                     Headers = {
