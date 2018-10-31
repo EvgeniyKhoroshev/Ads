@@ -1,4 +1,5 @@
 ﻿using Ads.Contracts.Dto.Filters;
+using Ads.Shared.Contracts;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -55,5 +56,6 @@ namespace Ads.WebUI.Controllers.Components.ApiRequests.Interfaces.Base
         /// <returns> Сохраненная сущность /
         /// List of <paramref name="entity"/></returns>
         Task<IList<T>> GetFiltred(FilterDto filter);
+        Task<PagedCollection<T>> GetAllPaginatedAsync(PaginationFilterDto filter);
     }
 }

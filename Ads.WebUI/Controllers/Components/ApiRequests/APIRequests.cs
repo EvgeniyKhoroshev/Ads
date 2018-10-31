@@ -1,9 +1,13 @@
 ﻿using Ads.Contracts.Dto;
 using Ads.Contracts.Dto.Filters;
+using Ads.CoreService.Contracts.Dto.Filters;
+using Ads.Shared.Contracts;
 using Ads.WebUI.Controllers.Components.ApiRequests.Interfaces;
+using Ads.WebUI.Models;
 using Authentication.AppServices.Extensions;
 using Authentication.Contracts.Basic;
 using Authentication.Contracts.JwtAuthentication;
+using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -132,6 +136,30 @@ namespace Ads.WebUI.Components.ApiRequests
             return await _commentRequest.SaveOrUpdate(comment, _authToken);
         }
 
+        public async Task<PagedCollection<AdsVMIndex>> FiltredAsync(AdvertFilterDto filter)
+        {
+            var buf = await _advertRequest.GetFiltredAsync(filter);
+            var result = new PagedCollection<AdsVMIndex>(
+                Mapper.Map<AdsVMIndex[]>(buf.Items),
+                pageNumber: buf.PageNumber,
+                pageSize: buf.PageSize,
+                totalPages: buf.TotalPages
+                );
+            return result;
+            //try
+            //{
+            //    using (var httpClient = new HttpClient())
+            //    {
+            //        HttpResponseMessage response = await httpClient.PostAsJsonAsync($"http://localhost:56663/api/adverts/filter", advert);
+            //        if (response.IsSuccessStatusCode)
+            //        {
+            //            return await response.Content.ReadAsAsync<AdvertDto[]>();
+            //        }
+            //    }
+            //}
+            //catch (Exception) { }
+            //return null;
+        }
         public async Task<IList<AdvertDto>> Filter(FilterDto filter)
         {
             return await _advertRequest.GetFiltred(filter);

@@ -45,9 +45,9 @@ namespace AppServices.Services
                 return result;
             }
         }
-        public override async Task<CommentDto> SaveOrUpdate(CommentDto entity)
+        public override async Task<CommentDto> SaveOrUpdateAsync(CommentDto entity)
         {
-            var sm = await _commentRepository.SaveOrUpdate(Mapper.Map<Comment>(entity));
+            var sm = await _commentRepository.SaveOrUpdateAsync(Mapper.Map<Comment>(entity));
             return Mapper.Map<CommentDto>(sm);
 
         }
@@ -57,10 +57,10 @@ namespace AppServices.Services
         /// </summary>
         /// <returns>Возвращает список объявлений / 
         /// Getting the Comments list</returns>
-        public override async Task<CommentDto> Get(int id)
+        public override async Task<CommentDto> GetAsync(int id)
         {
 
-            var adv = await _commentRepository.Get(id);
+            var adv = await _commentRepository.GetAsync(id);
             if (adv == null)
                 return null;
             return Mapper.Map<CommentDto>(adv);

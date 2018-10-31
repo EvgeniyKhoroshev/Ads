@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Ads.Shared.Domain.Abstractions\Ads.Shared.Domain.Abstractions.csproj" />
+    <ProjectReference Include="..\PagedCollection\Ads.Shared.Contracts.csproj" />
   </ItemGroup>
 
 </Project>

@@ -18,7 +18,7 @@ namespace Domain.RepositoryInterfaces.Base
         /// </summary>
         /// <returns>Возвращает сохраненный или созданый элемент / 
         /// Returns the created or saved item</returns>
-        Task<T> SaveOrUpdate(T entity);
+        Task<T> SaveOrUpdateAsync(T entity);
         /// <summary>
         /// Функция для получения списка базовой информации
         /// The function to getting a list of a base information 
@@ -33,7 +33,7 @@ namespace Domain.RepositoryInterfaces.Base
         /// </summary>
         /// <returns>Возвращает объявление / 
         /// Getting the adverts list</returns>
-        Task<T> Get(Tid Id);
+        Task<T> GetAsync(Tid Id);
 
 
     }

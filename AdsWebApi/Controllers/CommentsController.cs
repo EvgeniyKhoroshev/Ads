@@ -30,7 +30,7 @@ namespace AdsWebApi.Controllers
         [HttpPost("saveorupdate")]
         public async Task<CommentDto> PostSaveOrUpdate([FromBody] CommentDto value)
         {
-            return await _commentsService.SaveOrUpdate(value);
+            return await _commentsService.SaveOrUpdateAsync(value);
         }
 
     }

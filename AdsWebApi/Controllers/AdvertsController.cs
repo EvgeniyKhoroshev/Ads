@@ -1,5 +1,7 @@
 ﻿using Ads.Contracts.Dto;
 using Ads.Contracts.Dto.Filters;
+using Ads.CoreService.Contracts.Dto.Filters;
+using Ads.Shared.Contracts;
 using AppServices.ServiceInterfaces;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -19,19 +21,19 @@ namespace AdsWebApi.Controllers
             _advertService = advertService;
         }
         readonly IAdvertService _advertService;
-        // GET api/values
-        [HttpGet]
-        public IList<AdvertDto> Get()
-        {
-            return _advertService.GetAll_ToIndex();
-        }
+        //// GET api/values
+        //[HttpGet]
+        //public IList<AdvertDto> Get()
+        //{
+        //    return _advertService.GetAll_ToIndex();
+        //}
 
         // GET api/values/5
         [HttpGet("{id}")]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public async Task<ActionResult<AdvertDto>> Get(int id)
         {
-            return await _advertService.Get(id);
+            return await _advertService.GetAsync(id);
         }
         // GET api/values/5
         //[EnableCors("allow")]
@@ -45,7 +47,7 @@ namespace AdsWebApi.Controllers
         [HttpPost("/api/[controller]/saveorupdate")]
         public async Task<AdvertDto> PostSaveOrUpdate(AdvertDto value)
         {
-            return await _advertService.SaveOrUpdate(value);
+            return await _advertService.SaveOrUpdateAsync(value);
         }
 
         // PUT api/values/5
@@ -60,12 +62,13 @@ namespace AdsWebApi.Controllers
         {
             _advertService.Delete(id);
         }
-
         [HttpPost("filter")]
-        public AdvertDto[] GetFiltered([FromBody]FilterDto filter)
+        public PagedCollection<AdvertDto> GetFiltered([FromBody]AdvertFilterDto filter)
         {
-            return _advertService.GetFiltred(filter);
+            return _advertService.GetFilteredAsync(filter);
+
         }
+
 
     }
 }

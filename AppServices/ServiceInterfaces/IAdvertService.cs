@@ -1,5 +1,7 @@
 ﻿using Ads.Contracts.Dto;
 using Ads.Contracts.Dto.Filters;
+using Ads.CoreService.Contracts.Dto.Filters;
+using Ads.Shared.Contracts;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -29,6 +31,13 @@ namespace AppServices.ServiceInterfaces
         /// <returns>Возвращает список объявлений с данными для вывода на главную страницу / 
         /// Getting the adverts list with a data for index page output</returns>
         IList<AdvertDto> GetAll_ToIndex();
+        /// <summary>
+        /// Возвращает постраничную коллекцию объявлений, отфильтрованных по условиям, указанным в <paramref name="filter"/> / 
+        /// Getting the paged adverts filtred by the 
+        /// </summary>
+        /// <param name="filter">Фильтр объявлений / 
+        /// Adverts filter</param>
+        PagedCollection<AdvertDto> GetFilteredAsync(AdvertFilterDto filter);
 
     }
 }

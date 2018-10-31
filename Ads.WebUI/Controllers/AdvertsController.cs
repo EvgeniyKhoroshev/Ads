@@ -12,6 +12,8 @@ using Microsoft.AspNetCore.Http;
 using Ads.WebUI.Components.ApiRequests;
 using Authentication.Contracts.CookieAuthentication;
 using System.Linq;
+using Ads.CoreService.Contracts.Dto.Filters;
+using Ads.Shared.Contracts;
 
 namespace Ads.WebUI.Controllers
 {
@@ -24,27 +26,16 @@ namespace Ads.WebUI.Controllers
         }
         AdvertsInfoDto _AdvertsInfoDto;
         public async Task<IActionResult> Index(
-            int? CategoryId, int? RegionId, decimal? Min, decimal? Max, int? CityId, string Substring, int Page = 1)
+            [Bind("CategoryId,RegionId,CityId,Substring,TypeId")] AdvertFilterDto filter,
+            decimal? Min, decimal? Max, int PageNumber)
         {
-            FilterDto filter = new FilterDto();
-            filter.PriceRange.MaxValue = Max;
-            filter.PriceRange.MinValue = Min;
-            filter.RegionId = RegionId;
-            filter.CityId = CityId;
-            filter.CategoryId = CategoryId;
-            if (Page > 0)
-                filter.Pagination.PageNumber = Page;
-            filter.Substring = Substring;
+            filter.PriceRange = new InclusiveRange<decimal?> { From = Min, To = Max };
+            if (PageNumber > 1)
+                filter.PageNumber = PageNumber;
             if (_AdvertsInfoDto == null)
                 _AdvertsInfoDto = await APIRequests.AdvInfoInit();
-            var adverts = await _requests.Filter(filter);
-            PagedIndexVM result = new PagedIndexVM
-            {
-                Adverts = Mapper.Map<AdsVMIndex[]>(adverts),
-                Page = filter.Pagination
-            };
-            result.Page.TotalPages = result.Adverts.Length / result.Page.PageSize + 1;
-            return View(result);
+            var adverts = await _requests.FiltredAsync(filter);
+            return View(adverts);
 
         }
         [HttpGet("[controller]/{id}/comments")]

@@ -28,7 +28,7 @@ namespace Domain.Data.Repositories.Base
         /// </summary>
         /// <param name="id"> Идентификатор сущности // Id of the entity</param>
         /// <returns>Сущность</returns>
-        public virtual async Task<T> Get(int id)
+        public virtual async Task<T> GetAsync(int id)
         {
             try
             {
@@ -48,7 +48,7 @@ namespace Domain.Data.Repositories.Base
         /// <param name="entity"> Сущность для перезаписи или создания //
         /// The entity for a rewrite or create</param>
         /// <returns>Возвращает Id созданной или обновленной сущности</returns>
-        public virtual async Task<T> SaveOrUpdate(T entity)
+        public virtual async Task<T> SaveOrUpdateAsync(T entity)
         {
             try
             {
@@ -80,7 +80,7 @@ namespace Domain.Data.Repositories.Base
         {
             try
             {
-                _dbContext.Set<T>().Remove(Get(Id).Result);
+                _dbContext.Set<T>().Remove(GetAsync(Id).Result);
                 _dbContext.SaveChanges();
             }
             catch (DbUpdateException ex)

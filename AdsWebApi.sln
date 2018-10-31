@@ -41,7 +41,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Authentication.AppServices"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shared", "Shared", "{AA1BB806-8BF2-4181-84C0-8A0B0F8C52B1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ads.Shared.Domain.Abstractions", "Ads.Shared.Domain.Abstractions\Ads.Shared.Domain.Abstractions.csproj", "{D3CD770E-91B4-4DCE-8ECD-8396AF35640F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ads.Shared.Domain.Abstractions", "Ads.Shared.Domain.Abstractions\Ads.Shared.Domain.Abstractions.csproj", "{D3CD770E-91B4-4DCE-8ECD-8396AF35640F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ads.Shared.Contracts", "PagedCollection\Ads.Shared.Contracts.csproj", "{ED73AD26-D0C4-4A81-ADB7-BD77632186FB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -97,6 +99,10 @@ Global
 		{D3CD770E-91B4-4DCE-8ECD-8396AF35640F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D3CD770E-91B4-4DCE-8ECD-8396AF35640F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D3CD770E-91B4-4DCE-8ECD-8396AF35640F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ED73AD26-D0C4-4A81-ADB7-BD77632186FB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ED73AD26-D0C4-4A81-ADB7-BD77632186FB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ED73AD26-D0C4-4A81-ADB7-BD77632186FB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ED73AD26-D0C4-4A81-ADB7-BD77632186FB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -117,6 +123,7 @@ Global
 		{83A7B459-DB08-416C-8CC0-9C352E766C32} = {C46D5A9E-E619-4454-9632-3680BEA15A25}
 		{771A9374-7024-4627-86D4-2D4B92487D18} = {C46D5A9E-E619-4454-9632-3680BEA15A25}
 		{D3CD770E-91B4-4DCE-8ECD-8396AF35640F} = {AA1BB806-8BF2-4181-84C0-8A0B0F8C52B1}
+		{ED73AD26-D0C4-4A81-ADB7-BD77632186FB} = {AA1BB806-8BF2-4181-84C0-8A0B0F8C52B1}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {FF1CD632-BBCA-48FB-9332-68534A5823FF}
