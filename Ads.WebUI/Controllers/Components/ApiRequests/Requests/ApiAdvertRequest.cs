@@ -11,9 +11,9 @@ using System.Threading.Tasks;
 
 namespace Ads.WebUI.Controllers.Components.ApiRequests.AdvertRequests
 {
-    public class AdvertRequest : BaseRequest<AdvertDto, int>,  IAdvertRequest
+    public class ApiAdvertClient : ApiBaseClient<AdvertDto, int>,  IApiAdvertClient
     {
-        public AdvertRequest() : base("adverts") { }
+        public ApiAdvertClient() : base("adverts") { }
         public async Task<PagedCollection<AdvertDto>> GetFiltredAsync(AdvertFilterDto filter)
         {
             try

@@ -13,11 +13,11 @@ using Ads.Shared.Contracts;
 
 namespace Ads.WebUI.Controllers.Components.ApiRequests.BaseRequest
 {
-    public abstract class BaseRequest<T, Tid> : IBaseRequest<T, Tid>, IDisposable
+    public abstract class ApiBaseClient<T, Tid> : IApiBaseClient<T, Tid>, IDisposable
     {
         public HttpClient httpClient;
         public string entityName;
-        public BaseRequest(string Name)
+        public ApiBaseClient(string Name)
         {
             entityName = Name;
             httpClient = new HttpClient();

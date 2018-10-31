@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Ads.WebUI.Controllers.Components.ApiRequests.Interfaces
 {
-    public interface IAdvertRequest : IBaseRequest<AdvertDto, int>
+    public interface IApiAdvertClient : IApiBaseClient<AdvertDto, int>
     {
         Task<PagedCollection<AdvertDto>> GetFiltredAsync(AdvertFilterDto filter);
     }

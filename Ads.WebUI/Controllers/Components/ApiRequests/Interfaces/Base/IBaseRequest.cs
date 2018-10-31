@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Ads.WebUI.Controllers.Components.ApiRequests.Interfaces.Base
 {
-    public interface IBaseRequest<T, Tid>
+    public interface IApiBaseClient<T, Tid>
     {
         /// <summary>
         /// Http запрос к API для получения <paramref name="entityName"/> по Id

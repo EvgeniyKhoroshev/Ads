@@ -8,15 +8,16 @@ using System;
 using System.Linq;
 using Authentication.Contracts.CookieAuthentication;
 using Microsoft.AspNetCore.Http;
+using System.Collections.Generic;
 
 namespace Ads.WebUI.Controllers
 {
     public class CommentsController : Controller
     {
         private int currentUserId;
-        readonly APIRequests _requests;
+        readonly ApiClient _requests;
         IHttpContextAccessor _context;
-        public CommentsController(APIRequests requests, IHttpContextAccessor context)
+        public CommentsController(ApiClient requests, IHttpContextAccessor context)
         {
             _context = context;
             currentUserId = Convert.ToInt32(
@@ -34,6 +35,11 @@ namespace Ads.WebUI.Controllers
             await _requests.SaveOrUpdate(c);
             return RedirectToAction("Details", new { controller = "Adverts", id= c.AdvertId});
 
+        }
+        [HttpGet("advertcomments/{advertId}")]
+        public async Task<IList<CommentDto>> GetAdvertComments(int advertId)
+        {
+            return await _requests.GetAdvertComments(advertId);
         }
         [HttpPost]
         public async Task<IActionResult> Delete(int? Id)

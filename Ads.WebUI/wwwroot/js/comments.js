@@ -2,7 +2,7 @@
 var CommentsTagName = 'advert_comments';
 var comments;
 fetch_info = function (id) {
-    var f = 'https://localhost:44382/adverts/' + id + '/comments/';
+    var f = 'https://localhost:44382/comments/advertcomments/' + id;
     categories = fetch(f)
         .then(response => response.json())
         .then(json => comments = json)

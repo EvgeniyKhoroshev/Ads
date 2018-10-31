@@ -24,7 +24,7 @@ namespace AdsWebApi.Controllers
         [HttpGet("advertcomments")]
         public IList<CommentDto> GetAdvertComments(int? advertId)
         {
-            return _commentsService.GetAllAdvertComments(advertId.Value);
+            return _commentsService.GetAdvertCommentsAsync(advertId.Value);
         }
         [EnableCors("allow")]
         [HttpPost("saveorupdate")]

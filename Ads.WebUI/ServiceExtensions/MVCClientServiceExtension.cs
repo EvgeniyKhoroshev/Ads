@@ -19,10 +19,10 @@ namespace Ads.WebUI.ServiceExtensions
         #region Регистрация сервисов предназначенных для взаимодействия с API
         public static IServiceCollection ClientRequestsRegistration(this IServiceCollection services)
         {
-            services.AddTransient<IAdvertRequest, AdvertRequest>();
-            services.AddTransient<ICommentRequest, CommentRequest>();
+            services.AddTransient<IApiAdvertClient, ApiAdvertClient>();
+            services.AddTransient<IApiCommentsClient, ApiCommentsClient>();
 
-            services.AddTransient<APIRequests>();
+            services.AddTransient<ApiClient>();
             return services;
         } 
         #endregion

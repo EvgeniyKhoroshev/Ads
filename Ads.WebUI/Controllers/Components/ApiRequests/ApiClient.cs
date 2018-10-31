@@ -23,14 +23,14 @@ using System.Threading.Tasks;
 /// </summary>
 namespace Ads.WebUI.Components.ApiRequests
 {
-    public class APIRequests
+    public class ApiClient
     {
-        readonly IAdvertRequest _advertRequest;
-        readonly ICommentRequest _commentRequest;
+        readonly IApiAdvertClient _advertRequest;
+        readonly IApiCommentsClient _commentRequest;
         readonly IHttpContextAccessor _context;
         readonly string _authToken;
-        public APIRequests(IAdvertRequest advertRequest,
-            ICommentRequest commentRequest,
+        public ApiClient(IApiAdvertClient advertRequest,
+            IApiCommentsClient commentRequest,
             IHttpContextAccessor context)
         {
             _advertRequest = advertRequest;
@@ -59,21 +59,9 @@ namespace Ads.WebUI.Components.ApiRequests
             catch (Exception) { }
             return null;
         }
-        public static async Task<IList<CommentDto>> GetAdvertComments(int id)
+        public async Task<IList<CommentDto>> GetAdvertComments(int id)
         {
-            try
-            {
-                using (var httpClient = new HttpClient())
-                {
-                    HttpResponseMessage response = await httpClient.GetAsync($"http://localhost:56663/api/adverts/{id}/advertcomments");
-                    if (response.IsSuccessStatusCode)
-                    {
-                        return await response.Content.ReadAsAsync<IList<CommentDto>>();
-                    }
-                }
-            }
-            catch (Exception) { }
-            return null;
+            return await _commentRequest.GetAdvertCommentsAsync(id);
         }
         public static async Task SignOut()
         {
@@ -143,7 +131,7 @@ namespace Ads.WebUI.Components.ApiRequests
                 Mapper.Map<AdsVMIndex[]>(buf.Items),
                 pageNumber: buf.PageNumber,
                 pageSize: buf.PageSize,
-                totalPages: buf.TotalPages
+                totalPages : buf.TotalPages
                 );
             return result;
             //try

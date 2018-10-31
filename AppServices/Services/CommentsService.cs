@@ -33,7 +33,7 @@ namespace AppServices.Services
             result = Mapper.Map<CommentDto[]>(adv.ToArray());
             return result;
         }
-        public IList<CommentDto> GetAllAdvertComments(int advertId)
+        public IList<CommentDto> GetAdvertCommentsAsync(int advertId)
         {
             IQueryable<Comment> adv = _commentRepository.GetAll();
             if(advertId == 0)

@@ -38,13 +38,13 @@ namespace Ads.WebUI.Controllers
                 return Unauthorized();
 
             return RedirectToAction("Index", "Adverts");
-            //await APIRequests.SignIn(user);
+            //await ApiClient.SignIn(user);
 
         }
         [HttpGet]
         public async Task<IActionResult> SignOut()
         {
-            await APIRequests.SignOut();
+            await ApiClient.SignOut();
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             return RedirectToAction("Index", "Adverts");
         }
@@ -53,7 +53,7 @@ namespace Ads.WebUI.Controllers
         [HttpPost]
         public async Task<IActionResult> SignUp(CreateUserDto user)
         {
-            await APIRequests.CreateUser(user);
+            await ApiClient.CreateUser(user);
             return RedirectToAction("Index", "Adverts");
         }
     }
