@@ -61,7 +61,7 @@ namespace Ads.WebUI.Components.ApiRequests
         }
         public async Task<IList<CommentDto>> GetAdvertComments(int id)
         {
-            return await _commentRequest.GetAdvertCommentsAsync(id);
+            return await _advertRequest.GetAdvertCommentsAsync(id);
         }
         public static async Task SignOut()
         {

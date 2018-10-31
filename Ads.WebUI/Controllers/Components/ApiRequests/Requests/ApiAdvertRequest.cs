@@ -6,6 +6,7 @@ using Ads.WebUI.Controllers.Components.ApiRequests.Interfaces;
 using Ads.WebUI.Models;
 using AutoMapper;
 using System;
+using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
 
@@ -33,6 +34,23 @@ namespace Ads.WebUI.Controllers.Components.ApiRequests.AdvertRequests
                 throw new HttpRequestException(string.Join(Environment.NewLine, err));
             }
             return default(PagedCollection<AdvertDto>);
+        }
+        // <inheritdoc>
+        public async Task<IList<CommentDto>> GetAdvertCommentsAsync(int advertId)
+        {
+            try
+            {
+                using (httpClient)
+                {
+                    HttpResponseMessage response = await httpClient.GetAsync($"{_apiUrl}{entityName}/{advertId}/advertcomments/");
+                    if (response.IsSuccessStatusCode)
+                    {
+                        return await response.Content.ReadAsAsync<IList<CommentDto>>();
+                    }
+                }
+            }
+            catch (Exception) { }
+            return null;
         }
     }
 }
