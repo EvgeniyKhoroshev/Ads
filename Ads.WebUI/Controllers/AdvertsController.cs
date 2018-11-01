@@ -72,7 +72,8 @@ namespace Ads.WebUI.Controllers
         }
         [HttpPost]
         public async Task<IActionResult> Create(
-            [Bind("Name,Description,Address,Price,Context,CategoryId,CityId,TypeId,StatusId")]AdvertDto advert, List<IFormFile> Photos)
+            [Bind("Name,Description,Address,Price,Context,CategoryId,CityId,TypeId,StatusId")]AdvertDto advert,
+            List<IFormFile> Photos)
         {
             List<ImageDto> s = null;
             int currentUserId = Convert.ToInt32(HttpContext.User.Claims.FirstOrDefault(t => t.Type == CookieCustomClaimNames.UserId).Value);
@@ -110,28 +111,11 @@ namespace Ads.WebUI.Controllers
             }
             return View();
         }
-
-        //[HttpPost]
-        //public async Task<IActionResult> Filter(decimal? MinValue, decimal? MaxValue)
-        //{
-        //    FilterDto f = new FilterDto();
-        //    f.PriceRange.MaxValue = MaxValue;
-        //    f.PriceRange.MinValue = MinValue;
-
-        //    AdvertDto[] result = await ApiClient.Filter(f);
-        //    if (_AdvertsInfoDto == null)
-        //        _AdvertsInfoDto = await ApiClient.AdvInfoInit();
-        //    List<AdsVMIndex> ret = new List<AdsVMIndex>();
-        //    AdsVMIndex adsVM;
-        //    foreach (var r in result)
-        //    {
-        //        adsVM = Mapper.Map<AdsVMIndex>(r);
-        //        ret.Add(adsVM);
-        //    }
-        //    return View(ret);
-        //}
         public async Task<IActionResult> Edit(int? id)
         {
+            var c = GetCurrentUserId();
+            if (!c.HasValue)
+                return RedirectToAction("SignIn", "Authintication");
             if (_AdvertsInfoDto == null)
                 _AdvertsInfoDto = await ApiClient.AdvInfoInit();
             AdvertDto buf = await _client.GetAdvert(id.Value);
@@ -141,6 +125,7 @@ namespace Ads.WebUI.Controllers
         public async Task<IActionResult> Edit(
             [Bind("Id,Name,Description,Address,Price,CategoryId,CityId,TypeId,StatusId,Context")]AdvertDto advert, List<IFormFile> Photos)
         {
+
             List<ImageDto> s = null;
             if (Photos.Count > 0)
                 s = await ImageProcessing.ImageToBase64(Photos, advert.Id);
@@ -156,8 +141,14 @@ namespace Ads.WebUI.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
-
-
+        public int? GetCurrentUserId()
+        {
+            if (!User.Identity.IsAuthenticated)
+                return null;
+            int UserId = Convert.ToInt32(
+                User.Claims.FirstOrDefault(t => t.Type == CookieCustomClaimNames.UserId).Value);
+            return UserId;                
+        }
 
 
 

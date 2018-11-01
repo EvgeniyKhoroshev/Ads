@@ -1,5 +1,15 @@
 ﻿@model Ads.Shared.Contracts.PagedCollection<AdsVMIndex>
 @{
+    int? GetCurrentUserId()
+    {
+        if (!User.Identity.IsAuthenticated)
+            return null;
+        int userId = Convert.ToInt32(
+            User.Claims.FirstOrDefault(t => 
+            t.Type == Authentication.Contracts.CookieAuthentication.CookieCustomClaimNames.UserId).Value);
+        return userId;
+    }
+    int? UserId = GetCurrentUserId();
     ViewData["Title"] = "Home Page";
 }
 <script src="~/js/test.js" asp-append-version="true"></script>
@@ -45,10 +55,10 @@
                     <p>@item.City.Name</p>
                     <p>@item.Price<hr />@item.Created</p>
                     <span class="adverts_actions">
-                        @if (User.Identity.IsAuthenticated)
+                        @if ((User.Identity.IsAuthenticated) && (UserId == item.UserId))
                         {<a class="nav-item text-dark" asp-action="Edit" asp-route-id="@item.Id">Изменить |</a>}
-                        <a class="nav-item text-dark" asp-action="Details" asp-route-id="@item.Id">Детали</a> |
-                        @if (User.Identity.IsAuthenticated)
+                        <a class="nav-item text-dark" asp-action="Details" asp-route-id="@item.Id">Детали</a> 
+                        @if ((User.Identity.IsAuthenticated) && (UserId == item.UserId))
                         {
                             {<button type="submit" asp-controller="Adverts" asp-action="Delete" class="btn btn-primary" asp-route-id="@item.Id">Удалить</button>}
                         }
