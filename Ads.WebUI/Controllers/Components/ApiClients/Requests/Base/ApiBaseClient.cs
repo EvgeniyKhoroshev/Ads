@@ -1,5 +1,5 @@
 ﻿using Ads.Contracts.Dto.Filters;
-using Ads.WebUI.Controllers.Components.ApiRequests.Interfaces.Base;
+using Ads.WebUI.Controllers.Components.ApiClients.Interfaces.Base;
 using Authentication.AppServices.Extensions;
 using Microsoft.AspNetCore.Http;
 using System;
@@ -11,16 +11,22 @@ using Newtonsoft.Json;
 using System.Text;
 using Ads.Shared.Contracts;
 
-namespace Ads.WebUI.Controllers.Components.ApiRequests.BaseRequest
+namespace Ads.WebUI.Controllers.Components.ApiClients.BaseRequest
 {
     public abstract class ApiBaseClient<T, Tid> : IApiBaseClient<T, Tid>, IDisposable
     {
         public HttpClient httpClient;
         public string entityName;
-        public ApiBaseClient(string Name)
+        public readonly IHttpContextAccessor _context;
+        public readonly string _authToken;
+        public ApiBaseClient(string Name, IHttpContextAccessor context)
         {
+            _context = context;
             entityName = Name;
             httpClient = new HttpClient();
+            _authToken = _context.HttpContext.User.GetAuthToken();
+            httpClient.DefaultRequestHeaders.Add(HttpRequestHeader.ContentType.ToString(), "application/json");
+            httpClient.DefaultRequestHeaders.Add(HttpRequestHeader.Authorization.ToString(), $"Bearer {_authToken}");
         }
         public readonly string _apiUrl = "https://localhost:44396/api/";
         /// <summary>
@@ -31,22 +37,23 @@ namespace Ads.WebUI.Controllers.Components.ApiRequests.BaseRequest
         /// URL substring to request api</param>
         /// <param name="Id"> Идентификатор <paramref name="entityName"/> / 
         /// Id of a <paramref name="entityName"/></param>
-        public virtual async Task Delete(Tid id, string token)
+        public virtual async Task Delete(Tid id)
         {
             try
             {
-                httpClient.DefaultRequestHeaders.Authorization = new
-                System.Net.Http.Headers.AuthenticationHeaderValue(
-                HttpRequestHeader.Authorization.ToString(), $"Bearer {token}"
-                );
-                var request = new HttpRequestMessage(HttpMethod.Delete, $"{ _apiUrl }{entityName}/{id}")
+                using (httpClient)
                 {
-                    Headers = {
-                    { HttpRequestHeader.ContentType.ToString(), "application/json"},
-                    { HttpRequestHeader.Authorization.ToString(), $"Bearer {token}"}
+                    HttpResponseMessage response = await httpClient.DeleteAsync($"{_apiUrl}{entityName}/{id}");
                 }
-                };
-                HttpResponseMessage response = await httpClient.SendAsync(request);
+                //}
+                //    var request = new HttpRequestMessage(HttpMethod.Delete, $"{ _apiUrl }{entityName}/{id}")
+                //    {
+                //        Headers = {
+                //    { HttpRequestHeader.ContentType.ToString(), "application/json"},
+                //    { HttpRequestHeader.Authorization.ToString(), $"Bearer {token}"}
+                //}
+                //    };
+                //HttpResponseMessage response = await httpClient.SendAsync(request);
             }
             catch (HttpRequestException ex)
             {
@@ -65,25 +72,18 @@ namespace Ads.WebUI.Controllers.Components.ApiRequests.BaseRequest
         /// Id of a <paramref name="entityName"/></param>
         /// <returns> Найденная сущность /
         /// The founded entity </returns>
-        public virtual async Task<T> Get(Tid Id, string token)
+        public virtual async Task<T> Get(Tid Id)
         {
             try
             {
-                httpClient.DefaultRequestHeaders.Authorization = new
-                System.Net.Http.Headers.AuthenticationHeaderValue(
-                HttpRequestHeader.Authorization.ToString(), $"Bearer {token}"
-                );
-                var request = new HttpRequestMessage(HttpMethod.Get, $"{ _apiUrl }{entityName}/{Id}")
+                using (httpClient)
                 {
-                    Headers = {
-                    { HttpRequestHeader.ContentType.ToString(), "application/json"},
-                    { HttpRequestHeader.Authorization.ToString(), $"Bearer {token}"}
-                }
-                };
-                HttpResponseMessage response = await httpClient.SendAsync(request);
-                if (response.IsSuccessStatusCode)
-                {
-                    return await response.Content.ReadAsAsync<T>();
+                    HttpResponseMessage response = await httpClient.GetAsync($"{ _apiUrl }{entityName}/{Id}");
+
+                    if (response.IsSuccessStatusCode)
+                    {
+                        return await response.Content.ReadAsAsync<T>();
+                    }
                 }
             }
             catch (HttpRequestException ex)
@@ -187,7 +187,7 @@ namespace Ads.WebUI.Controllers.Components.ApiRequests.BaseRequest
         ///  The parameter to SaveOrUpdate request</param>
         /// <returns>Сохраненная сущность /
         /// Saved entity</returns>
-        public virtual async Task<T> SaveOrUpdate(T entity, string token)
+        public virtual async Task<T> SaveOrUpdate(T entity)
         {
             try
             {
@@ -199,20 +199,6 @@ namespace Ads.WebUI.Controllers.Components.ApiRequests.BaseRequest
                         return await response.Content.ReadAsAsync<T>();
                     }
                 }
-                //var request = new HttpRequestMessage(HttpMethod.Post, _apiUrl + entityName + "/saveorupdate")
-                //{
-                //    Headers = {
-                //    { HttpRequestHeader.ContentType.ToString(), "application/json"},
-                //    { HttpRequestHeader.Authorization.ToString(), $"Bearer {token}"}
-                //    }
-                //};
-                //var json = JsonConvert.SerializeObject(entity);
-                //request.Content = new ByteArrayContent(Encoding.UTF8.GetBytes(json));
-                //HttpResponseMessage response = await httpClient.SendAsync(request);
-                //if (response.IsSuccessStatusCode)
-                //{
-                //    return await response.Content.ReadAsAsync<T>();
-                //}
             }
             catch (Exception ex)
             {

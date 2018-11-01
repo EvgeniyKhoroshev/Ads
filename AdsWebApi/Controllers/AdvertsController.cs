@@ -21,22 +21,20 @@ namespace AdsWebApi.Controllers
             _advertService = advertService;
         }
         readonly IAdvertService _advertService;
-        //// GET api/values
-        //[HttpGet]
-        //public IList<AdvertDto> Get()
-        //{
-        //    return _advertService.GetAll_ToIndex();
-        //}
+        // GET api/values
+        [HttpGet]
+        public IList<AdvertDto> Get()
+        {
+            return _advertService.GetAll();
+        }
 
         // GET api/values/5
         [HttpGet("{id}")]
-        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public async Task<ActionResult<AdvertDto>> Get(int id)
         {
             return await _advertService.GetAsync(id);
         }
         // GET api/values/5
-        //[EnableCors("allow")]
         [HttpGet("/api/[controller]/{id}/advertcomments")]
         public IList<CommentDto> GetAdvertComments(int id)
         {
@@ -44,7 +42,8 @@ namespace AdsWebApi.Controllers
             return result;
         }
         // POST api/values
-        [HttpPost("/api/[controller]/saveorupdate")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        [HttpPost("saveorupdate")]
         public async Task<AdvertDto> PostSaveOrUpdate(AdvertDto value)
         {
             return await _advertService.SaveOrUpdateAsync(value);
@@ -52,12 +51,14 @@ namespace AdsWebApi.Controllers
 
         // PUT api/values/5
         [HttpPut("{id}")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public void Put(int id, [FromBody] string value)
         {
         }
 
         // DELETE api/values/5
         [HttpDelete("{id}")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public void Delete(int id)
         {
             _advertService.Delete(id);
@@ -68,7 +69,5 @@ namespace AdsWebApi.Controllers
             return _advertService.GetFilteredAsync(filter);
 
         }
-
-
     }
 }

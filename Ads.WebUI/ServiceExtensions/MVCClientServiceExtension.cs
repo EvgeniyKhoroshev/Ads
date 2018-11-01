@@ -1,7 +1,7 @@
 ﻿using Ads.Contracts.Dto;
 using Ads.WebUI.Components.ApiRequests;
-using Ads.WebUI.Controllers.Components.ApiRequests.AdvertRequests;
-using Ads.WebUI.Controllers.Components.ApiRequests.Interfaces;
+using Ads.WebUI.Controllers.Components.ApiClients.AdvertRequests;
+using Ads.WebUI.Controllers.Components.ApiClients.Interfaces;
 using Ads.WebUI.Models;
 using Authentication.AppServices.CookieAuthentication;
 using Authentication.AppServices.JwtAuthentication;

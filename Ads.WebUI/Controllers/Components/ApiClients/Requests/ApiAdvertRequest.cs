@@ -1,20 +1,21 @@
 ﻿using Ads.Contracts.Dto;
 using Ads.CoreService.Contracts.Dto.Filters;
 using Ads.Shared.Contracts;
-using Ads.WebUI.Controllers.Components.ApiRequests.BaseRequest;
-using Ads.WebUI.Controllers.Components.ApiRequests.Interfaces;
+using Ads.WebUI.Controllers.Components.ApiClients.BaseRequest;
+using Ads.WebUI.Controllers.Components.ApiClients.Interfaces;
 using Ads.WebUI.Models;
 using AutoMapper;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
 
-namespace Ads.WebUI.Controllers.Components.ApiRequests.AdvertRequests
+namespace Ads.WebUI.Controllers.Components.ApiClients.AdvertRequests
 {
     public class ApiAdvertClient : ApiBaseClient<AdvertDto, int>,  IApiAdvertClient
     {
-        public ApiAdvertClient() : base("adverts") { }
+        public ApiAdvertClient(IHttpContextAccessor context) : base("adverts", context) { }
         public async Task<PagedCollection<AdvertDto>> GetFiltredAsync(AdvertFilterDto filter)
         {
             try

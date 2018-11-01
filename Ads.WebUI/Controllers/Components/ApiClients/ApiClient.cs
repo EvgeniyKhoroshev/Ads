@@ -2,7 +2,7 @@
 using Ads.Contracts.Dto.Filters;
 using Ads.CoreService.Contracts.Dto.Filters;
 using Ads.Shared.Contracts;
-using Ads.WebUI.Controllers.Components.ApiRequests.Interfaces;
+using Ads.WebUI.Controllers.Components.ApiClients.Interfaces;
 using Ads.WebUI.Models;
 using Authentication.AppServices.Extensions;
 using Authentication.Contracts.Basic;
@@ -80,7 +80,7 @@ namespace Ads.WebUI.Components.ApiRequests
         }
         public async Task<AdvertDto> GetAdvert(int id)
         {
-            return await _advertRequest.Get(id, _authToken);
+            return await _advertRequest.Get(id);
         }
         public static async Task<ActionResult<JwtAuthenticationToken>> SignIn(BasicAuthenticationRequest user)
         {
@@ -116,12 +116,12 @@ namespace Ads.WebUI.Components.ApiRequests
         }
         public async Task<AdvertDto> SaveOrUpdate(AdvertDto advert)
         {
-            return await _advertRequest.SaveOrUpdate(advert, _authToken);
+            return await _advertRequest.SaveOrUpdate(advert);
         }
 
         public async Task<CommentDto> SaveOrUpdate(CommentDto comment)
         {
-            return await _commentRequest.SaveOrUpdate(comment, _authToken);
+            return await _commentRequest.SaveOrUpdate(comment);
         }
 
         public async Task<PagedCollection<AdsVMIndex>> FiltredAsync(AdvertFilterDto filter)
@@ -167,11 +167,11 @@ namespace Ads.WebUI.Components.ApiRequests
         }
         public async Task DeleteAdvert(int id)
         {
-            await _advertRequest.Delete(id, _authToken);
+            await _advertRequest.Delete(id);
         }
         public async Task DeleteComment(int id)
         {
-            await _commentRequest.Delete(id, _authToken);
+            await _commentRequest.Delete(id);
         }
         public async Task<IList<CommentDto>> GetComments()
         {
