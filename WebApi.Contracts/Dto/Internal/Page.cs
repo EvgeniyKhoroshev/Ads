@@ -4,7 +4,7 @@
     {
         public Page()
         {
-            PageSize = 6;
+            PageSize = 10;
             PageNumber = 1;
         }
         public Page(int pageSize)

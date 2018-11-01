@@ -16,22 +16,32 @@ namespace AdsWebApi.Controllers
         {
             _commentsService = commentsService;
         }
+
         [HttpGet]
         public IList<CommentDto> Get()
         {
             return _commentsService.GetAll();
         }
+
         [HttpGet("advertcomments")]
         public IList<CommentDto> GetAdvertComments(int? advertId)
         {
             return _commentsService.GetAdvertCommentsAsync(advertId.Value);
         }
+
         [EnableCors("allow")]
         [HttpPost("saveorupdate")]
         public async Task<CommentDto> PostSaveOrUpdate([FromBody] CommentDto value)
         {
             return await _commentsService.SaveOrUpdateAsync(value);
         }
+
+        [HttpDelete("id")]
+        public void Delete(int id)
+        {
+            _commentsService.Delete(id);
+        }
+
 
     }
 }

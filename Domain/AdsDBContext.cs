@@ -124,7 +124,7 @@ namespace Domain
         }
         //public AdsDBContext()
         //{
-        //    //Database.EnsureCreated();
+        //    Database.EnsureCreated();
         //}
         //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         //{

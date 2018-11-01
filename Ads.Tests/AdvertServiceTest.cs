@@ -195,6 +195,13 @@ namespace Ads.Tests
             Assert.Equal(result.Id, buf.Id);
         }
 
+        [Fact]
+        public void GetUserIdReturnAdvertsByUserId()
+        {
+            var result = _advertService.GetAdvertsByUserId(2);
+
+            Assert.Equal(3, result.Count());
+        }
 
         private IQueryable<Advert> MapAdvertDtoToAdverts()
         {
@@ -230,7 +237,8 @@ namespace Ads.Tests
                     StatusId = 1,
                     TypeId = 1,
                     Price = 100,
-                    City = new Ads.Contracts.Dto.City{ RegionId = 1 }
+                    City = new Ads.Contracts.Dto.City{ RegionId = 1 },
+                    UserId = 1
 
                 },
                 new AdvertDto
@@ -242,7 +250,8 @@ namespace Ads.Tests
                     StatusId = 1,
                     TypeId = 1,
                     Price = 200,
-                    City = new Ads.Contracts.Dto.City{ RegionId = 1 }
+                    City = new Ads.Contracts.Dto.City{ RegionId = 1 },
+                    UserId = 2,
                 },
                 new AdvertDto
                 {
@@ -252,7 +261,8 @@ namespace Ads.Tests
                     StatusId = 1,
                     TypeId = 1,
                     Price = 300,
-                    City = new Ads.Contracts.Dto.City{ RegionId = 3 }
+                    City = new Ads.Contracts.Dto.City{ RegionId = 3 },
+                    UserId = 2
                 },
                  new AdvertDto
                 {
@@ -264,7 +274,8 @@ namespace Ads.Tests
                     StatusId = 1,
                     TypeId = 2,
                     Price = 400,
-                    City = new Ads.Contracts.Dto.City{ RegionId = 4 }
+                    City = new Ads.Contracts.Dto.City{ RegionId = 4 },
+                    UserId = 2
                 }
             };
         }

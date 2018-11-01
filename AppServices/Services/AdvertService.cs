@@ -43,8 +43,20 @@ namespace AppServices.Services
             IQueryable<Advert> adv = _advertRepository.GetAll();
             if (adv == null)
                 return null;
-            AdvertDto[] result;
-            result = Mapper.Map<AdvertDto[]>(adv.ToArray());
+            AdvertDto[] result = Mapper.Map<AdvertDto[]>(adv.ToArray());
+            return result;
+        }
+
+        /// <inheritdoc/>
+        public IList<AdvertDto> GetAdvertsByUserId(int userId)
+        {
+            IQueryable<Advert> adv = _advertRepository.GetAll()
+                .Where(u => u.UserId == userId);
+
+            if (adv == null)
+                throw new ArgumentOutOfRangeException($"У пользователя с Id = {userId} нет объявлений");
+
+            AdvertDto[] result = Mapper.Map<AdvertDto[]>(adv.ToArray());
             return result;
         }
 
@@ -59,8 +71,7 @@ namespace AppServices.Services
             .Include(q => q.Type);
             if (adv == null)
                 return null;
-            AdvertDto[] result;
-            result = Mapper.Map<AdvertDto[]>(adv.ToArray());
+            AdvertDto[] result = Mapper.Map<AdvertDto[]>(adv.ToArray());
             return result;
         }
         /// <inheritdoc/>
