@@ -38,6 +38,13 @@ namespace AppServices.ServiceInterfaces
         /// <param name="filter">Фильтр объявлений / 
         /// Adverts filter</param>
         PagedCollection<AdvertDto> GetFilteredAsync(AdvertFilterDto filter);
-
+        /// <summary>
+        /// Возвращает список объявлений, принадлежащих пользователю согласно указанному Id
+        /// Return adverts by user Id
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns>/// Возвращает список объявлений, принадлежащих пользователю согласно указанному Id
+        /// Return adverts by user Id</returns>
+        IList<AdvertDto> GetAdvertsByUserId(int userId);
     }
 }
