@@ -43,7 +43,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shared", "Shared", "{AA1BB8
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ads.Shared.Domain.Abstractions", "Ads.Shared.Domain.Abstractions\Ads.Shared.Domain.Abstractions.csproj", "{D3CD770E-91B4-4DCE-8ECD-8396AF35640F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ads.Shared.Contracts", "PagedCollection\Ads.Shared.Contracts.csproj", "{ED73AD26-D0C4-4A81-ADB7-BD77632186FB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ads.Shared.Contracts", "PagedCollection\Ads.Shared.Contracts.csproj", "{ED73AD26-D0C4-4A81-ADB7-BD77632186FB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

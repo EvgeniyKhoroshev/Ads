@@ -17,7 +17,7 @@
     </environment>
 </head>
 <body>
-    <nav class="navbar navbar-inverse navbar-fixed-top">
+    <nav class="navbar navbar-default">
         <div class="container">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -31,11 +31,12 @@
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav navbar-right" onsubmit="">
                     @*<li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
-                        <li><a asp-area="" asp-controller="Home" asp-action="About">About</a></li>*@
+            <li><a asp-area="" asp-controller="Home" asp-action="About">About</a></li>
 
-                    <li><a class="btn btn-success" style="color:white;" asp-controller="Adverts"  asp-action="Create">Добавить объявление</a></li>
+        <li><a class="btn btn-success" style="color:white;" asp-controller="Adverts"  asp-action="Create">Добавить объявление</a></li>*@
+                    <partial name="_LoginPartial" />
                 </ul>
-                <partial name="_LoginPartial" />
+                
             </div>
         </div>
     </nav>
