@@ -1,4 +1,4 @@
-﻿@model PagedIndexVM
+﻿@model Ads.Shared.Contracts.PagedCollection<AdsVMIndex>
 @{
     ViewData["Title"] = "Home Page";
 }
@@ -21,30 +21,55 @@
 </div>
 <div class="cat_list">
     <ul class="list-group">
-        @foreach (var item in Model.Adverts)
+        @foreach (var item in Model.Items)
         {
             <li id="advert_list" class="list-group-item nav-item">
                 <form asp-action="Delete" asp-controller="Adverts" onsubmit='return confirm("Вы точно хотите удалить объявление?");'>
                     <a class="nav-item text-dark" asp-action="Details" asp-route-id="@item.Id">  </a>
-                    <span><img class="img-rounded" id="index_img" src="~/images/default.png" alt="Default image" /></span>
+                    <span>
+                        @if (item.Images != null)
+                        {
+                            if (!string.IsNullOrEmpty(item.Images.FirstOrDefault()))
+                            {
+                                var src = string.Format("data:image/gif;base64,{0}", item.Images.First());
+                                <img class="img-rounded" id="index_img" src='@src' alt="Default image" />
+                            }
+                            else
+                            {
+                                <img class="img-rounded" id="index_img" src="~/images/default.jpg" alt="Default image" />
+
+                            }
+                        }
+                    </span>
                     <p>@item.Name</p>
                     <p>@item.City.Name</p>
                     <p>@item.Price<hr />@item.Created</p>
                     <span class="adverts_actions">
-                        <a class="nav-item text-dark" asp-action="Edit" asp-route-id="@item.Id">Изменить</a> |
+                        @if (User.Identity.IsAuthenticated)
+                        {<a class="nav-item text-dark" asp-action="Edit" asp-route-id="@item.Id">Изменить |</a>}
                         <a class="nav-item text-dark" asp-action="Details" asp-route-id="@item.Id">Детали</a> |
-                        <button type="submit" asp-controller="Adverts" asp-action="Delete" class="btn btn-primary" asp-route-id="@item.Id">Удалить</button>
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            {<button type="submit" asp-controller="Adverts" asp-action="Delete" class="btn btn-primary" asp-route-id="@item.Id">Удалить</button>}
+                        }
                     </span>
                 </form>
             </li>
         }
     </ul>
-        @if (Model.Page.PageNumber > 1)
-        {
-            <a href="~/?page=@(--Model.Page.PageNumber)">Предыдущая страница</a>
-        }
-        @if (Model.Page.PageNumber < Model.Page.TotalPages)
-        {
-            <a href="~/?page=@(++Model.Page.PageNumber)">Следующая страница</a>
-        }
+
+    @if (Model.PageNumber > 1)
+    {
+        <form>
+            <input hidden name="PageNumber" value="@(Model.PageNumber-1)" />
+            <button asp-action="Index" asp-controller="Adverts">Предыдущая страница</button>
+        </form>
+    }
+    @if (Model.PageNumber < Model.TotalPages)
+    {
+        <form>
+            <input hidden name="PageNumber" value="@(Model.PageNumber+1)" />
+            <button asp-action="Index" asp-controller="Adverts">Следующая страница</button>
+        </form>
+    }
 </div>

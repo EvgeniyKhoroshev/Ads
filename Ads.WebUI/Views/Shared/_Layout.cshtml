@@ -29,9 +29,10 @@
                 <a asp-controller="Adverts" asp-action="Index" class="navbar-brand">Список объявлений</a>
             </div>
             <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav navbar-right">
+                <ul class="nav navbar-nav navbar-right" onsubmit="">
                     @*<li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
                         <li><a asp-area="" asp-controller="Home" asp-action="About">About</a></li>*@
+
                     <li><a class="btn btn-success" style="color:white;" asp-controller="Adverts"  asp-action="Create">Добавить объявление</a></li>
                 </ul>
                 <partial name="_LoginPartial" />

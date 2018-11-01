@@ -1,5 +1,5 @@
-﻿using Domain.Entities;
-using Domain.Entities.Base;
+﻿using Ads.Shared.Domain.Abstractions;
+using Domain.Entities;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;

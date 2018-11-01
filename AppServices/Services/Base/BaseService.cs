@@ -1,5 +1,6 @@
 ﻿using Ads.Contracts.Dto.Filters;
 using Ads.Contracts.Dto.Internal;
+using Ads.Shared.Contracts;
 using AppServices.ServiceInterfaces.Base;
 using System;
 using System.Collections.Generic;
@@ -11,7 +12,10 @@ namespace AppServices.Services.Base
 {
     public abstract class BaseService<T, Tid> : IServiceInterfaceBase<T, Tid>
     {
+        public BaseService()
+        {
 
+        }
         /// <summary>
         /// Удаляет объект по указанному идентификатору // 
         /// Delete object from database
@@ -28,7 +32,7 @@ namespace AppServices.Services.Base
         /// </summary>
         /// <returns>Возвращает сохраненный или созданный объкт / 
         /// Returns saved or created object</returns>
-        public virtual Task<T> SaveOrUpdate(T Entity)
+        public virtual Task<T> SaveOrUpdateAsync(T Entity)
         {
             throw new NotImplementedException();
         }
@@ -36,7 +40,7 @@ namespace AppServices.Services.Base
         /// Возвращает объект по Id// 
         /// Returns an object by Id
         /// </summary>
-        public virtual Task<T> Get(Tid id)
+        public virtual Task<T> GetAsync(Tid id)
         {
             throw new NotImplementedException();
         }
@@ -51,5 +55,9 @@ namespace AppServices.Services.Base
             throw new NotImplementedException();
         }
 
+        public virtual PagedCollection<T> PagedGetFiltredAsync(PaginationFilterDto filter)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

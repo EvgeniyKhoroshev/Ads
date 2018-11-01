@@ -1,9 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using Ads.Shared.Domain.Abstractions;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Domain.Entities
 {
-    public class AdvertType : Base.EntityWithTypedIdBase<int>
+    public class AdvertType : EntityWithTypedIdBase<int>
     {
         /// <summary>
         /// Название типа / Name of advert type

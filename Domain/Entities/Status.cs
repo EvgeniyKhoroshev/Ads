@@ -1,9 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using Ads.Shared.Domain.Abstractions;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Domain.Entities
 {
-    public class Status : Base.EntityWithTypedIdBase<int>
+    public class Status : EntityWithTypedIdBase<int>
     {
         /// <summary>
         /// Имя статуса / Name of status

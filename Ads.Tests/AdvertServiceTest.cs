@@ -35,9 +35,9 @@ namespace Ads.Tests
 
             _advertRepository.Setup(x => x.GetAll()).Returns(MapAdvertDtoToAdverts());
 
-            _advertRepository.Setup(x => x.Get(1)).Returns(advertTask);
+            _advertRepository.Setup(x => x.GetAsync(1)).Returns(advertTask);
 
-            _advertRepository.Setup(x => x.SaveOrUpdate(It.IsAny<Advert>())).Returns(advertTask);
+            _advertRepository.Setup(x => x.SaveOrUpdateAsync(It.IsAny<Advert>())).Returns(advertTask);
         }
 
         [Fact]
@@ -63,7 +63,7 @@ namespace Ads.Tests
         [Fact]
         public async Task GetIdReturnAdvert()
         {
-             var result = await _advertService.Get(1);
+             var result = await _advertService.GetAsync(1);
 
             Assert.Equal(1, result.Id);
         }
@@ -190,7 +190,7 @@ namespace Ads.Tests
         public async Task SaveOrUpdate_GetAdvertReturnAdvert()
         {
             var buf = GetTestAdvertsDto().ToArray()[0];
-            var result = await _advertService.SaveOrUpdate(buf);
+            var result = await _advertService.SaveOrUpdateAsync(buf);
 
             Assert.Equal(result.Id, buf.Id);
         }

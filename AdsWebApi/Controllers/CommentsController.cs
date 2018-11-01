@@ -26,14 +26,14 @@ namespace AdsWebApi.Controllers
         [HttpGet("advertcomments")]
         public IList<CommentDto> GetAdvertComments(int? advertId)
         {
-            return _commentsService.GetAllAdvertComments(advertId.Value);
+            return _commentsService.GetAdvertCommentsAsync(advertId.Value);
         }
 
         [EnableCors("allow")]
-        [HttpPost("/api/[controller]/saveorupdate")]
+        [HttpPost("saveorupdate")]
         public async Task<CommentDto> PostSaveOrUpdate([FromBody] CommentDto value)
         {
-            return await _commentsService.SaveOrUpdate(value);
+            return await _commentsService.SaveOrUpdateAsync(value);
         }
 
         [HttpDelete("id")]

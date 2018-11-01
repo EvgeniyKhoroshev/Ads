@@ -1,4 +1,6 @@
 ﻿using Ads.Contracts.Dto.Internal;
+using Ads.CoreService.Contracts.Dto.Filters;
+using Ads.Shared.Contracts;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -14,12 +16,12 @@ namespace AppServices.ServiceInterfaces.Base
         /// </summary>
         /// <returns>Возвращает сохраненный или созданный объкт / 
         /// Returns saved or created object</returns>
-        Task<T> SaveOrUpdate(T Entity);
+        Task<T> SaveOrUpdateAsync(T Entity);
         /// <summary>
         /// Возвращает объект по Id// 
         /// Returns an object by Id
         /// </summary>
-        Task<T> Get(Tid id);
+        Task<T> GetAsync(Tid id);
         /// <summary>
         /// Возвращает список существующих объектов // 
         /// Returns all existing objects
@@ -33,5 +35,6 @@ namespace AppServices.ServiceInterfaces.Base
         /// </summary>
         /// <param name="id"> Идентификатор объекта </param>
         void Delete(Tid id);
+        PagedCollection<T> PagedGetFiltredAsync(PaginationFilterDto filter);
     }
 }

@@ -1,4 +1,5 @@
 ﻿@model Ads.Contracts.Dto.AdvertsInfoDto
+@using Authentication.Contracts.CookieAuthentication
 
 @{
     ViewData["Title"] = "View";
@@ -12,7 +13,7 @@
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Create" class="active">
-            <div asp-validation-summary="ModelOnly" enctype="multipart/form-data"  class="text-danger"></div>
+            <div asp-validation-summary="ModelOnly" enctype="multipart/form-data" class="text-danger"></div>
             <div class="form-group">
                 <label class="control-label">Название объявления</label>
                 <input name="Name" class="form-control" />
@@ -34,7 +35,7 @@
             </div>
             <div class="form-group">
                 <ul id="category_output"></ul>
-                <input type="hidden" id="cat_name" name="CategoryId"/>
+                <input type="hidden" id="cat_name" name="CategoryId" />
             </div>
             <div class="form-group">
                 <input type="file" name="photos" maxlength="10" />
@@ -70,8 +71,7 @@
                 </select>
             </div>
             <div class="form-group">
-                <h4>Контекст :</h4>
-                <input name="Context" class="form-control" />
+                <input hidden name="Context" class="form-control" />
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-default" />

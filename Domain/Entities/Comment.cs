@@ -1,8 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Ads.Shared.Domain.Abstractions;
+using System.ComponentModel.DataAnnotations;
 
 namespace Domain.Entities
 {
-    public class Comment : Base.BaseEntityPost
+    public class Comment : BaseEntityPost
     {
         /// <summary>
         /// Id объявления, к которому принадлежит комментарий / 

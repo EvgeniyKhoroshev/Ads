@@ -32,7 +32,7 @@ namespace Ads.Tests
             commentTask.Start();
 
             _commentRepository.Setup(x => x.GetAll()).Returns(MapCommentDtoToComment());
-            _commentRepository.Setup(x => x.Get(1)).Returns(commentTask);
+            _commentRepository.Setup(x => x.GetAsync(1)).Returns(commentTask);
         }
 
         [Fact]
@@ -46,7 +46,7 @@ namespace Ads.Tests
         [Fact]
         public async Task GetIdReturnComment()
         {
-            var result = await _commentService.Get(1);
+            var result = await _commentService.GetAsync(1);
 
             Assert.Equal(1, result.Id);
         }
