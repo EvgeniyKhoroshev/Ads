@@ -32,7 +32,8 @@ namespace Domain.Data.Repositories.Base
         {
             try
             {
-                var result = await _dbContext.Set<T>().FirstOrDefaultAsync(t => t.Id == id);
+                var result = await _dbContext.Set<T>()
+                    .FirstOrDefaultAsync(t => t.Id == id);
                 return result;
             }
             catch (Exception ex)
