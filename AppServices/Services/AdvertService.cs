@@ -82,25 +82,25 @@ namespace AppServices.Services
             return Mapper.Map<AdvertDto>(sm);
         }
         /// <inheritdoc/>
-        public override async Task<AdvertDto> GetAsync(int id)
-        {
-            Advert adv = await _advertRepository.GetAsync(id);
-            if (adv == null)
-                throw new ArgumentOutOfRangeException("Id", adv, "Не существует объявления с полученным Id.");
-
-            return Mapper.Map<AdvertDto>(adv);
-        }
-        ///// <inheritdoc/>
-        //public override async Task<AdvertDto> Get(int id)
+        //public override async Task<AdvertDto> GetAsync(int id)
         //{
-        //    Advert adv = await _advertRepository.GetAll()
-        //        .Include(t => t.Images)
-        //        .FirstOrDefaultAsync(t => t.Id == id);
+        //    Advert adv = await _advertRepository.GetAsync(id);
         //    if (adv == null)
         //        throw new ArgumentOutOfRangeException("Id", adv, "Не существует объявления с полученным Id.");
 
         //    return Mapper.Map<AdvertDto>(adv);
         //}
+        /// <inheritdoc/>
+        public async Task<AdvertDto> GetAsync(int id)
+        {
+            Advert adv = await _advertRepository.GetAll()
+                .Include(t => t.Images)
+                .FirstOrDefaultAsync(t => t.Id == id);
+            if (adv == null)
+                throw new ArgumentOutOfRangeException("Id", adv, "Не существует объявления с полученным Id.");
+
+            return Mapper.Map<AdvertDto>(adv);
+        }
         /// <inheritdoc/>
         public AdvertDto[] GetFiltred(FilterDto filter)
         {
