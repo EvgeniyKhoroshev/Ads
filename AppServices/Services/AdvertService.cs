@@ -91,7 +91,7 @@ namespace AppServices.Services
         //    return Mapper.Map<AdvertDto>(adv);
         //}
         /// <inheritdoc/>
-        public async Task<AdvertDto> GetAsync(int id)
+        public override async Task<AdvertDto> GetAsync(int id)
         {
             Advert adv = await _advertRepository.GetAll()
                 .Include(t => t.Images)
