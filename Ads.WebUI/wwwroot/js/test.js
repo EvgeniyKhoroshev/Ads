@@ -29,6 +29,7 @@ fetch_info = function () {
         .then(() => SelectCategory(GetCategoryLevel(null)));
 }
 document.onloadstart = fetch_info();
+
 function DrawTree(tree) {
     console.log(tree);
     document.getElementById(CategoryTagName).innerHTML = '';
@@ -104,9 +105,9 @@ function SelectCategory(item) {
 }
 function DrawCategory(cat) {
     document.getElementById(CategoryTagName).innerHTML += '\
-        <li class="list-group-item nav-item" style="padding: 0px; ">\
+        <li class="dropdown-item">\
             <input type="hidden" value="'+ cat.id + '"\>\
-            <button class="btn btn-default btn-xs btn-block" style="border: none;" onclick="SelectCategory(GetCategoryLevel('+ cat.id + '))">' + cat.name + '</button>\
+            <a onclick="SelectCategory(GetCategoryLevel('+ cat.id + '))">' + cat.name + '</a>\
         </li>';
 }
 function HideCategories(selectedId) {
@@ -115,7 +116,7 @@ function HideCategories(selectedId) {
     var out = "";
     for (i; i >= 0; --i)
         out += s[i].name + ' >> ';
-    document.getElementById(CategoryTagName).innerHTML = '<button type="button" class="btn btn-default btn-xs btn-block" style="border: none;" onclick="SelectCategory(GetCategoryLevel(null))>' + out + '</button>';
+    document.getElementById(CategoryTagName).innerHTML = '<button type="button" class="dropdown-item" style="border: none;" onclick="SelectCategory(GetCategoryLevel(null))>' + out + '</button>';
 }
 function SetCategoryTagName(name) {
     CategoryTagName = name;

@@ -6,6 +6,7 @@
     <title>@ViewData["Title"] - Ads.WebUI</title>
 
     <environment include="Development">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
         <link rel="stylesheet" href="~/css/site.css" />
     </environment>
@@ -17,39 +18,25 @@
     </environment>
 </head>
 <body>
-    <nav class="navbar navbar-default">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a asp-controller="Adverts" asp-action="Index" class="navbar-brand">Список объявлений</a>
-            </div>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav navbar-right" onsubmit="">
-                    @*<li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
-            <li><a asp-area="" asp-controller="Home" asp-action="About">About</a></li>
+    <header>
+        <nav class="navbar navbar-light bg-light justify-content-between col-12">
+            <a asp-controller="Adverts" asp-action="Index" class="navbar-brand">Список объявлений</a>
+            <partial name="_LoginPartial" />
 
-        <li><a class="btn btn-success" style="color:white;" asp-controller="Adverts"  asp-action="Create">Добавить объявление</a></li>*@
-                    <partial name="_LoginPartial" />
-                </ul>
-                
-            </div>
-        </div>
-    </nav>
+
+        </nav>
+    </header>
 
     <partial name="_CookieConsentPartial" />
 
-    <div class="container body-content">
+
+    <main class="container col-12">
         @RenderBody()
-        <hr />
-        <footer>
-            <p>&copy; 2018 - Ads.WebUI</p>
-        </footer>
-    </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2018 - Ads.WebUI</p>
+    </footer>
 
     <environment include="Development">
         <script src="~/lib/jquery/dist/jquery.js"></script>
@@ -71,7 +58,10 @@
         </script>
         <script src="~/js/site.min.js" asp-append-version="true"></script>
     </environment>
-
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
     @RenderSection("Scripts", required: false)
+    
 </body>
 </html>
