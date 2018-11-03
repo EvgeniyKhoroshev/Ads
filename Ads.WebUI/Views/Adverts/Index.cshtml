@@ -5,7 +5,7 @@
         if (!User.Identity.IsAuthenticated)
             return null;
         int userId = Convert.ToInt32(
-            User.Claims.FirstOrDefault(t => 
+            User.Claims.FirstOrDefault(t =>
             t.Type == Authentication.Contracts.CookieAuthentication.CookieCustomClaimNames.UserId).Value);
         return userId;
     }
@@ -43,45 +43,68 @@
     </div>
 </form>
 
+
+
+
+
 <div class="cat_list">
-    <ul class="list-group">
+    <div class="card-group">
         @foreach (var item in Model.Items)
         {
-            <li id="advert_list" class="list-group-item col-3">
-                <form asp-action="Delete" asp-controller="Adverts" onsubmit='return confirm("Вы точно хотите удалить объявление?");'>
-                    <a class="nav-item text-dark" asp-action="Details" asp-route-id="@item.Id">  </a>
-                    <span>
-                        @if (item.Images != null)
-                        {
-                            if (!string.IsNullOrEmpty(item.Images.FirstOrDefault()))
-                            {
-                                var src = string.Format("data:image/gif;base64,{0}", item.Images.First());
-                                <img class="img-rounded" id="index_img" src='@src' alt="Default image" />
-                            }
-                            else
-                            {
-                                <img class="img-rounded" id="index_img" src="~/images/default.jpg" alt="Default image" />
-
-                            }
-                        }
-                    </span>
-                    <input hidden name="OwnerId" value="@item.UserId" />
-                    <p>@item.Name</p>
-                    <p>@item.City.Name</p>
-                    <p>@item.Price<hr />@item.Created</p>
-                    <span class="adverts_actions">
-                        @if ((User.Identity.IsAuthenticated) && (UserId == item.UserId))
-                        {<a class="nav-item text-dark" asp-action="Edit" asp-route-id="@item.Id">Изменить |</a>}
-                        <a class="nav-item text-dark" asp-action="Details" asp-route-id="@item.Id">Детали</a> 
-                        @if ((User.Identity.IsAuthenticated) && (UserId == item.UserId))
-                        {
-                            {<button type="submit" asp-controller="Adverts" asp-action="Delete" class="btn btn-primary" asp-route-id="@item.Id">Удалить</button>}
-                        }
-                    </span>
-                </form>
-            </li>
+        <div class="col-3 p-3">
+            <div class="card">
+                <img class="card-img-top" src="~/images/default.jpg" alt="Card image cap">
+                <div class="card-body">
+                    <h5 class="card-title">@item.Name</h5>
+                    <p class="card-text">г.@item.City.Name</p>
+                    <p class="card-text">Цена: @item.Price рублей</p>
+                    <p class="card-text">@item.Created</p>
+                    <a class="btn btn-primary" asp-action="Details" asp-route-id="@item.Id">Детали</a>
+                </div>
+            </div>
+        </div>
         }
-    </ul>
+    </div>
+    @*
+        <ul class="list-group">
+            @foreach (var item in Model.Items)
+            {
+                <li id="advert_list" class="list-group-item col-3">
+                    <form asp-action="Delete" asp-controller="Adverts" onsubmit='return confirm("Вы точно хотите удалить объявление?");'>
+                        <a class="nav-item text-dark" asp-action="Details" asp-route-id="@item.Id">  </a>
+                        <span>
+                            @if (item.Images != null)
+                            {
+                                if (!string.IsNullOrEmpty(item.Images.FirstOrDefault()))
+                                {
+                                    var src = string.Format("data:image/gif;base64,{0}", item.Images.First());
+                                    <img class="img-rounded" id="index_img" src='@src' alt="Default image" />
+                                }
+                                else
+                                {
+                                    <img class="img-rounded" id="index_img" src="~/images/default.jpg" alt="Default image" />
+
+                                }
+                            }
+                        </span>
+                        <input hidden name="OwnerId" value="@item.UserId" />
+                        <p>@item.Name</p>
+                        <p>@item.City.Name</p>
+                        <p>@item.Price<hr />@item.Created</p>
+                        <span class="adverts_actions">
+                            @if ((User.Identity.IsAuthenticated) && (UserId == item.UserId))
+                            {<a class="nav-item text-dark" asp-action="Edit" asp-route-id="@item.Id">Изменить |</a>}
+                            <a class="nav-item text-dark" asp-action="Details" asp-route-id="@item.Id">Детали</a>
+                            @if ((User.Identity.IsAuthenticated) && (UserId == item.UserId))
+                            {
+                                {<button type="submit" asp-controller="Adverts" asp-action="Delete" class="btn btn-primary" asp-route-id="@item.Id">Удалить</button>}
+                            }
+                        </span>
+                    </form>
+                </li>
+            }
+        </ul>
+    *@
 
     @if (Model.PageNumber > 1)
     {
