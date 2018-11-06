@@ -1,12 +1,11 @@
 @using Authentication.Contracts.CookieAuthentication
 @if (User.Identity.IsAuthenticated)
 {
-    <ul class="nav nav-item">
-        <li class="nav dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 @User.Claims.FirstOrDefault(c => c.Type == CookieCustomClaimNames.UserName).Value<b class="caret"></b>
             </a>
-            <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                 <li class="dropdown-item">
                     <a asp-area="Identity" asp-page="/Index" title="Manage">@User.Claims.FirstOrDefault(c => c.Type == CookieCustomClaimNames.UserName).Value</a>
                 </li>
@@ -21,23 +20,23 @@
         <li class="nav nav-item">
             <a class="btn btn-outline-success" asp-controller="Adverts" asp-action="Create">Добавить объявление</a>
         </li>
-    </ul>
 
 }
 else
 {
 
     @*
+
         <div class="group">
             <button type="button" class="btn btn-outline-primary">Primary</button>
             <button type="button" class="btn btn-outline-success">Primary</button>
         </div>*@
 
 
-    <ul class="nav group">
-        <li class="nav nav-item"><a class="btn btn-outline-primary" asp-controller="Authentication" asp-action="SignIn">Вход</a></li>
-        <li class="nav nav-item"><a class="btn btn-outline-success" asp-controller="Authentication" asp-action="SignUp">Регистрация</a></li>
-    </ul>
+    <li class="nav-item">
+        <a class="btn btn-outline-primary" asp-controller="Authentication" asp-action="SignIn">Вход</a>
+        <a class="btn btn-outline-success" asp-controller="Authentication" asp-action="SignUp">Регистрация</a>
+    </li>
 }
 
 @*

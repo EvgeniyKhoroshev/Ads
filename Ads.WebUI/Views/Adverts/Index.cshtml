@@ -15,109 +15,85 @@
 <script src="~/js/test.js" asp-append-version="true"></script>
 <script src="~/js/dropdownCategory.js" asp-append-version="true"></script>
 
-<form asp-action="Index" method="get">
-    <div class="form-row">
-        <div class="col-6">
-            <input name="Substring" class="form-control" placeholder="Поиск..." />
-        </div>
-        <div class="col-2">
-            <ul class="nav nav-item">
-                <li class="nav dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Любая категория<b class="caret"></b>
-                    </a>
-                    <lu class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink" id="category_output">
-
-                    </lu>
-                </li>
-            </ul>
-            <input type="hidden" id="cat_name" name="CategoryId" />
-        </div>
-        <select class="form-control col-2" id="perCarygory">
-            <option>Large select</option>
-        </select>
-        <div class="col-2">
-            <button class="btn btn-primary" id="filter"> Фильтровать</button>
-        </div>
-
-    </div>
-</form>
-
-
-
-
-
-<div class="cat_list">
-    <div class="card-group">
-        @foreach (var item in Model.Items)
-        {
-        <div class="col-3 p-3">
-            <div class="card">
-                <img class="card-img-top" src="~/images/default.jpg" alt="Card image cap">
-                <div class="card-body">
-                    <h5 class="card-title">@item.Name</h5>
-                    <p class="card-text">г.@item.City.Name</p>
-                    <p class="card-text">Цена: @item.Price рублей</p>
-                    <p class="card-text">@item.Created</p>
-                    <a class="btn btn-primary" asp-action="Details" asp-route-id="@item.Id">Детали</a>
-                </div>
+@*
+    <form asp-action="Index" method="get">
+        <div class="form-row">
+            <div class="col-6">
+                <input name="Substring" class="form-control" placeholder="Поиск..." />
             </div>
+
+            <div class="col-2">
+                <ul class="nav nav-item">
+                    <li class="nav dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Любая категория<b class="caret"></b>
+                        </a>
+                        <lu class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink" id="category_output">
+
+                        </lu>
+                    </li>
+                </ul>
+                <input type="hidden" id="cat_name" name="CategoryId" />
+            </div>
+
+            <select class="form-control col-2" id="perCarygory">
+                <option>Любой город</option>
+            </select>
+            <select class="form-control col-2" id="perCarygory">
+                <option>Любая категория</option>
+            </select>
+            <div class="col-2">
+                <button class="btn btn-primary" id="filter"> Фильтровать</button>
+            </div>
+
         </div>
-        }
-    </div>
-    @*
-        <ul class="list-group">
+    </form>
+*@
+
+<div class="album py-5 bg-white">
+    <div class="container">
+        <div class="row">
             @foreach (var item in Model.Items)
             {
-                <li id="advert_list" class="list-group-item col-3">
-                    <form asp-action="Delete" asp-controller="Adverts" onsubmit='return confirm("Вы точно хотите удалить объявление?");'>
-                        <a class="nav-item text-dark" asp-action="Details" asp-route-id="@item.Id">  </a>
-                        <span>
-                            @if (item.Images != null)
+                <div class="col-md-4" id="advert_list">
+                    <div class="card mb-4 box-shadow">
+                        @if (item.Images != null)
+                        {
+                            if (!string.IsNullOrEmpty(item.Images.FirstOrDefault()))
                             {
-                                if (!string.IsNullOrEmpty(item.Images.FirstOrDefault()))
-                                {
-                                    var src = string.Format("data:image/gif;base64,{0}", item.Images.First());
-                                    <img class="img-rounded" id="index_img" src='@src' alt="Default image" />
-                                }
-                                else
-                                {
-                                    <img class="img-rounded" id="index_img" src="~/images/default.jpg" alt="Default image" />
 
-                                }
+                                var src = string.Format("data:image/gif;base64,{0}", item.Images.First());
+                                <img class="card-img-top" data-src="holder.js/100px225?theme=thumb&amp;bg=55595c&amp;fg=eceeef&amp;text=Thumbnail" alt="Thumbnail [100%x225]" style="height: 225px; width: 100%; display: block;" src='@src' data-holder-rendered="true">
                             }
-                        </span>
-                        <input hidden name="OwnerId" value="@item.UserId" />
-                        <p>@item.Name</p>
-                        <p>@item.City.Name</p>
-                        <p>@item.Price<hr />@item.Created</p>
-                        <span class="adverts_actions">
-                            @if ((User.Identity.IsAuthenticated) && (UserId == item.UserId))
-                            {<a class="nav-item text-dark" asp-action="Edit" asp-route-id="@item.Id">Изменить |</a>}
-                            <a class="nav-item text-dark" asp-action="Details" asp-route-id="@item.Id">Детали</a>
-                            @if ((User.Identity.IsAuthenticated) && (UserId == item.UserId))
+                            else
                             {
-                                {<button type="submit" asp-controller="Adverts" asp-action="Delete" class="btn btn-primary" asp-route-id="@item.Id">Удалить</button>}
+                                <img class="card-img-top" data-src="holder.js/100px225?theme=thumb&amp;bg=55595c&amp;fg=eceeef&amp;text=Thumbnail" alt="Thumbnail [100%x225]" style="height: 225px; width: 100%; display: block;" src="~/images/default.jpg" data-holder-rendered="true">
+
                             }
-                        </span>
-                    </form>
-                </li>
+                        }
+                        <div class="card-body">
+                            <h5><a class="card-text" asp-action="Details" asp-route-id="@item.Id">@item.Name</a></h5>
+                            <p class="card-subtitle">Цена: @item.Price</p>
+                            <p class="card-subtitle">г.@item.City.Name</p>
+                            <p class="card-subtitle">@item.Created</p>
+                        </div>
+                    </div>
+                </div>
             }
-        </ul>
-    *@
-
-    @if (Model.PageNumber > 1)
-    {
-        <form>
-            <input hidden name="PageNumber" value="@(Model.PageNumber-1)" />
-            <button asp-action="Index" asp-controller="Adverts">Предыдущая страница</button>
-        </form>
-    }
-    @if (Model.PageNumber < Model.TotalPages)
-    {
-        <form>
-            <input hidden name="PageNumber" value="@(Model.PageNumber+1)" />
-            <button asp-action="Index" asp-controller="Adverts">Следующая страница</button>
-        </form>
-    }
+        </div>
+        @if (Model.PageNumber > 1)
+        {
+            <form>
+                <input hidden name="PageNumber" value="@(Model.PageNumber-1)" />
+                <button asp-action="Index" asp-controller="Adverts">Предыдущая страница</button>
+            </form>
+        }
+        @if (Model.PageNumber < Model.TotalPages)
+        {
+            <form>
+                <input hidden name="PageNumber" value="@(Model.PageNumber+1)" />
+                <button asp-action="Index" asp-controller="Adverts">Следующая страница</button>
+            </form>
+        }
+    </div>
 </div>
