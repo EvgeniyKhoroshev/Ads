@@ -16,9 +16,11 @@ namespace AppServices.Services
             _infoRepository = infoRepository;
         }
 
+
+
         public async Task<AdvertsInfoDto> GetInfo()
         {
-            AdvertsInfo info = await _infoRepository.GetInfo();
+            AdvertsInfo info = await _infoRepository.GetAllAsync();
             return AutoMapper.Mapper.Map<AdvertsInfoDto>(info);
         }
 

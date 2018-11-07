@@ -71,7 +71,6 @@ namespace Domain.Data.Repositories.Base
             }
             return entity;
         }
-
         /// <summary>
         /// Удаляет сущность из БД по заданному Id //
         /// Deleting the entity from DB by the given Id
