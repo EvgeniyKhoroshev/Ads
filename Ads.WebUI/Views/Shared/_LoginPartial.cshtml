@@ -1,12 +1,11 @@
 @using Authentication.Contracts.CookieAuthentication
 @if (User.Identity.IsAuthenticated)
 {
-    <ul class="nav nav-item">
-        <li class="nav dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            @User.Claims.FirstOrDefault(c => c.Type == CookieCustomClaimNames.UserName).Value<b class="caret"></b>
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                @User.Claims.FirstOrDefault(c => c.Type == CookieCustomClaimNames.UserName).Value<b class="caret"></b>
             </a>
-            <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                 <li class="dropdown-item">
                     <a asp-area="Identity" asp-page="/Index" title="Manage">@User.Claims.FirstOrDefault(c => c.Type == CookieCustomClaimNames.UserName).Value</a>
                 </li>
@@ -14,23 +13,78 @@
                     <a asp-controller="Adverts" asp-action="Create">Добавить</a>
                 </li>
                 <li class="dropdown-item">
-                    <a href="/authentication/signout" >Выйти</a>
+                    <a href="/authentication/signout">Выйти</a>
                 </li>
             </ul>
         </li>
         <li class="nav nav-item">
             <a class="btn btn-outline-success" asp-controller="Adverts" asp-action="Create">Добавить объявление</a>
         </li>
-    </ul>
 
 }
 else
 {
-    <li class="nav nav-item dropdown">
-        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Регистрация и вход<b class="caret"></b></a>
-        <ul class="dropdown-menu">
-            <li><a asp-controller="Authentication" asp-action="SignUp">Регистрация</a></li>
-            <li ><a asp-controller="Authentication" asp-action="SignIn">Вход</a></li>
-        </ul>
+
+    @*
+
+        <div class="group">
+            <button type="button" class="btn btn-outline-primary">Primary</button>
+            <button type="button" class="btn btn-outline-success">Primary</button>
+        </div>*@
+
+
+    <li class="nav-item">
+        <a class="btn btn-outline-primary" asp-controller="Authentication" asp-action="SignIn">Вход</a>
+        <a class="btn btn-outline-success" asp-controller="Authentication" asp-action="SignUp">Регистрация</a>
     </li>
 }
+
+@*
+
+    <li class="nav nav-item">
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bd-example-modal-sm">Вход</button>
+                <div class="modal fade bd-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-sm">
+                        <div class="modal-content">
+                            <form action="/Authentication/SignIn" method="post">
+                                <div class="form-group">
+
+                                    <label for="UserName">Имя пользователя</label>
+                                    <input class="form-control" id="UserName" name="UserName" type="text" aria-describedby="emailHelp" placeholder="Enter email" value="">
+
+                                    <label for="Password">Введите пароль</label>
+                                    <input class="form-control" id="Password" name="Password" type="text" placeholder="Password" value="">
+
+                                </div>
+                                <button class="btn btn-primary" type="submit" name="SignIn">Вход</button>
+                                @Html.AntiForgeryToken()
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </li>
+            <li class="nav justify-content-end">
+                <button type="button" class="btn btn-success" data-toggle="modal" data-target=".bd-example-modal-sm">Регистрация</button>
+                <div class="modal fade bd-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-sm">
+                        <div class="modal-content">
+                            <form action="/Authentication/SignUp" method="post">
+                                <div class="form-group">
+
+                                    <label class="control-label" for="Email">Введите E-mail: </label>
+                                    <input class="form-control" id="Email" name="Email" type="email" aria-describedby="emailHelp" placeholder="Enter email" value="">
+
+                                    <label for="UserName">Имя пользователя</label>
+                                    <input class="form-control" id="UserName" name="UserName" type="text" aria-describedby="emailHelp" placeholder="Enter email" value="">
+
+                                    <label for="Password">Введите пароль</label>
+                                    <input class="form-control" id="Password" name="Password" type="text" placeholder="Password" value="">
+
+                                </div>
+                                <button class="btn btn-primary" type="submit" name="SignUp">Регистрация</button>
+                                @Html.AntiForgeryToken()
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </li>*@

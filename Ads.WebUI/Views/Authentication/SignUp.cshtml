@@ -5,22 +5,23 @@
 }
 
 <h2>Регистрация</h2>
-<div>
-    @using (Html.BeginForm())
-    {
+
+<div class="col-3">
+    <form action="/Authentication/SignUp" method="post">
+        <div class="form-group">
+
+            <label class="control-label" for="Email">Введите E-mail: </label>
+            <input class="form-control" id="Email" name="Email" type="email" aria-describedby="emailHelp" placeholder="Enter email" value="">
+
+            <label for="UserName">Имя пользователя</label>
+            <input class="form-control" id="UserName" name="UserName" type="text" aria-describedby="emailHelp" placeholder="Enter email" value="">
+
+            <label for="Password">Введите пароль</label>
+            <input class="form-control" id="Password" name="Password" type="text" placeholder="Password" value="">
+
+        </div>
+        <button class="btn btn-primary" type="submit" name="SignUp">Регистрация</button>
         @Html.AntiForgeryToken()
-    <div class="form-group">
-        @Html.ValidationSummary(true)
-        @Html.LabelFor(model => model.Email, "Введите E-mail: ", new { @class = "control-label" })
-        @Html.EditorFor(model => model.Email, new { @type = "email" })
-        @Html.LabelFor(model => model.UserName, "Имя пользователя", new { @class = "control-label" })
-        @Html.EditorFor(model => model.UserName)
-        @Html.LabelFor(model => model.Password, "Введите пароль", new { @class = "control-label" })
-        @Html.EditorFor(model => model.Password, new { @type = "password" })
-        <input type="submit" name="SignUp" />
-        @*@Html.LabelFor(model => model.Password, "Подтверждение пароля", new { @class = "control-label" })
-        @Html.EditorFor(model => model.Password, new { @type = "password" })*@
-    </div>
-    }
+    </form>
 </div>
 

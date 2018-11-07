@@ -46,36 +46,6 @@
     </header>
 
     <main role="main" class="container">
-        <form asp-action="Index" method="get">
-            <div class="form-row">
-                <select class="form-control col" id="perCarygory">
-                    <option>Любой город</option>
-                </select>
-                <div class="col-6">
-                    <input name="Substring" class="form-control" placeholder="Поиск..." />
-                </div>
-
-        <div class="col">
-            <ul class="nav nav-item">
-                <li class="nav dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Любая категория<b class="caret"></b>
-                    </a>
-                    <lu class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink" id="category_output">
-
-                    </lu>
-                </li>
-            </ul>
-            <input type="hidden" id="cat_name" name="CategoryId" />
-        </div>
-
-                
-                <div class="col-auto">
-                    <button class="btn btn-primary" id="filter"> Фильтровать</button>
-                </div>
-
-            </div>
-        </form>
         @RenderBody()
     </main>
 
