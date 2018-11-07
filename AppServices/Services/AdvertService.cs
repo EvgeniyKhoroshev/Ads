@@ -189,6 +189,26 @@ namespace AppServices.Services
                     ex.Message);
             }
         }
+
+        public PagedCollection<AdvertDto> GetLastAddedAdverts()
+        {
+            int count = _advertRepository.GetAll().Count();
+            if (count >= 9)
+                count = 9;
+            var query = _advertRepository.GetAll()
+                .OrderByDescending(a => a.Created)
+                .Take(count);
+            var entities = query
+                    .Include(t => t.Category)
+                    .Include(q => q.City)
+                    .Include(q => q.Status)
+                    .Include(q => q.Type)
+                    .ToArray();
+
+            return new PagedCollection<AdvertDto>(
+                    Mapper.Map<AdvertDto[]>(entities),1,1,1);
+        }
+
         /// <inheritdoc/>
         public IList<CommentDto> GetAdvertComments(int advertId)
         {

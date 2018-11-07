@@ -46,5 +46,7 @@ namespace AppServices.ServiceInterfaces
         /// <returns>/// Возвращает список объявлений, принадлежащих пользователю согласно указанному Id
         /// Return adverts by user Id</returns>
         IList<AdvertDto> GetAdvertsByUserId(int userId);
+
+        PagedCollection<AdvertDto> GetLastAddedAdverts();
     }
 }

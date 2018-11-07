@@ -67,6 +67,7 @@ namespace AdsWebApi.Controllers
         public PagedCollection<AdvertDto> GetFiltered([FromBody]AdvertFilterDto filter)
         {
             return _advertService.GetFilteredAsync(filter);
+            //return _advertService.GetLastAddedAdverts();
 
         }
     }

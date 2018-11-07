@@ -22,7 +22,7 @@ namespace Ads.Shared.Contracts
         public PaginationFilterDto()
         {
             PageNumber = 1;
-            PageSize = 6;
+            PageSize = 9;
         }
     }
 }
