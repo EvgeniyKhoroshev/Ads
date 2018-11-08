@@ -2,6 +2,7 @@
 using AppServices.ServiceInterfaces;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 
 namespace AdsWebApi.Controllers
 {
@@ -10,17 +11,35 @@ namespace AdsWebApi.Controllers
     public class InfoController : ControllerBase
     {
         readonly IInfoService _infoService;
-        AdvertsInfoDto _advertsInfoDto;
         public InfoController(IInfoService infoService)
         {
             _infoService = infoService;
-            _advertsInfoDto = _infoService.GetInfo().Result;
         }
+        [HttpGet("{id}")]
+        public async Task<object[]> GetInfo(int id)
+        {
+            switch(id)
+            {
+                case 1:
+                    return await _infoService.GetCategoriesAsync();
+                case 2:
+                    return await _infoService.GetCitiesAsync();
+                case 3:
+                    return await _infoService.GetStatusesAsync();
+                case 4:
+                    return await _infoService.GetTypesAsync();
+                case 5:
+                    return await _infoService.GetRegionsAsync();
+                default:
+                    return null;
+            }
+        }
+
         [HttpGet]
         [EnableCors("allow")]
-        public AdvertsInfoDto Get()
+        public async Task<AdvertsInfoDto> Get()
         {
-            return _advertsInfoDto;
+            return await _infoService.GetInfoAsync();
         }
 
     }

@@ -6,14 +6,14 @@ namespace Ads.Contracts.Dto
     public class AdvertsInfoDto
     {
         public int Id { get; set; }
-        public IList<AdvertType> Types { get; set; }
-        public IList<Category> Categories { get; set; }
-        public IList<City> Cities { get; set; }
-        public IList<Status> Statuses { get; set; }
-        public IList<Region> Regions { get; set; }
-        public List<Category> GetCategoryLevel(int? level)
+        public IList<AdvertTypeDto> Types { get; set; }
+        public IList<CategoryDto> Categories { get; set; }
+        public IList<CityDto> Cities { get; set; }
+        public IList<StatusDto> Statuses { get; set; }
+        public IList<RegionDto> Regions { get; set; }
+        public List<CategoryDto> GetCategoryLevel(int? level)
         {
-            List<Category> result = new List<Category>();
+            List<CategoryDto> result = new List<CategoryDto>();
             foreach (var s in Categories)
                 if (s.ParentCategoryId == level)
                     result.Add(s);

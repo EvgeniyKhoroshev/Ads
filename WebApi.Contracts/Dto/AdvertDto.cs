@@ -38,20 +38,20 @@ namespace Ads.Contracts.Dto
         /// <summary>
         /// Id города / City id
         /// </summary>
-        public City City { get; set; }
+        public CityDto City { get; set; }
         /// <summary>
         /// Tип объявления / Ads type
         /// </summary>
-        public AdvertType Type { get; set; }
+        public AdvertTypeDto Type { get; set; }
         /// <summary>
         /// Cтатуc объявления / Ads status
         /// </summary>
-        public Status Status { get; set; }
+        public StatusDto Status { get; set; }
         /// <summary>
         /// Категория, в которой находится объявление / 
         /// The category in which that advert contains
         /// </summary>
-        public Category Category { get; set; }
+        public CategoryDto Category { get; set; }
         /// <summary>
         /// Коллекция фотографий объявления / 
         /// Advert photos collection

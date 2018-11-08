@@ -5,7 +5,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Ads.WebUI\Ads.MVCClientApplication.csproj" />
+    <PackageReference Include="AutoMapper" Version="7.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Domain\Domain.csproj" />
+    <ProjectReference Include="..\WebApi.Contracts\Ads.CoreService.Contracts.csproj" />
   </ItemGroup>
 
 </Project>

@@ -2,7 +2,7 @@
 
 namespace Ads.Contracts.Dto
 {
-    public class Category : Base
+    public class CategoryDto : Base
     {
         /// <summary>
         /// Id родительской категории / Id of the parent category

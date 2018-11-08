@@ -1,9 +1,9 @@
 ﻿using Ads.Contracts.Dto;
 using AppServices.ServiceInterfaces;
+using AutoMapper;
 using Domain.Entities;
 using Domain.RepositoryInterfaces;
 using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace AppServices.Services
@@ -16,14 +16,40 @@ namespace AppServices.Services
             _infoRepository = infoRepository;
         }
 
-
-
-        public async Task<AdvertsInfoDto> GetInfo()
+        public async Task<CategoryDto[]> GetCategoriesAsync()
         {
-            AdvertsInfo info = await _infoRepository.GetAllAsync();
-            return AutoMapper.Mapper.Map<AdvertsInfoDto>(info);
+            var categories = await _infoRepository.GetCategoriesAsync();
+            return Mapper.Map<CategoryDto[]>(categories);
         }
 
+        public async Task<CityDto[]> GetCitiesAsync()
+        {
+            var cities = await _infoRepository.GetCitiesAsync();
+            return Mapper.Map<CityDto[]>(cities);
+        }
 
+        public async Task<AdvertsInfoDto> GetInfoAsync()
+        {
+            AdvertsInfo info = await _infoRepository.GetAllAsync();
+            return Mapper.Map<AdvertsInfoDto>(info);
+        }
+
+        public async Task<RegionDto[]> GetRegionsAsync()
+        {
+            var regions = await _infoRepository.GetRegionsAsync();
+            return Mapper.Map<RegionDto[]>(regions);
+        }
+
+        public async Task<StatusDto[]> GetStatusesAsync()
+        {
+            var statuses = await _infoRepository.GetStatussesAsync();
+            return Mapper.Map<StatusDto[]>(statuses);
+        }
+
+        public async Task<AdvertTypeDto[]> GetTypesAsync()
+        {
+            var types = await _infoRepository.GetTypesAsync();
+            return Mapper.Map<AdvertTypeDto[]>(types);
+        }
     }
 }
