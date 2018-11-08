@@ -120,7 +120,8 @@ namespace AppServices.Services
 
             if (filter.CategoryId.HasValue)
                 if (filter.CategoryId.Value > 0)
-                    query = query.Where(x => x.CategoryId == filter.CategoryId);
+                    query = query.Where(x => x.CategoryId == filter.CategoryId 
+                                             || x.Category.ParentCategoryId == filter.CategoryId);
 
             if (!string.IsNullOrEmpty(filter.Substring))
                 query = query.Where(x => EF.Functions.Like(x.Name, $"%{filter.Substring}%") ||
@@ -159,7 +160,8 @@ namespace AppServices.Services
 
             if (filter.CategoryId.HasValue)
                 if (filter.CategoryId.Value > 0)
-                    query = query.Where(x => x.CategoryId == filter.CategoryId);
+                    query = query.Where(x => x.CategoryId == filter.CategoryId
+                                        || x.Category.ParentCategoryId == filter.CategoryId);
 
             if (!string.IsNullOrEmpty(filter.Substring))
                 query = query.Where(x => EF.Functions.Like(x.Name, $"%{filter.Substring}%") ||
