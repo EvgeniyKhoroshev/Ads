@@ -5,6 +5,17 @@ namespace Domain.RepositoryInterfaces
 {
     public interface IAdvertInfoRepository<T, Tid>
     {
-        Task<AdvertsInfo> GetInfo();
+        //<inheritdoc>
+        Task<City[]> GetCitiesAsync();
+        //<inheritdoc>
+        Task<Category[]> GetCategoriesAsync();
+        //<inheritdoc>
+        Task<AdvertType[]> GetTypesAsync();
+        //<inheritdoc>
+        Task<Status[]> GetStatussesAsync();
+        //<inheritdoc>
+        Task<Region[]> GetRegionsAsync();
+        //<inheritdoc>
+        Task<AdvertsInfo> GetAllAsync();
     }
 }

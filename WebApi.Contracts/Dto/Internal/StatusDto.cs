@@ -2,7 +2,7 @@
 
 namespace Ads.Contracts.Dto
 {
-    public class Status : Base
+    public class StatusDto : Base
     {
     }
 }

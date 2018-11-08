@@ -2,7 +2,7 @@
 
 namespace Ads.Contracts.Dto
 {
-    public class City : Base
+    public class CityDto : Base
     {
         /// <summary>
         /// Id региона / region Id

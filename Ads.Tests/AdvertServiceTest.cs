@@ -237,7 +237,7 @@ namespace Ads.Tests
                     StatusId = 1,
                     TypeId = 1,
                     Price = 100,
-                    City = new Ads.Contracts.Dto.City{ RegionId = 1 },
+                    City = new Ads.Contracts.Dto.CityDto{ RegionId = 1 },
                     UserId = 1
 
                 },
@@ -250,7 +250,7 @@ namespace Ads.Tests
                     StatusId = 1,
                     TypeId = 1,
                     Price = 200,
-                    City = new Ads.Contracts.Dto.City{ RegionId = 1 },
+                    City = new Ads.Contracts.Dto.CityDto{ RegionId = 1 },
                     UserId = 2,
                 },
                 new AdvertDto
@@ -261,7 +261,7 @@ namespace Ads.Tests
                     StatusId = 1,
                     TypeId = 1,
                     Price = 300,
-                    City = new Ads.Contracts.Dto.City{ RegionId = 3 },
+                    City = new Ads.Contracts.Dto.CityDto{ RegionId = 3 },
                     UserId = 2
                 },
                  new AdvertDto
@@ -274,7 +274,7 @@ namespace Ads.Tests
                     StatusId = 1,
                     TypeId = 2,
                     Price = 400,
-                    City = new Ads.Contracts.Dto.City{ RegionId = 4 },
+                    City = new Ads.Contracts.Dto.CityDto{ RegionId = 4 },
                     UserId = 2
                 }
             };

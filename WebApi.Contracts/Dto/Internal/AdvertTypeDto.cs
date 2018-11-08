@@ -1,6 +1,6 @@
 ﻿namespace Ads.Contracts.Dto
 {
-    public class AdvertType
+    public class AdvertTypeDto
     {
         public int Id { get; set; }
 

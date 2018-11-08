@@ -6,18 +6,20 @@
 <div>
     <ul class="list-group">
         <li class="list-group-item nav-item" style="margin-top:10px;">
-            <span><img class="img-responsive" src="~/images/default.jpg" alt="Default image" /></span>
             <h3 style="text-align: center">@Model.Name</h3><hr /><br />
             @if (Model.Images.Count() > 0)
             {
-
                 @foreach (var i in Model.Images)
                 {
                     var src = string.Format("data:image/gif;base64,{0}", i.Content);
-                    <span class="img-circle small">
-                        <img class="img-responsive" src='@src' />
+                    <span>
+                        <img class="details-image" src='@src' />
                     </span><hr />
                 }
+            }
+            else
+            {
+                <span><img class="img-responsive details" src="~/images/default.jpg" alt="Default image" /></span>
             }
             <form asp-action="Delete" asp-controller="Adverts" onsubmit='return confirm("Вы точно хотите удалить объявление?");'>
                 Город: @Model.City <hr />Категория: @Model.Category<hr /> Цена: @Model.Price <br />

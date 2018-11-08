@@ -2,7 +2,7 @@
 
 namespace Ads.Contracts.Dto
 {
-    public class Region : Base
+    public class RegionDto : Base
     {
     }
 }
