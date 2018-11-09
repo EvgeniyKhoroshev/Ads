@@ -16,6 +16,7 @@ namespace AdsWebApi.Controllers
             _infoService = infoService;
         }
         [HttpGet("{id}")]
+        [EnableCors("allow")]
         public async Task<object[]> GetInfo(int id)
         {
             switch(id)

@@ -12,7 +12,7 @@
     int? UserId = GetCurrentUserId();
     ViewData["Title"] = "Home Page";
 }
-<script src="~/js/test.js" asp-append-version="true"></script>
+<script src="~/js/AdsInfo.js" asp-append-version="true"></script>
 <script src="~/js/dropdownCategory.js" asp-append-version="true"></script>
 <script src="~/js/SelectCity.js" asp-append-version="true"></script>
 
@@ -77,6 +77,15 @@
                             <p class="card-subtitle">Цена: @item.Price</p>
                             <p class="card-subtitle">г.@item.City.Name</p>
                             <p class="card-subtitle">@item.Created</p>
+                            @if ((User.Identity.IsAuthenticated) && (UserId == item.UserId))
+                            {
+                            <form asp-action="Delete" asp-controller="Adverts" onsubmit='return confirm("Вы точно хотите удалить объявление?");'>
+                                <a class="card-text" asp-action="Edit" asp-route-id="@item.Id">Изменить</a>
+                                <input hidden name="Id" value="@item.Id" />
+                                <input hidden name="OwnerId" value="@item.UserId" />
+                                <button type="submit" asp-controller="Adverts" asp-action="Delete" class="btn btn-primary">Удалить</button>
+                            </form>
+                            }
                         </div>
                     </div>
                 </div>

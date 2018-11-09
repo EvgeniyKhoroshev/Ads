@@ -23,9 +23,9 @@
 var CategoryTagName = 'category_output';
 var info, categories;
 fetch_info = function () {
-    categories = fetch('https://localhost:44396/api/info/')
+    categories = fetch('https://localhost:44396/api/info/1/')
         .then(response => response.json())
-        .then(json => categories = json.categories)
+        .then(json => categories = json)
         .then(() => SelectCategory(GetCategoryLevel(null)));
 }
 document.onloadstart = fetch_info();
