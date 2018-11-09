@@ -49,18 +49,29 @@
         <form asp-action="Index" method="get">
             <div class="form-row">
 
-                <div class="col">
+                <div class="col-2">
                     <select class="form-control col" id="selectCategories" onchange="changeFunc();">
                         <option>Любая категория</option>
                     </select>
                     <input type="hidden" id="inputCategory" name="CategoryId" />
                 </div>
-                
-                <div class="col-6">
+
+                <div class="col">
                     <input name="Substring" class="form-control" placeholder="Поиск..." />
                 </div>
 
-        @*<div class="col">
+                <div class="col-2">
+                    <select class="form-control col" id="selectRegion" onchange="changeRegion();">
+                        <option>Любой регион</option>
+                    </select>
+                </div>
+
+                <div class="col-2">
+                    <select class="form-control col" id="selectCity">
+                        <option>Любой город</option>
+                    </select>
+                </div>
+                @*<div class="col">
             <ul class="nav nav-item">
                 <li class="nav dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -74,7 +85,7 @@
             <input type="hidden" id="cat_name" name="CategoryId" />
         </div>*@
 
-                
+
                 <div class="col-auto">
                     <button class="btn btn-primary" id="filter"> Фильтровать</button>
                 </div>
