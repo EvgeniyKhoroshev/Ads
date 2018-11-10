@@ -60,8 +60,6 @@ namespace AppServices.Services
             var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("C - 137@# Try To Encode"));
             var signinCredentials = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256);
             var tokeOptions = new JwtSecurityToken(
-                //issuer: "http://localhost:44396",
-                //audience: "http://localhost:44382",
                 expires: DateTime.Now.AddMinutes(5),
                 signingCredentials: signinCredentials
             );

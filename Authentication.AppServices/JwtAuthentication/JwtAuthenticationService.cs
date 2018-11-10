@@ -24,7 +24,6 @@ namespace Authentication.AppServices.JwtAuthentication
             _tokenService = tokenService;
             _authenticationOptions = authenticationOptions.Value;
         }
-
         public async Task<JwtAuthenticationResult> AuthenticateAsync(BasicAuthenticationRequest request)
         {
             if (request == null)

@@ -69,11 +69,7 @@ namespace Ads.WebUI.Components.ApiRequests
             {
                 using (var httpClient = new HttpClient())
                 {
-                    HttpResponseMessage response = await httpClient.GetAsync($"http://localhost:56663/authentication/signout");
-                    if (response.IsSuccessStatusCode)
-                    {
-                        var jwtToken = await response.Content.ReadAsAsync<JwtAuthenticationToken>();
-                    }
+                    HttpResponseMessage response = await httpClient.GetAsync($"http://localhost:56663/authorization/signout");
                 }
             }
             catch (Exception ex) { throw new ArithmeticException("Something went wrong. " + ex.Message); }
@@ -134,36 +130,10 @@ namespace Ads.WebUI.Components.ApiRequests
                 totalPages : buf.TotalPages
                 );
             return result;
-            //try
-            //{
-            //    using (var httpClient = new HttpClient())
-            //    {
-            //        HttpResponseMessage response = await httpClient.PostAsJsonAsync($"http://localhost:56663/api/adverts/filter", advert);
-            //        if (response.IsSuccessStatusCode)
-            //        {
-            //            return await response.Content.ReadAsAsync<AdvertDto[]>();
-            //        }
-            //    }
-            //}
-            //catch (Exception) { }
-            //return null;
         }
         public async Task<IList<AdvertDto>> Filter(FilterDto filter)
         {
             return await _advertRequest.GetFiltred(filter);
-            //try
-            //{
-            //    using (var httpClient = new HttpClient())
-            //    {
-            //        HttpResponseMessage response = await httpClient.PostAsJsonAsync($"http://localhost:56663/api/adverts/filter", advert);
-            //        if (response.IsSuccessStatusCode)
-            //        {
-            //            return await response.Content.ReadAsAsync<AdvertDto[]>();
-            //        }
-            //    }
-            //}
-            //catch (Exception) { }
-            //return null;
         }
         public async Task DeleteAdvert(int id)
         {
