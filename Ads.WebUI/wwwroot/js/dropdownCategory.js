@@ -1,8 +1,8 @@
 ﻿var categories;
 fetch_category = function () {
-    categories = fetch('https://localhost:44396/api/info/')
+    categories = fetch('https://localhost:44396/api/info/1/')
         .then(response => response.json())
-        .then(json => categories = json.categories)
+        .then(json => categories = json)
         .then(() => DropdownCategories());
 }
 document.onloadstart = fetch_category();

@@ -6,8 +6,6 @@ namespace Domain.RepositoryInterfaces
     public interface IAdvertInfoRepository<T, Tid>
     {
         //<inheritdoc>
-        Task<City[]> GetCitiesAsync();
-        //<inheritdoc>
         Task<Category[]> GetCategoriesAsync();
         //<inheritdoc>
         Task<AdvertType[]> GetTypesAsync();
@@ -17,5 +15,8 @@ namespace Domain.RepositoryInterfaces
         Task<Region[]> GetRegionsAsync();
         //<inheritdoc>
         Task<AdvertsInfo> GetAllAsync();
+        //<inheritdoc>
+        Task<City[]> GetCitiesAsync(int? regionId);
+
     }
 }

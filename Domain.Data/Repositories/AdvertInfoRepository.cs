@@ -3,6 +3,7 @@ using Domain.RepositoryInterfaces;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Domain.Data.Repositories
@@ -51,7 +52,7 @@ namespace Domain.Data.Repositories
                 result = await _dbContext
                     .Categories
                     .ToArrayAsync();
-                _dbContext.SaveChanges();
+
                 return result;
             }
             catch (Exception ex)
@@ -67,23 +68,27 @@ namespace Domain.Data.Repositories
         /// </summary>
         /// <returns>Массив городов /
         /// Cities array</returns>
-        public async Task<City[]> GetCitiesAsync()
+        public async Task<City[]> GetCitiesAsync(int? regionId)
         {
             City[] result;
             try
             {
-                result = await _dbContext
-                    .Cities
-                    .ToArrayAsync();
-                _dbContext.SaveChanges();
-                return result;
+                if (regionId != null)
+                {
+                    result = await _dbContext.Set<City>()
+                        .Where(q => q.RegionId == regionId)
+                        .ToArrayAsync();
+                    return result;
+                }
+                else
+                    return await _dbContext.Set<City>()
+                        .ToArrayAsync();
             }
             catch (Exception ex)
             {
                 string error = "При попытке получить массив городов из БД произошла ошибка. " + ex.Message;
                 throw new DbUpdateException(string.Join(Environment.NewLine, error), ex);
             }
-
         }
 
         /// <summary>
@@ -101,7 +106,7 @@ namespace Domain.Data.Repositories
                 result = await _dbContext
                     .Regions
                     .ToArrayAsync();
-                _dbContext.SaveChanges();
+
                 return result;
             }
             catch (Exception ex)
@@ -124,7 +129,7 @@ namespace Domain.Data.Repositories
                 result = await _dbContext
                     .Statuses
                     .ToArrayAsync();
-                _dbContext.SaveChanges();
+
                 return result;
             }
             catch (Exception ex)
@@ -148,7 +153,7 @@ namespace Domain.Data.Repositories
                 result = await _dbContext
                     .AdvertTypes
                     .ToArrayAsync();
-                _dbContext.SaveChanges();
+
                 return result;
             }
             catch (Exception ex)
