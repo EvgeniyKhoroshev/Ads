@@ -24,7 +24,7 @@ namespace AdsWebApi.Controllers
         {
             await _userService.CreateUserAsync(value);
         }
-        [HttpGet]
+        [HttpGet("signout")]
         public async Task SignOut()
         {
             await _authenticationService.SignOutUserAsync();

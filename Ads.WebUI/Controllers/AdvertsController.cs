@@ -112,7 +112,7 @@ namespace Ads.WebUI.Controllers
         {
             var c = UserProcessing.GetCurrentUserId(HttpContext);
             if (!c.HasValue)
-                return RedirectToAction("SignIn", "Authintication");
+                return RedirectToAction("SignIn", "Authentication");
             if (_AdvertsInfoDto == null)
                 _AdvertsInfoDto = await ApiClient.AdvInfoInit();
             AdvertDto buf = await _client.GetAdvert(id.Value);

@@ -69,7 +69,7 @@ namespace Ads.WebUI.Components.ApiRequests
             {
                 using (var httpClient = new HttpClient())
                 {
-                    HttpResponseMessage response = await httpClient.GetAsync($"http://localhost:56663/authorization/signout");
+                    HttpResponseMessage response = await httpClient.GetAsync($"http://localhost:56663/api/authorization/signout");
                 }
             }
             catch (Exception ex) { throw new ArithmeticException("Something went wrong. " + ex.Message); }
