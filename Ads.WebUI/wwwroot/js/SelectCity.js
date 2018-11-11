@@ -1,77 +1,41 @@
-﻿//var cities;
-//var regions;
-//fetch_regions = function () {
-//    regions = fetch('https://localhost:44396/api/info/')
-//        .then(response => response.json())
-//        .then(json => regions = json.regions);
-//}
-//fetch_city = function () {
-//    cities = fetch('https://localhost:44396/api/info/')
-//        .then(response => response.json())
-//        .then(json => cities = json.cities)
-//        .then(() => DropdownRegions());
-//}
-//document.onloadstart = fetch_regions();
-//document.onloadstart = fetch_city();
+﻿var regions;
+var cities;
+fetch_regions = function () {
+    regions = fetch('https://localhost:44396/api/info/5')
+        .then(response => response.json())
+        .then(json => regions = json)
+        .then(() => DropdownRegions());
+}
+document.onloadstart = fetch_regions();
 
-//function DropdownRegions() {
-//    var r = Array.from(regions);
+function DropdownRegions() {
+    var regionsArray = Array.from(regions);
 
-//    for (var i = 0, len = r.length; i < len; i++)
-//        document.getElementById('selectRegion').innerHTML += '<option class="bg-light" value="' + r[i].id + '">' + r[i].name + '</option>';
-//}
+    for (var i = 0, len = regionsArray.length; i < len; i++)
+        document.getElementById('selectRegion').innerHTML += '<option value="' + regionsArray[i].id + '">' + regionsArray[i].name + '</option>';
+}
 
-//function GetCities() {
-//    var cityArray = new Array;
-//    for (var i = 0; i < cities.length; i++)
-//        cityArray.push(cities[i]);
+async function DropdownCities(regionId) {
 
-//    return cityArray;
-//}
+    cities = await fetch('https://localhost:44396/api/info/2/' + regionId + '')
+        .then(response => response.json())
+        .then(json => cities = json);
 
-////function changeRegion() {
-////    var selectBox = document.getElementById("selectRegion");
-////    var selectedValue = selectBox.options[selectBox.selectedIndex].value;
-////    var c = GetCities();
+    var citiesArray = Array.from(cities);
+    for (var i = 0; i < citiesArray.length; i++)
+        document.getElementById('selectCity').innerHTML += '<option value="' + citiesArray[i].id + '">' + citiesArray[i].name + '</option>';
+}
 
-////    for (var i = 0; i < c.length; i++)
-////        if (selectedValue == c[i].regionId)
-////        document.getElementById('selectRegion').innerHTML += '<option class="bg-light" value="' + c[i].id + '">' + c[i].name + '</option>';
-////}
+function ChangeRegion() {
+    var selectBox = document.getElementById("selectRegion");
+    var selectedRegionId = selectBox.options[selectBox.selectedIndex].value;
 
-//////let dropdown = document.getElementById('selectCity');
-//////dropdown.length = 0;
+    DropdownCities(selectedRegionId);
+}
 
-//////let defaultOption = document.createElement('option');
-//////defaultOption.text = 'Choose State/Province';
+function ChangeCity() {
+    var selectBox = document.getElementById("selectCity");
+    var selectedCityId = selectBox.options[selectBox.selectedIndex].value;
 
-//////dropdown.add(defaultOption);
-//////dropdown.selectedIndex = 0;
-
-//////const url = 'https://localhost:44396/api/info/';
-
-//////fetch(url)
-//////    .then(
-//////        function (response) {
-//////            if (response.status !== 200) {
-//////                console.warn('Looks like there was a problem. Status Code: ' +
-//////                    response.status);
-//////                return;
-//////            }
-
-//////            // Examine the text in the response  
-//////            response.json().then(function (data) {
-//////                let option;
-
-//////                for (let i = 0; i < data.length; i++) {
-//////                    option = document.createElement('option');
-//////                    option.text = data[i].name;
-//////                    option.value = data[i].abbreviation;
-//////                    dropdown.add(option);
-//////                }
-//////            });
-//////        }
-//////    )
-//////    .catch(function (err) {
-//////        console.error('Fetch Error -', err);
-//////    });
+    document.getElementById('inputCity').value = selectedCityId;
+}
