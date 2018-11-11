@@ -1,5 +1,4 @@
 ﻿var regions;
-var cities;
 fetch_regions = function () {
     regions = fetch('https://localhost:44396/api/info/5')
         .then(response => response.json())
@@ -15,21 +14,30 @@ function DropdownRegions() {
         document.getElementById('selectRegion').innerHTML += '<option value="' + regionsArray[i].id + '">' + regionsArray[i].name + '</option>';
 }
 
-async function DropdownCities(regionId) {
+function DropdownCities(regionId) {
 
-    cities = await fetch('https://localhost:44396/api/info/2/' + regionId + '')
+    var cities = fetch('https://localhost:44396/api/info/2/' + regionId + '')
         .then(response => response.json())
-        .then(json => cities = json);
+        .then((json) => {
+            cities = json;
 
-    var citiesArray = Array.from(cities);
-    for (var i = 0; i < citiesArray.length; i++)
-        document.getElementById('selectCity').innerHTML += '<option value="' + citiesArray[i].id + '">' + citiesArray[i].name + '</option>';
+            var select = document.getElementById('selectCity');
+            while (select.firstChild) {
+                select.removeChild(select.firstChild);
+            }
+            for (var i = 0; i < cities.length; i++)
+                document.getElementById('selectCity').innerHTML += '<option value="' + cities[i].id + '">' + cities[i].name + '</option>';
+        });
+ 
 }
 
 function ChangeRegion() {
     var selectBox = document.getElementById("selectRegion");
     var selectedRegionId = selectBox.options[selectBox.selectedIndex].value;
 
+    var inputRegion = document.getElementById("inputRegion");
+    if (inputRegion != null)
+        document.getElementById('inputRegion').value = selectedRegionId;
     DropdownCities(selectedRegionId);
 }
 

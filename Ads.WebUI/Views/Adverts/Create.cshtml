@@ -58,21 +58,21 @@
                         <option value="@item.Id">@item.Id @item.Type</option>}
                 </select>
             </div>
+
             <div class="form-group">
-                <select class="form-control form-control-sm" name="CityId">
-                    @foreach (var item in Model.Cities)
-                    {
-                        <option value="@item.Id">@item.Id @item.Name</option>}
+                <select class="form-control col" id="selectRegion" onchange="ChangeRegion();">
+                    <option>Любой регион</option>
                 </select>
+                <input type="hidden" id="inputRegion" name="RegionId" />
             </div>
-            <div>
-                <select class="form-control form-control-sm" name="RegionId">
-                    @foreach (var item in Model.Regions)
-                    {
-                        <option onclick="" value="@item.Id">@item.Name</option>
-                    }
+
+            <div class="form-group">
+                <select class="form-control col" id="selectCity" onchange="ChangeCity()">
+                    <option>Любой город</option>
                 </select>
+                <input type="hidden" id="inputCity" name="CityId" />
             </div>
+
             <div class="form-group">
                 <input hidden name="Context" class="form-control" />
             </div>
