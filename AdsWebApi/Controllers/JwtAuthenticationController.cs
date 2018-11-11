@@ -20,7 +20,6 @@ namespace AdsWebApi.Controllers
         {
             _authenticationService = authenticationService;
         }
-
         [HttpPost]
         public async Task<ActionResult<JwtAuthenticationToken>> Authenticate(BasicAuthenticationRequest request)
         {

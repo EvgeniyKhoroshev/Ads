@@ -19,63 +19,23 @@ namespace AdsWebApi.Controllers
         }
         private readonly IUserService _userService;
         private readonly IAuthenticationService _authenticationService;
-        // GET api/values
-        //[HttpGet]
-        //public IList<AdvertDto> Get()
-        //{
-        //    return _userService.GetAll_ToIndex();
-        //}
-        //// GET api/values/5
-        //[HttpGet("{id}")]
-        //public async Task<ActionResult<AdvertDto>> Get(int id)
-        //{
-        //    return await _userService.Get(id);
-        //}
-        //// GET api/values/5
-        ////[EnableCors("allow")]
-        //[HttpGet("/api/[controller]/{id}/advertcomments")]
-        //public IList<CommentDto> GetUserAdvertsComments(int id)
-        //{
-        //    var result = _userService.GetAdvertComments(id);
-        //    return result;
-        //}
-        //POST api/values
-        [HttpPost("/api/[controller]/create")]
+        [HttpPost("create")]
         public async Task TaskCreateUser([FromBody] CreateUserDto value)
         {
             await _userService.CreateUserAsync(value);
         }
-
-        [HttpPost("token")]
-        public string Token()
+        [HttpGet]
+        public async Task SignOut()
         {
-            return _authenticationService.GetToken();
+            await _authenticationService.SignOutUserAsync();
         }
-        [HttpPost("/api/[controller]/signin")]
+        // Sign in without jwt (dont used anymore)
+        [HttpPost("signin")]
         public async Task<IActionResult> SignIn([FromBody] UserLoginDto value)
         {
             
             var s = await _authenticationService.JWTSignInAsync(value);
             return Ok(s);
         }
-        //// PUT api/values/5
-        //[HttpPut("{id}")]
-        //public void Put(int id, [FromBody] string value)
-        //{
-        //}
-
-        //// DELETE api/values/5
-        //[HttpDelete("{id}")]
-        //public void Delete(int id)
-        //{
-        //    _userService.Delete(id);
-        //}
-
-        //[HttpPost("filter")]
-        //public AdvertDto[] GetFiltered([FromBody]FilterDto filter)
-        //{
-        //    return _userService.GetFiltred(filter);
-        //}
-
     }
 }

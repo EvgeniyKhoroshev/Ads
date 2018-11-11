@@ -6,7 +6,7 @@ namespace AppServices.ServiceInterfaces
     public interface IInfoService
     {
         Task<AdvertsInfoDto> GetInfoAsync();
-        Task<CityDto[]> GetCitiesAsync();
+        Task<CityDto[]> GetCitiesAsync(int? regionId);
         Task<CategoryDto[]> GetCategoriesAsync();
         Task<StatusDto[]> GetStatusesAsync();
         Task<AdvertTypeDto[]> GetTypesAsync();

@@ -22,12 +22,12 @@ namespace AppServices.Services
             return Mapper.Map<CategoryDto[]>(categories);
         }
 
-        public async Task<CityDto[]> GetCitiesAsync()
+
+        public async Task<CityDto[]> GetCitiesAsync(int? regionId)
         {
-            var cities = await _infoRepository.GetCitiesAsync();
+            var cities = await _infoRepository.GetCitiesAsync(regionId);
             return Mapper.Map<CityDto[]>(cities);
         }
-
         public async Task<AdvertsInfoDto> GetInfoAsync()
         {
             AdvertsInfo info = await _infoRepository.GetAllAsync();
