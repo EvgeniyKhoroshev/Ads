@@ -2,21 +2,19 @@
 using System.Diagnostics;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Ads.WebUI.Models;
+using Ads.MVCClientApplication.Models;
 using Ads.Contracts.Dto;
 using System;
 using AutoMapper;
-using Ads.Contracts.Dto.Filters;
-using Ads.WebUI.Controllers.Components;
+using Ads.MVCClientApplication.Controllers.Components;
 using Microsoft.AspNetCore.Http;
-using Ads.WebUI.Components.ApiRequests;
+using Ads.MVCClientApplication.Components.ApiRequests;
 using Authentication.Contracts.CookieAuthentication;
 using System.Linq;
 using Ads.CoreService.Contracts.Dto.Filters;
 using Ads.Shared.Contracts;
-using Ads.MVCClientApplication.Controllers.Components;
 
-namespace Ads.WebUI.Controllers
+namespace Ads.MVCClientApplication.Controllers
 {
     public class AdvertsController : Controller
     {

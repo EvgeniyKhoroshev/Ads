@@ -1,14 +1,15 @@
 ﻿using Ads.Contracts.Dto;
-using Ads.WebUI.Components.ApiRequests;
-using Ads.WebUI.Controllers.Components.ApiClients.AdvertRequests;
-using Ads.WebUI.Controllers.Components.ApiClients.Interfaces;
-using Ads.WebUI.Models;
+using Ads.MVCClientApplication.Controllers.Components.ApiClients.Clients;
+using Ads.MVCClientApplication.Controllers.Components.ApiClients.Interfaces;
+using Ads.MVCClientApplication.Components.ApiRequests;
+using Ads.MVCClientApplication.Controllers.Components.ApiClients.AdvertRequests;
+using Ads.MVCClientApplication.Models;
 using Authentication.AppServices.CookieAuthentication;
 using Authentication.AppServices.JwtAuthentication;
 using AutoMapper;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Ads.WebUI.ServiceExtensions
+namespace Ads.MVCClientApplication.ServiceExtensions
 {
     public static class MVCClientServiceExtension
     {
@@ -21,7 +22,8 @@ namespace Ads.WebUI.ServiceExtensions
         {
             services.AddTransient<IApiAdvertClient, ApiAdvertClient>();
             services.AddTransient<IApiCommentsClient, ApiCommentsClient>();
-
+            services.AddTransient<IApiUserClient, ApiUserClient>();
+            
             services.AddTransient<ApiClient>();
             return services;
         } 

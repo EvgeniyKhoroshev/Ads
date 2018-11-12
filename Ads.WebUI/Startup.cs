@@ -4,11 +4,13 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Ads.WebUI.ServiceExtensions;
+using Ads.MVCClientApplication.ServiceExtensions;
 using Authentication.Contracts.JwtAuthentication.Options;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Ads.Shared.Contracts;
+using Ads.Shared.Contracts.Areas;
 
-namespace Ads.WebUI
+namespace Ads.MVCClientApplication
 {
     public class Startup
     {
@@ -32,6 +34,13 @@ namespace Ads.WebUI
             });
             // Getting the Jwt auth options
             services.Configure<JwtClientAuthenticationOptions>(Configuration.GetSection("JwtAuthentication"));
+
+
+            services.Configure<ApiBaseOption>(Configuration.GetSection("ApiBaseOptions"));
+            services.Configure<ApiAdvertsArea>(Configuration.GetSection("ApiAdvertsArea"));
+            services.Configure<ApiCommentsArea>(Configuration.GetSection("ApiCommentsArea"));
+            services.Configure<ApiUsersArea>(Configuration.GetSection("ApiUsersAreas"));
+
             services.Configure<JwtBaseAuthenticationOptions>(Configuration.GetSection("JwtAuthentication"));
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, o =>    {

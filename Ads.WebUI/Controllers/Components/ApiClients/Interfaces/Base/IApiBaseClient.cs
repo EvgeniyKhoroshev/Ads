@@ -3,7 +3,7 @@ using Ads.Shared.Contracts;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace Ads.WebUI.Controllers.Components.ApiClients.Interfaces.Base
+namespace Ads.MVCClientApplication.Controllers.Components.ApiClients.Interfaces.Base
 {
     public interface IApiBaseClient<T, Tid>
     {

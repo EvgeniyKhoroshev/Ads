@@ -1,16 +1,16 @@
 ﻿using System.Diagnostics;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Ads.WebUI.Models;
+using Ads.MVCClientApplication.Models;
 using Ads.Contracts.Dto;
-using Ads.WebUI.Components.ApiRequests;
+using Ads.MVCClientApplication.Components.ApiRequests;
 using System;
 using System.Linq;
 using Authentication.Contracts.CookieAuthentication;
 using Microsoft.AspNetCore.Http;
 using System.Collections.Generic;
 
-namespace Ads.WebUI.Controllers
+namespace Ads.MVCClientApplication.Controllers
 {
     public class CommentsController : Controller
     {

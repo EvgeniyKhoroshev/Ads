@@ -1,17 +1,14 @@
 ﻿using Ads.Contracts.Dto;
-using Ads.WebUI.Components.ApiRequests;
-using AppServices.ServiceInterfaces;
+using Ads.MVCClientApplication.Controllers.Components;
+using Ads.MVCClientApplication.Components.ApiRequests;
 using Authentication.AppServices.CookieAuthentication;
 using Authentication.Contracts.Basic;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
-namespace Ads.WebUI.Controllers
+namespace Ads.MVCClientApplication.Controllers
 {
     public class AuthenticationController : Controller
     {
@@ -22,6 +19,12 @@ namespace Ads.WebUI.Controllers
         }
         [HttpGet]
         public IActionResult SignIn() => View();
+        [HttpGet]
+        public IActionResult Manage()
+        {
+            UserProcessing.GetCurrentUserId(HttpContext);
+            return View();
+        }
         [HttpPost]
         public async Task<IActionResult> SignIn(BasicAuthenticationRequest model)
         {

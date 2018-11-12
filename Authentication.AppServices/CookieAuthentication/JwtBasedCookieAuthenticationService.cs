@@ -1,4 +1,5 @@
-﻿using Authentication.AppServices.JwtAuthentication;
+﻿using Ads.Contracts.Dto;
+using Authentication.AppServices.JwtAuthentication;
 using Authentication.Contracts;
 using Authentication.Contracts.Basic;
 using Authentication.Contracts.CookieAuthentication;
@@ -89,6 +90,18 @@ namespace Authentication.AppServices.CookieAuthentication
                 throw new InvalidOperationException("No http context provided");
 
             await context.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+        }
+
+        public async Task<AuthenticationResult> SignUpAsync(CreateUserDto request)
+        {
+            var response = await _httpClient.PostAsJsonAsync($"{_jwtOptions.AuthenticationEndpoint}/signup", request);
+            if (!response.IsSuccessStatusCode)
+                return AuthenticationResult.Failed("Unable register user");
+            return await SignInAsync(new BasicAuthenticationRequest
+            {
+                Username = request.UserName,
+                Password = request.Password
+            });
         }
 
         /// <inheritdoc />

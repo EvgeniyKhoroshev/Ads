@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 
-namespace Ads.WebUI
+namespace Ads.MVCClientApplication
 {
     public class Program
     {

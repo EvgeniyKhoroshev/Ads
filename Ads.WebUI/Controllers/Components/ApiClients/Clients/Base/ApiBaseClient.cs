@@ -1,5 +1,5 @@
 ﻿using Ads.Contracts.Dto.Filters;
-using Ads.WebUI.Controllers.Components.ApiClients.Interfaces.Base;
+using Ads.MVCClientApplication.Controllers.Components.ApiClients.Interfaces.Base;
 using Authentication.AppServices.Extensions;
 using Microsoft.AspNetCore.Http;
 using System;
@@ -10,25 +10,30 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 using System.Text;
 using Ads.Shared.Contracts;
+using Microsoft.Extensions.Options;
+using Ads.Shared.Contracts.Areas;
 
-namespace Ads.WebUI.Controllers.Components.ApiClients.BaseRequest
+namespace Ads.MVCClientApplication.Controllers.Components.ApiClients.BaseClients
 {
     public abstract class ApiBaseClient<T, Tid> : IApiBaseClient<T, Tid>, IDisposable
     {
         public HttpClient httpClient;
-        public string entityName;
         public readonly IHttpContextAccessor _context;
         public readonly string _authToken;
-        public ApiBaseClient(string Name, IHttpContextAccessor context)
+        public readonly ApiBaseOption _options;
+        public readonly ApiBaseArea _area;
+        public ApiBaseClient(IHttpContextAccessor context,
+            IOptions<ApiBaseOption> options,
+            IOptions<ApiBaseArea> area)
         {
+            _area = area.Value;
+            _options = options.Value;
             _context = context;
-            entityName = Name;
             httpClient = new HttpClient();
             _authToken = _context.HttpContext.User.GetAuthToken();
             httpClient.DefaultRequestHeaders.Add(HttpRequestHeader.ContentType.ToString(), "application/json");
             httpClient.DefaultRequestHeaders.Add(HttpRequestHeader.Authorization.ToString(), $"Bearer {_authToken}");
         }
-        public readonly string _apiUrl = "https://localhost:44396/api/";
         /// <summary>
         /// Http запрос к API для удаления <paramref name="entityName"/> по Id
         /// / HTTP request to deleting a <paramref name="entityName"/> by Id
@@ -43,10 +48,10 @@ namespace Ads.WebUI.Controllers.Components.ApiClients.BaseRequest
             {
                 using (httpClient)
                 {
-                    HttpResponseMessage response = await httpClient.DeleteAsync($"{_apiUrl}{entityName}/{id}");
+                    HttpResponseMessage response = await httpClient.DeleteAsync($"{_options.ApiEndpoint}{_area.Get}/{id}");
                 }
                 //}
-                //    var request = new HttpRequestMessage(HttpMethod.Delete, $"{ _apiUrl }{entityName}/{id}")
+                //    var request = new HttpRequestMessage(HttpMethod.Delete, $"{ _options.ApiEndpoint }{entityName}/{id}")
                 //    {
                 //        Headers = {
                 //    { HttpRequestHeader.ContentType.ToString(), "application/json"},
@@ -57,7 +62,7 @@ namespace Ads.WebUI.Controllers.Components.ApiClients.BaseRequest
             }
             catch (HttpRequestException ex)
             {
-                string err = "При попытке выполнить запрос Delete(" + entityName + ", id = " + id + " произошла ошибка. " + ex.Message;
+                string err = "При попытке выполнить запрос Delete(" + _area.Get + ", id = " + id + " произошла ошибка. " + ex.Message;
                 throw new HttpRequestException(string.Join(Environment.NewLine, err));
             }
 
@@ -78,7 +83,7 @@ namespace Ads.WebUI.Controllers.Components.ApiClients.BaseRequest
             {
                 using (httpClient)
                 {
-                    HttpResponseMessage response = await httpClient.GetAsync($"{ _apiUrl }{entityName}/{Id}");
+                    HttpResponseMessage response = await httpClient.GetAsync($"{ _options.ApiEndpoint }{_area.Get}/{Id}");
 
                     if (response.IsSuccessStatusCode)
                     {
@@ -88,7 +93,7 @@ namespace Ads.WebUI.Controllers.Components.ApiClients.BaseRequest
             }
             catch (HttpRequestException ex)
             {
-                string err = "При попытке выполнить Get(" + entityName + ", id = " + Id + ") произошла ошибка. " + ex.Message;
+                string err = "При попытке выполнить Get(" + _area.Get + ", id = " + Id + ") произошла ошибка. " + ex.Message;
                 throw new HttpRequestException(string.Join(Environment.NewLine, err));
             }
             return default(T);
@@ -107,7 +112,7 @@ namespace Ads.WebUI.Controllers.Components.ApiClients.BaseRequest
             {
                 using (httpClient)
                 {
-                    HttpResponseMessage response = await httpClient.GetAsync(_apiUrl + entityName);
+                    HttpResponseMessage response = await httpClient.GetAsync(_options.ApiEndpoint + _area.Get);
                     if (response.IsSuccessStatusCode)
                     {
                         return await response.Content.ReadAsAsync<IList<T>>();
@@ -116,7 +121,7 @@ namespace Ads.WebUI.Controllers.Components.ApiClients.BaseRequest
             }
             catch (HttpRequestException ex)
             {
-                string err = "При попытке выполнить запрос GetAll(" + entityName + ") произошла ошибка. " + ex.Message;
+                string err = "При попытке выполнить запрос GetAll(" + _area.Get + ") произошла ошибка. " + ex.Message;
                 throw new HttpRequestException(string.Join(Environment.NewLine, err));
             }
             return default(IList<T>);
@@ -135,7 +140,7 @@ namespace Ads.WebUI.Controllers.Components.ApiClients.BaseRequest
             {
                 using (httpClient)
                 {
-                    HttpResponseMessage response = await httpClient.PostAsJsonAsync(_apiUrl + entityName + "/paged", filter);
+                    HttpResponseMessage response = await httpClient.PostAsJsonAsync(_options.ApiEndpoint + _area.Get + "/paged", filter);
                     if (response.IsSuccessStatusCode)
                     {
                         return await response.Content.ReadAsAsync<PagedCollection<T>>();
@@ -144,7 +149,7 @@ namespace Ads.WebUI.Controllers.Components.ApiClients.BaseRequest
             }
             catch (HttpRequestException ex)
             {
-                string err = "При попытке выполнить запрос GetFiltred(" + entityName + ") произошла ошибка. " + ex.Message;
+                string err = "При попытке выполнить запрос GetFiltred(" + _area.Get + ") произошла ошибка. " + ex.Message;
                 throw new HttpRequestException(string.Join(Environment.NewLine, err));
             }
             return default(PagedCollection<T>);
@@ -163,7 +168,7 @@ namespace Ads.WebUI.Controllers.Components.ApiClients.BaseRequest
             {
                 using (httpClient)
                 {
-                    HttpResponseMessage response = await httpClient.PostAsJsonAsync(_apiUrl + entityName + "/filter", filter);
+                    HttpResponseMessage response = await httpClient.PostAsJsonAsync(_options.ApiEndpoint + _area.Get + "/filter", filter);
                     if (response.IsSuccessStatusCode)
                     {
                         return await response.Content.ReadAsAsync<IList<T>>();
@@ -172,7 +177,7 @@ namespace Ads.WebUI.Controllers.Components.ApiClients.BaseRequest
             }
             catch (HttpRequestException ex)
             {
-                string err = "При попытке выполнить запрос GetFiltred(" + entityName + ") произошла ошибка. " + ex.Message;
+                string err = "При попытке выполнить запрос GetFiltred(" + _area.Get + ") произошла ошибка. " + ex.Message;
                 throw new HttpRequestException(string.Join(Environment.NewLine, err));
             }
             return default(IList<T>);
@@ -193,7 +198,7 @@ namespace Ads.WebUI.Controllers.Components.ApiClients.BaseRequest
             {
                 using (httpClient)
                 {
-                    HttpResponseMessage response = await httpClient.PostAsJsonAsync(_apiUrl + entityName + "/saveorupdate", entity);
+                    HttpResponseMessage response = await httpClient.PostAsJsonAsync(_options.ApiEndpoint + _area.Get + "/saveorupdate", entity);
                     if (response.IsSuccessStatusCode)
                     {
                         return await response.Content.ReadAsAsync<T>();
@@ -202,7 +207,7 @@ namespace Ads.WebUI.Controllers.Components.ApiClients.BaseRequest
             }
             catch (Exception ex)
             {
-                string err = $"При попытке выполнить SaveOrUpdate({entityName}) произошла ошибка. {ex.Message}";
+                string err = $"При попытке выполнить SaveOrUpdate({_area.Get}) произошла ошибка. {ex.Message}";
                 throw new Exception(string.Join(Environment.NewLine, err));
             }
             return default(T);

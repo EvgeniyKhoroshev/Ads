@@ -1,6 +1,6 @@
 using System;
 
-namespace Ads.WebUI.Models
+namespace Ads.MVCClientApplication.Models
 {
     public class ErrorViewModel
     {

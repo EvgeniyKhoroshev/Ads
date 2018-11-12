@@ -1,10 +1,9 @@
 ﻿using Ads.Contracts.Dto;
 using Ads.Contracts.Dto.Filters;
 using Ads.CoreService.Contracts.Dto.Filters;
+using Ads.MVCClientApplication.Controllers.Components.ApiClients.Interfaces;
 using Ads.Shared.Contracts;
-using Ads.WebUI.Controllers.Components.ApiClients.Interfaces;
-using Ads.WebUI.Models;
-using Authentication.AppServices.Extensions;
+using Ads.MVCClientApplication.Models;
 using Authentication.Contracts.Basic;
 using Authentication.Contracts.JwtAuthentication;
 using AutoMapper;
@@ -12,31 +11,30 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
-using System.IdentityModel.Tokens.Jwt;
 using System.Net.Http;
-using System.Security.Claims;
 using System.Threading.Tasks;
 
 /// <summary>
 /// Класс для работы с HTTP запросами к API/ 
 /// The class for a connection with API by a HTTP query
 /// </summary>
-namespace Ads.WebUI.Components.ApiRequests
+namespace Ads.MVCClientApplication.Components.ApiRequests
 {
     public class ApiClient
     {
-        readonly IApiAdvertClient _advertRequest;
-        readonly IApiCommentsClient _commentRequest;
+        readonly IApiUserClient _apiUserClient;
+        readonly IApiAdvertClient _advertClient;
+        readonly IApiCommentsClient _commentClient;
         readonly IHttpContextAccessor _context;
-        readonly string _authToken;
         public ApiClient(IApiAdvertClient advertRequest,
             IApiCommentsClient commentRequest,
-            IHttpContextAccessor context)
+            IHttpContextAccessor context,
+            IApiUserClient apiUserClient)
         {
-            _advertRequest = advertRequest;
-            _commentRequest = commentRequest;
+            _apiUserClient = apiUserClient;
+            _advertClient = advertRequest;
+            _commentClient = commentRequest;
             _context = context;
-            _authToken = _context.HttpContext.User.GetAuthToken();
         }
 
         /// <summary>
@@ -61,7 +59,7 @@ namespace Ads.WebUI.Components.ApiRequests
         }
         public async Task<IList<CommentDto>> GetAdvertComments(int id)
         {
-            return await _advertRequest.GetAdvertCommentsAsync(id);
+            return await _advertClient.GetAdvertCommentsAsync(id);
         }
         public static async Task SignOut()
         {
@@ -76,24 +74,7 @@ namespace Ads.WebUI.Components.ApiRequests
         }
         public async Task<AdvertDto> GetAdvert(int id)
         {
-            return await _advertRequest.Get(id);
-        }
-        public static async Task<ActionResult<JwtAuthenticationToken>> SignIn(BasicAuthenticationRequest user)
-        {
-            try
-            {
-                using (var httpClient = new HttpClient())
-                {
-                    HttpResponseMessage response = await httpClient.PostAsJsonAsync($"http://localhost:56663/JwtAuthentication", user);
-                    if (response.IsSuccessStatusCode)
-                    {
-                        var jwtToken = await response.Content.ReadAsAsync<JwtAuthenticationToken>();
-                        return jwtToken;
-                    }
-                }
-            }
-            catch (Exception ex) { throw new ArithmeticException("Something went wrong. " + ex.Message); }
-            return null;
+            return await _advertClient.Get(id);
         }
         public static async Task CreateUser(CreateUserDto user)
         {
@@ -112,17 +93,17 @@ namespace Ads.WebUI.Components.ApiRequests
         }
         public async Task<AdvertDto> SaveOrUpdate(AdvertDto advert)
         {
-            return await _advertRequest.SaveOrUpdate(advert);
+            return await _advertClient.SaveOrUpdate(advert);
         }
 
         public async Task<CommentDto> SaveOrUpdate(CommentDto comment)
         {
-            return await _commentRequest.SaveOrUpdate(comment);
+            return await _commentClient.SaveOrUpdate(comment);
         }
 
         public async Task<PagedCollection<AdsVMIndex>> FiltredAsync(AdvertFilterDto filter)
         {
-            var buf = await _advertRequest.GetFiltredAsync(filter);
+            var buf = await _advertClient.GetFiltredAsync(filter);
             var result = new PagedCollection<AdsVMIndex>(
                 Mapper.Map<AdsVMIndex[]>(buf.Items),
                 pageNumber: buf.PageNumber,
@@ -133,19 +114,19 @@ namespace Ads.WebUI.Components.ApiRequests
         }
         public async Task<IList<AdvertDto>> Filter(FilterDto filter)
         {
-            return await _advertRequest.GetFiltred(filter);
+            return await _advertClient.GetFiltred(filter);
         }
         public async Task DeleteAdvert(int id)
         {
-            await _advertRequest.Delete(id);
+            await _advertClient.Delete(id);
         }
         public async Task DeleteComment(int id)
         {
-            await _commentRequest.Delete(id);
+            await _commentClient.Delete(id);
         }
         public async Task<IList<CommentDto>> GetComments()
         {
-            return await _commentRequest.GetAll();
+            return await _commentClient.GetAll();
         }
     }
 

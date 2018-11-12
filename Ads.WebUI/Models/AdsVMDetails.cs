@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Ads.WebUI.Models
+namespace Ads.MVCClientApplication.Models
 {
     public class AdsVMDetails
     {
