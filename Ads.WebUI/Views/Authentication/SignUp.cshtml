@@ -4,24 +4,28 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Регистрация</h2>
+<br />
+<br />
+<br />
+<div class="row justify-content-md-center">
+    <div class="text-center">
+        <form action="/Authentication/SignUp" method="post">
+            <h1 class="h3 mb-3 font-weight-normal">Регистрация</h1>
 
-<div class="col-3">
-    <form action="/Authentication/SignUp" method="post">
-        <div class="form-group">
+            <label class="sr-only" for="Email">Введите E-mail: </label>
+            <input class="form-control" id="Email" name="Email" type="email" aria-describedby="emailHelp" placeholder="Введите E-mail" value="">
 
-            <label class="control-label" for="Email">Введите E-mail: </label>
-            <input class="form-control" id="Email" name="Email" type="email" aria-describedby="emailHelp" placeholder="Enter email" value="">
+            <label class="sr-only" for="UserName">Имя пользователя</label>
+            <input class="form-control" id="UserName" name="UserName" type="text" aria-describedby="emailHelp" placeholder="Имя пользователя" value="">
 
-            <label for="UserName">Имя пользователя</label>
-            <input class="form-control" id="UserName" name="UserName" type="text" aria-describedby="emailHelp" placeholder="Enter email" value="">
-
-            <label for="Password">Введите пароль</label>
-            <input class="form-control" id="Password" name="Password" type="text" placeholder="Password" value="">
-
-        </div>
-        <button class="btn btn-primary" type="submit" name="SignUp">Регистрация</button>
-        @Html.AntiForgeryToken()
-    </form>
+            <label class="sr-only" for="Password">Введите пароль</label>
+            <input class="form-control" id="Password" name="Password" type="password" placeholder="Введие пароль" value="">
+            <br />
+            <button class="btn btn-primary" type="submit" name="SignUp">Регистрация</button>
+            @Html.AntiForgeryToken()
+        </form>
+    </div>
 </div>
+
+
 
