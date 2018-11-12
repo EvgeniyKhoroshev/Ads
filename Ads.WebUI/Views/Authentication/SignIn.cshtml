@@ -4,21 +4,27 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Вход</h2>
 
-<div class="col-3">
-    <form action="/Authentication/SignIn" method="post">
-        <div class="form-group">
+<br />
+<br />
+<br />
+<div class="row justify-content-md-center">
+    <div class="text-center">
+        <form class="form-signin" action="/Authentication/SignIn" method="post">
+            <h1 class="h3 mb-3 font-weight-normal">Вход</h1>
+            <label class="sr-only" for="UserName">Имя пользователя</label>
+            <input class="form-control" id="UserName" name="UserName" type="text" placeholder="Введите логин" required autofocus>
 
-            <label for="UserName">Имя пользователя</label>
-            <input class="form-control" id="UserName" name="UserName" type="text" aria-describedby="emailHelp" placeholder="Enter email" value="">
-
-            <label for="Password">Введите пароль</label>
-            <input class="form-control" id="Password" name="Password" type="text" placeholder="Password" value="">
-
-        </div>
-        <button class="btn btn-primary" type="submit" name="SignIn">Вход</button>
-        @Html.AntiForgeryToken()
-    </form>
+            <label class="sr-only" for="Password">Введите пароль</label>
+            <input class="form-control" id="Password" name="Password" type="password" placeholder="Введите пароль" required>
+            <div class="checkbox mb-3">
+                <label>
+                    <input type="checkbox" value="remember-me"> Remember me
+                </label>
+            </div>
+            <button class="btn btn-primary btn-block" type="submit" name="SignIn">Вход</button>
+            @Html.AntiForgeryToken()
+        </form>
+    </div>
 </div>
 
