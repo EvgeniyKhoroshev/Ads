@@ -21,13 +21,14 @@
             {
                 <span><img class="img-responsive details" src="~/images/default.jpg" alt="Default image" /></span>
             }
-            <form asp-action="Delete" asp-controller="Adverts" onsubmit='return confirm("Вы точно хотите удалить объявление?");'>
-                Город: @Model.City <hr />Категория: @Model.Category<hr /> Цена: @Model.Price <br />
-                <hr />@Model.Description<hr /> Дата: @Model.Created <hr /><br />
-                <input type="hidden" id="comment_id" value="@Model.Id" />
-                <a class="nav-item text-dark" asp-action="Edit" asp-route-id="@Model.Id">Изменить</a> |
-                <button type="submit" asp-controller="Adverts" asp-action="Delete" class="btn btn-primary" asp-route-id="@Model.Id">Удалить</button>
-            </form>
+                <form asp-action="Delete" asp-controller="Adverts" onsubmit='return confirm("Вы точно хотите удалить объявление?");'>
+                    Город: @Model.City <hr />Категория: @Model.Category<hr /> Цена: @Model.Price <br />
+                    <hr />@Model.Description<hr /> Дата: @Model.Created <hr /><br />
+                    <input hidden name="Id" value="@Model.Id" />
+                    <input hidden name="OwnerId" value="@Model.UserId" />     
+                    <a class="nav-item text-dark" asp-action="Edit" asp-route-id="@Model.Id">Изменить</a> |
+                    <button type="submit" asp-controller="Adverts" asp-action="Delete" class="btn btn-primary">Удалить</button>
+                </form>
         </li>
     </ul>
     <div>

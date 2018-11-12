@@ -39,7 +39,7 @@ namespace Ads.MVCClientApplication
             services.Configure<ApiBaseOption>(Configuration.GetSection("ApiBaseOptions"));
             services.Configure<ApiAdvertsArea>(Configuration.GetSection("ApiAdvertsArea"));
             services.Configure<ApiCommentsArea>(Configuration.GetSection("ApiCommentsArea"));
-            services.Configure<ApiUsersArea>(Configuration.GetSection("ApiUsersAreas"));
+            services.Configure<ApiUsersArea>(Configuration.GetSection("ApiUsersArea"));
 
             services.Configure<JwtBaseAuthenticationOptions>(Configuration.GetSection("JwtAuthentication"));
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)

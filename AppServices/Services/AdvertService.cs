@@ -67,7 +67,6 @@ namespace AppServices.Services
             .Include(t => t.Category)
             .Include(q => q.City)
             .Include(q => q.Status)
-            //.Include(q => q.Comments)
             .Include(q => q.Type);
             if (adv == null)
                 return null;
@@ -78,8 +77,8 @@ namespace AppServices.Services
         public override async Task<AdvertDto> SaveOrUpdateAsync(AdvertDto entity)
         {
 
-            var sm = await _advertRepository.SaveOrUpdateAsync(Mapper.Map<Advert>(entity));
-            return Mapper.Map<AdvertDto>(sm);
+            var advert = await _advertRepository.SaveOrUpdateAsync(Mapper.Map<Advert>(entity));
+            return Mapper.Map<AdvertDto>(advert);
         }
         /// <inheritdoc/>
         //public override async Task<AdvertDto> GetAsync(int id)

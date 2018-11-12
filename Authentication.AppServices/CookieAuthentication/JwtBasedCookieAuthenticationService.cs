@@ -44,7 +44,7 @@ namespace Authentication.AppServices.CookieAuthentication
                 if (context == null)
                     throw new InvalidOperationException("No http context provided");
 
-                var response = await _httpClient.PostAsJsonAsync(_jwtOptions.AuthenticationEndpoint, request);
+                var response = await _httpClient.PostAsJsonAsync($"{_jwtOptions.AuthenticationEndpoint}/authenticate", request);
                 if (!response.IsSuccessStatusCode)
                     return AuthenticationResult.Failed("Unable to get JWT token");
 
@@ -92,15 +92,15 @@ namespace Authentication.AppServices.CookieAuthentication
             await context.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
         }
 
-        public async Task<AuthenticationResult> SignUpAsync(CreateUserDto request)
+        public async Task<AuthenticationResult> SignUpAsync(CreateUserDto user)
         {
-            var response = await _httpClient.PostAsJsonAsync($"{_jwtOptions.AuthenticationEndpoint}/signup", request);
+            var response = await _httpClient.PostAsJsonAsync($"{_jwtOptions.AuthenticationEndpoint}/SignUp", user);
             if (!response.IsSuccessStatusCode)
                 return AuthenticationResult.Failed("Unable register user");
             return await SignInAsync(new BasicAuthenticationRequest
             {
-                Username = request.UserName,
-                Password = request.Password
+                Username = user.UserName,
+                Password = user.Password
             });
         }
 

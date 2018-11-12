@@ -41,6 +41,12 @@ namespace Ads.MVCClientApplication.Models
         /// </summary>
         public CategoryDto Category { get; set; }
         public virtual IEnumerable<ImageDto> Images { get; set; }
+        /// <summary>
+        /// Id владельца объявления / Id of a ads owner
+        /// Связь будет реализована после добавления MS Identity / 
+        /// The relation will be implemented after the MS Identity added
+        /// </summary>
+        public int UserId { get; set; }
 
     }
 }

@@ -39,8 +39,8 @@ namespace AdsWebApi.Controllers
 
             return Ok(result.Token);
         }
-        [HttpPost("create")]
-        public async Task TaskCreateUser([FromBody] CreateUserDto value)
+        [HttpPost("SignUp")]
+        public async Task SignUp([FromBody] CreateUserDto value)
         {
             await _userService.CreateUserAsync(value);
         }
@@ -49,13 +49,13 @@ namespace AdsWebApi.Controllers
         {
             await _authenticationService.SignOutUserAsync();
         }
-        // Sign in without jwt (dont used anymore)
-        [HttpPost("signin")]
-        public async Task<IActionResult> SignIn([FromBody] UserLoginDto value)
-        {
+        //// Sign in with jwt (dont used anymore)
+        //[HttpPost("signin")]
+        //public async Task<IActionResult> SignIn([FromBody] UserLoginDto value)
+        //{
             
-            var s = await _authenticationService.JWTSignInAsync(value);
-            return Ok(s);
-        }
+        //    var s = await _authenticationService.JWTSignInAsync(value);
+        //    return Ok(s);
+        //}
     }
 }

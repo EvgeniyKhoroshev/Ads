@@ -1,4 +1,5 @@
-﻿using Authentication.Contracts;
+﻿using Ads.Contracts.Dto;
+using Authentication.Contracts;
 using Authentication.Contracts.Basic;
 using System;
 using System.Collections.Generic;
@@ -21,5 +22,12 @@ namespace Authentication.AppServices.CookieAuthentication
         /// Выполняет выход.
         /// </summary>
         Task SignOutAsync();
+
+        /// <summary>
+        /// Регистрирует пользователя затем сразу авторизует.
+        /// </summary>
+        /// <param name="user">Пользователь</param>
+        /// <returns>Результат авторизации</returns>
+        Task<AuthenticationResult> SignUpAsync(CreateUserDto user);
     }
 }

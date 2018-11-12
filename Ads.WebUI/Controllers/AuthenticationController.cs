@@ -7,14 +7,19 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
+using Ads.MVCClientApplication.Models;
+using Ads.MVCClientApplication.Controllers.Components.ApiClients.Interfaces;
 
 namespace Ads.MVCClientApplication.Controllers
 {
     public class AuthenticationController : Controller
     {
         IJwtBasedCookieAuthenticationService _service;
-        public AuthenticationController(IJwtBasedCookieAuthenticationService service)
+        IApiUserClient _apiUserClient;
+        public AuthenticationController(IJwtBasedCookieAuthenticationService service,
+            IApiUserClient apiUserClient)
         {
+            _apiUserClient = apiUserClient;
             _service = service;
         }
         [HttpGet]
@@ -25,17 +30,21 @@ namespace Ads.MVCClientApplication.Controllers
             UserProcessing.GetCurrentUserId(HttpContext);
             return View();
         }
+        [HttpGet("GetCurrentUserAdverts")]
+        public async Task<ActionResult<AdsVMIndex[]>> GetCurrentUserAdverts()
+        {
+            var userId = UserProcessing.GetCurrentUserId(HttpContext);
+            if (userId.HasValue)
+                return await _apiUserClient.GetUserAdvertsAsync(userId.Value);
+            return null;
+        }
         [HttpPost]
         public async Task<IActionResult> SignIn(BasicAuthenticationRequest model)
         {
             if (model == null)
                 return BadRequest();
 
-            var authenticationResult = await _service.SignInAsync(new BasicAuthenticationRequest
-            {
-                Password = model.Password,
-                Username = model.Username
-            });
+            var authenticationResult = await _service.SignInAsync(model);
 
             if (!authenticationResult.IsSucceed)
                 return Unauthorized();
@@ -56,7 +65,7 @@ namespace Ads.MVCClientApplication.Controllers
         [HttpPost]
         public async Task<IActionResult> SignUp(CreateUserDto user)
         {
-            await ApiClient.CreateUser(user);
+            await _service.SignUpAsync(user);
             return RedirectToAction("Index", "Adverts");
         }
     }

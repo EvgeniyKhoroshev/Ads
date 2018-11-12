@@ -16,7 +16,7 @@ namespace AdsWebApi.Controllers
     [ApiController]
     public class AdvertsController : ControllerBase
     {
-        public AdvertsController (IAdvertService advertService)
+        public AdvertsController(IAdvertService advertService)
         {
             _advertService = advertService;
         }
@@ -27,7 +27,15 @@ namespace AdsWebApi.Controllers
         {
             return _advertService.GetAll();
         }
-
+        [HttpGet("UserAdverts/{userId}")]
+        public ActionResult<IList<AdvertDto>> GetUserAdverts(int userId)
+        {
+            var result = _advertService.GetAdvertsByUserId(userId);
+            if (result != null)
+                return Ok(result);
+            else
+                return BadRequest();
+        }
         // GET api/values/5
         [HttpGet("{id}")]
         public async Task<ActionResult<AdvertDto>> Get(int id)
