@@ -11,5 +11,6 @@ namespace Ads.MVCClientApplication.Models
         public string UserName { get; set; }
         public int UserId { get; set; }
         public string PhoneNumber { get; set; }
+        public AdsVMIndex[] Adverts { get; set; }
     }
 }

@@ -26,7 +26,8 @@ namespace Ads.MVCClientApplication.Models
         /// <summary>
         /// Город  / Город
         /// </summary>
-        public CityDto City { get; set; }
+        public string Address { get; set; }
+        //public CityDto City { get; set; }
         /// <summary>
         /// Tип объявления / Ads type
         /// </summary>

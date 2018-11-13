@@ -24,12 +24,20 @@ namespace Ads.MVCClientApplication.Controllers
         }
         [HttpGet]
         public IActionResult SignIn() => View();
-        [HttpGet]
-        public IActionResult Manage()
-        {
-            UserProcessing.GetCurrentUserId(HttpContext);
-            return View();
-        }
+        //[HttpGet]
+        //public async Task<IActionResult> Manage()
+        //{
+        //    var adv = await GetCurrentUserAdverts();
+        //    ManageVM vm = new ManageVM
+        //    {
+        //        Adverts = adv.Value,
+        //        Avatar = GetCurrentUserAvatar(),
+
+
+        //    }
+        //    UserProcessing.GetCurrentUserId(HttpContext);
+        //    return View();
+        //}
         [HttpGet("GetCurrentUserAdverts")]
         public async Task<ActionResult<AdsVMIndex[]>> GetCurrentUserAdverts()
         {
@@ -38,6 +46,7 @@ namespace Ads.MVCClientApplication.Controllers
                 return await _apiUserClient.GetUserAdvertsAsync(userId.Value);
             return null;
         }
+        
         [HttpPost]
         public async Task<IActionResult> SignIn(BasicAuthenticationRequest model)
         {
