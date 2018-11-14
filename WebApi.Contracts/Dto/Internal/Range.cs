@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Ads.Contracts.Dto.Internal
+namespace Ads.CoreService.Contracts.Dto.Internal
 {
     public class Range<T>
     {

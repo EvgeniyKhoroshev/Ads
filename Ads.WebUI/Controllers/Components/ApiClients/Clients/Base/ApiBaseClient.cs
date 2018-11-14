@@ -1,4 +1,4 @@
-﻿using Ads.Contracts.Dto.Filters;
+﻿using Ads.CoreService.Contracts.Dto.Filters;
 using Ads.MVCClientApplication.Controllers.Components.ApiClients.Interfaces.Base;
 using Authentication.AppServices.Extensions;
 using Microsoft.AspNetCore.Http;

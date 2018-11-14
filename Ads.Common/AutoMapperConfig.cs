@@ -1,4 +1,4 @@
-﻿using Ads.Contracts.Dto;
+﻿using Ads.CoreService.Contracts.Dto;
 using AutoMapper;
 using Domain;
 using Domain.Entities;
@@ -73,6 +73,12 @@ namespace Ads.Common
                     .IgnoreAllPropertiesWithAnInaccessibleSetter()
                     .IgnoreAllSourcePropertiesWithAnInaccessibleSetter();
                 cfg.CreateMap<AdvertType, AdvertTypeDto>()
+                    .IgnoreAllPropertiesWithAnInaccessibleSetter()
+                    .IgnoreAllSourcePropertiesWithAnInaccessibleSetter();
+                cfg.CreateMap<UserInfoDto, User>()
+                    .IgnoreAllPropertiesWithAnInaccessibleSetter()
+                    .IgnoreAllSourcePropertiesWithAnInaccessibleSetter();
+                cfg.CreateMap<User, UserInfoDto>()
                     .IgnoreAllPropertiesWithAnInaccessibleSetter()
                     .IgnoreAllSourcePropertiesWithAnInaccessibleSetter();
             });

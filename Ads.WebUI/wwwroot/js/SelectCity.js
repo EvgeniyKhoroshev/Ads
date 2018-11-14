@@ -25,6 +25,7 @@ function DropdownCities(regionId) {
             while (select.firstChild) {
                 select.removeChild(select.firstChild);
             }
+            document.getElementById('selectCity').innerHTML += '<option>Любой город</option>';
             for (var i = 0; i < cities.length; i++)
                 document.getElementById('selectCity').innerHTML += '<option value="' + cities[i].id + '">' + cities[i].name + '</option>';
         });

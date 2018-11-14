@@ -1,4 +1,4 @@
-﻿using Ads.Contracts.Dto;
+﻿using Ads.CoreService.Contracts.Dto;
 using AppServices.Services;
 using AutoMapper;
 using Domain.Entities;

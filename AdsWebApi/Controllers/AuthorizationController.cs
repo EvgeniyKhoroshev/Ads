@@ -1,5 +1,5 @@
-﻿using Ads.Contracts.Dto;
-using Ads.Contracts.Dto.Filters;
+﻿using Ads.CoreService.Contracts.Dto;
+using Ads.CoreService.Contracts.Dto.Filters;
 using AppServices.ServiceInterfaces;
 using Authentication.AppServices.JwtAuthentication;
 using Authentication.Contracts.Basic;
@@ -49,13 +49,11 @@ namespace AdsWebApi.Controllers
         {
             await _authenticationService.SignOutUserAsync();
         }
-        //// Sign in with jwt (dont used anymore)
-        //[HttpPost("signin")]
-        //public async Task<IActionResult> SignIn([FromBody] UserLoginDto value)
-        //{
-            
-        //    var s = await _authenticationService.JWTSignInAsync(value);
-        //    return Ok(s);
-        //}
+        [HttpGet("GetUserInfo/{userId}")]
+        public async Task<IActionResult> GetUserInfo(int userId)
+        {
+            var s = await _userService.GetUserInfoAsync(userId);
+            return Ok(s);
+        }
     }
 }

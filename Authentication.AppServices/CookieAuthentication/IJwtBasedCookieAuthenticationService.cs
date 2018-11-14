@@ -1,4 +1,4 @@
-﻿using Ads.Contracts.Dto;
+﻿using Ads.CoreService.Contracts.Dto;
 using Authentication.Contracts;
 using Authentication.Contracts.Basic;
 using System;

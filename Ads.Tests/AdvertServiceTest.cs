@@ -1,6 +1,7 @@
 
-using Ads.Contracts.Dto;
-using Ads.Contracts.Dto.Filters;
+using Ads.CoreService.Contracts.Dto;
+using Ads.CoreService.Contracts.Dto.Filters;
+using Ads.CoreService.Contracts.Dto.Internal;
 using AppServices.Services;
 using AutoMapper;
 using Domain.Entities;
@@ -99,7 +100,7 @@ namespace Ads.Tests
         {
             FilterDto filter = new FilterDto
             {
-                Pagination = new Contracts.Dto.Internal.Page
+                Pagination = new Page
                 {
                     PageSize = 4,
                     PageNumber = 1
@@ -130,7 +131,7 @@ namespace Ads.Tests
         {
             FilterDto filter = new FilterDto
             {
-                PriceRange = new Contracts.Dto.Internal.Range<decimal?>
+                PriceRange = new Range<decimal?>
                 {
                     MinValue = 100,
                     MaxValue = 300
@@ -161,7 +162,7 @@ namespace Ads.Tests
         {
             FilterDto filter = new FilterDto
             {
-                PriceRange = new Contracts.Dto.Internal.Range<decimal?>
+                PriceRange = new Range<decimal?>
                 {
                     MinValue = 100,
                     MaxValue = 400
@@ -237,7 +238,7 @@ namespace Ads.Tests
                     StatusId = 1,
                     TypeId = 1,
                     Price = 100,
-                    City = new Ads.Contracts.Dto.CityDto{ RegionId = 1 },
+                    City = new Ads.CoreService.Contracts.Dto.CityDto{ RegionId = 1 },
                     UserId = 1
 
                 },
@@ -250,7 +251,7 @@ namespace Ads.Tests
                     StatusId = 1,
                     TypeId = 1,
                     Price = 200,
-                    City = new Ads.Contracts.Dto.CityDto{ RegionId = 1 },
+                    City = new Ads.CoreService.Contracts.Dto.CityDto{ RegionId = 1 },
                     UserId = 2,
                 },
                 new AdvertDto
@@ -261,7 +262,7 @@ namespace Ads.Tests
                     StatusId = 1,
                     TypeId = 1,
                     Price = 300,
-                    City = new Ads.Contracts.Dto.CityDto{ RegionId = 3 },
+                    City = new Ads.CoreService.Contracts.Dto.CityDto{ RegionId = 3 },
                     UserId = 2
                 },
                  new AdvertDto
@@ -274,7 +275,7 @@ namespace Ads.Tests
                     StatusId = 1,
                     TypeId = 2,
                     Price = 400,
-                    City = new Ads.Contracts.Dto.CityDto{ RegionId = 4 },
+                    City = new Ads.CoreService.Contracts.Dto.CityDto{ RegionId = 4 },
                     UserId = 2
                 }
             };

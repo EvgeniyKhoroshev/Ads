@@ -2,7 +2,7 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace Ads.Contracts.Dto
+namespace Ads.CoreService.Contracts.Dto
 {
     public class CommentDto : BaseEntityPost
     {

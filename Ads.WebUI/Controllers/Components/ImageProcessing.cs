@@ -1,4 +1,4 @@
-﻿using Ads.Contracts.Dto;
+﻿using Ads.CoreService.Contracts.Dto;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using System;

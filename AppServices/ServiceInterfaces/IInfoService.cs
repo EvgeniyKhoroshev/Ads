@@ -1,4 +1,4 @@
-﻿using Ads.Contracts.Dto;
+﻿using Ads.CoreService.Contracts.Dto;
 using System.Threading.Tasks;
 
 namespace AppServices.ServiceInterfaces

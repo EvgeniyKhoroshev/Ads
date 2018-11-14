@@ -1,8 +1,8 @@
-﻿using Ads.Contracts.Dto.Internal.Base;
+﻿using Ads.CoreService.Contracts.Dto.Internal.Base;
 using System;
 using System.Collections.Generic;
 
-namespace Ads.Contracts.Dto
+namespace Ads.CoreService.Contracts.Dto
 {
     public class AdvertDto : Base
     {

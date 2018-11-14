@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace Ads.Contracts.Dto
+namespace Ads.CoreService.Contracts.Dto
 {
     public class AdvertsInfoDto
     {

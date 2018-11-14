@@ -7,6 +7,8 @@ namespace Domain.Entities
     {
         public string Avatar { get; set; }
         public IEnumerable<Advert> Adverts { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
         public User()
         {
             EmailConfirmed = false;

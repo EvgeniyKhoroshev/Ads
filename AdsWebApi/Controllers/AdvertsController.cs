@@ -1,11 +1,9 @@
-﻿using Ads.Contracts.Dto;
-using Ads.Contracts.Dto.Filters;
+﻿using Ads.CoreService.Contracts.Dto;
 using Ads.CoreService.Contracts.Dto.Filters;
 using Ads.Shared.Contracts;
 using AppServices.ServiceInterfaces;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;

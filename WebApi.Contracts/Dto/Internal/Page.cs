@@ -1,4 +1,4 @@
-﻿namespace Ads.Contracts.Dto.Internal
+﻿namespace Ads.CoreService.Contracts.Dto.Internal
 {
     public class Page
     {

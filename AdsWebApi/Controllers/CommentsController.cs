@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using Ads.Contracts.Dto;
+using Ads.CoreService.Contracts.Dto;
 using AppServices.ServiceInterfaces;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;

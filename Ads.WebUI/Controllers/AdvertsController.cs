@@ -3,7 +3,7 @@ using System.Diagnostics;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Ads.MVCClientApplication.Models;
-using Ads.Contracts.Dto;
+using Ads.CoreService.Contracts.Dto;
 using System;
 using AutoMapper;
 using Ads.MVCClientApplication.Controllers.Components;

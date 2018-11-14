@@ -1,4 +1,4 @@
-﻿using Ads.Contracts.Dto;
+﻿using Ads.CoreService.Contracts.Dto;
 using AppServices.ServiceInterfaces;
 using AutoMapper;
 using Domain.Entities;
@@ -27,6 +27,11 @@ namespace AppServices.Services
 
             if (!result.Succeeded)
                 throw new InvalidOperationException(string.Join(Environment.NewLine, result.Errors));
+        }
+        public async Task<UserInfoDto> GetUserInfoAsync(int userId)
+        {
+            var user = await _userManager.FindByIdAsync(userId.ToString());
+            return Mapper.Map<UserInfoDto>(user);
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿using Ads.Contracts.Dto;
+﻿using Ads.CoreService.Contracts.Dto;
 using Ads.MVCClientApplication.Controllers.Components;
 using Ads.MVCClientApplication.Components.ApiRequests;
 using Authentication.AppServices.CookieAuthentication;
@@ -24,20 +24,12 @@ namespace Ads.MVCClientApplication.Controllers
         }
         [HttpGet]
         public IActionResult SignIn() => View();
-        //[HttpGet]
-        //public async Task<IActionResult> Manage()
-        //{
-        //    var adv = await GetCurrentUserAdverts();
-        //    ManageVM vm = new ManageVM
-        //    {
-        //        Adverts = adv.Value,
-        //        Avatar = GetCurrentUserAvatar(),
-
-
-        //    }
-        //    UserProcessing.GetCurrentUserId(HttpContext);
-        //    return View();
-        //}
+        [HttpGet]
+        public async Task<ActionResult<ManageVM>> Manage()
+        {
+            int userId = UserProcessing.GetCurrentUserId(HttpContext).Value;
+            return View(await _apiUserClient.GetUserInfoAsync(userId));
+        }
         [HttpGet("GetCurrentUserAdverts")]
         public async Task<ActionResult<AdsVMIndex[]>> GetCurrentUserAdverts()
         {

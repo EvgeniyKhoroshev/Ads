@@ -2,5 +2,6 @@
 {
     public class ApiUsersArea : ApiBaseArea
     {
+        public string UserInfo { get; set; }
     }
 }

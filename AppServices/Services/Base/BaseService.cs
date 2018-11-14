@@ -1,5 +1,5 @@
-﻿using Ads.Contracts.Dto.Filters;
-using Ads.Contracts.Dto.Internal;
+﻿using Ads.CoreService.Contracts.Dto.Filters;
+using Ads.CoreService.Contracts.Dto.Internal;
 using Ads.Shared.Contracts;
 using AppServices.ServiceInterfaces.Base;
 using System;

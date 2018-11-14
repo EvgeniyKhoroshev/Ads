@@ -16,5 +16,11 @@ namespace Ads.MVCClientApplication.Controllers.Components.ApiClients.Interfaces
         /// </summary>
         /// <returns>Список VM объявлений. </returns>
         Task<AdsVMIndex[]> GetUserAdvertsAsync(int userId);
+        /// <summary>
+        /// Получение информации о пользователе по Id;
+        /// </summary>
+        /// <param name="userId">Идентификатор пользователя</param>
+        /// <returns>Возвращает информацию о пользователе</returns>
+        Task<ManageVM> GetUserInfoAsync(int userId);
     }
 }

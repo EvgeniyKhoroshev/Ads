@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Ads.Contracts.Dto.Internal.Base
+namespace Ads.CoreService.Contracts.Dto.Internal.Base
 {
     public abstract class Base : EntityWithTypedIdBase<int>
     {

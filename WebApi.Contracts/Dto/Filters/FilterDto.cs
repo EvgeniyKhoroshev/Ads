@@ -1,6 +1,6 @@
-﻿using Ads.Contracts.Dto.Internal;
+﻿using Ads.CoreService.Contracts.Dto.Internal;
 
-namespace Ads.Contracts.Dto.Filters
+namespace Ads.CoreService.Contracts.Dto.Filters
 {
     public class FilterDto
     {

@@ -1,4 +1,4 @@
-﻿using Ads.Contracts.Dto.Internal;
+﻿using Ads.CoreService.Contracts.Dto.Internal;
 using Ads.CoreService.Contracts.Dto.Filters;
 using Ads.Shared.Contracts;
 using System.Collections.Generic;

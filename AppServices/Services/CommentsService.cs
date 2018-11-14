@@ -1,5 +1,5 @@
-﻿using Ads.Contracts.Dto;
-using Ads.Contracts.Dto.Filters;
+﻿using Ads.CoreService.Contracts.Dto;
+using Ads.CoreService.Contracts.Dto.Filters;
 using AppServices.ServiceInterfaces;
 using AutoMapper;
 using Domain.Entities;

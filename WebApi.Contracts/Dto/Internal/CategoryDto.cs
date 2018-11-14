@@ -1,6 +1,6 @@
-﻿using Ads.Contracts.Dto.Internal.Base;
+﻿using Ads.CoreService.Contracts.Dto.Internal.Base;
 
-namespace Ads.Contracts.Dto
+namespace Ads.CoreService.Contracts.Dto
 {
     public class CategoryDto : Base
     {

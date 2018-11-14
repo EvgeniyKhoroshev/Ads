@@ -2,6 +2,16 @@
 @model ManageVM
 @{
     ViewData["Title"] = "Личный кабинет";
+    int? GetCurrentUserId()
+    {
+        if (!User.Identity.IsAuthenticated)
+            return null;
+        int userId = Convert.ToInt32(
+            User.Claims.FirstOrDefault(t =>
+            t.Type == Authentication.Contracts.CookieAuthentication.CookieCustomClaimNames.UserId).Value);
+        return userId;
+    }
+    int? UserId = GetCurrentUserId();
 }
 
 <main id="card__post" role="main">
@@ -10,9 +20,23 @@
             <div class="row">
                 <div class="card__post">
                     <h2 class="card__title" data-bind="text: model().title"></h2>
-                    <img class="card__img" src="~/images/Default user.png">
+                    @if (!string.IsNullOrEmpty(Model.Avatar))
+                    {
+
+                        var src = string.Format("data:image/gif;base64,{0}", Model.Avatar);
+                        <img class="card__img" src="@src" alt="Thumbnail [100%x225]">
+                    }
+                    else
+                    {
+                        <img class="card__img" src="~/images/Default user.png" data-holder-rendered="true">
+                    }
+                        <div class="col-7">
+                            <h5>Номер телефона : @Model.PhoneNumber</h5>
+                            <h5>Имя пользователя : @Model.UserName</h5>
+                        </div>
+                    @*<img class="card__img" src="~/images/Default user.png">*@
                     <div class="card__description">
-                        <strong class="price">
+                        <strong>
                             <span data-bind="text: model().price"></span> $
                         </strong>
                         <p class="post__text" data-bind="text: model().text"></p>
@@ -26,55 +50,52 @@
                 </div>
             </div>
             <div class="row">
-                <div class="comments">
-                    <h3>Комментарии:</h3>
-                    <!--ko foreach: model().advertComments-->
-                                @*@foreach (var item in Model.Items)
-            {
-                <div class="col-md-4" id="advert_list">
-                    <div class="card mb-4 box-shadow">
-                        @if (item.Images != null)
-                        {
-                            if (!string.IsNullOrEmpty(item.Images.FirstOrDefault()))
+                <!--ko foreach: model().advertComments-->
+                @*@foreach (var item in Model.Adverts)
+                {
+                    <div class="col-md-4" id="advert_list">
+                        <div class="card mb-4 box-shadow">
+                            @if (item.Images != null)
                             {
+                                if (!string.IsNullOrEmpty(Model.Avatar))
+                                {
 
-                                var src = string.Format("data:image/gif;base64,{0}", item.Images.First());
-                                <img class="card-img-top" data-src="holder.js/100px225?theme=thumb&amp;bg=55595c&amp;fg=eceeef&amp;text=Thumbnail" alt="Thumbnail [100%x225]" style="height: 225px; width: 100%; display: block;" src='@src' data-holder-rendered="true">
-                            }
-                            else
-                            {
-                                <img class="card-img-top" data-src="holder.js/100px225?theme=thumb&amp;bg=55595c&amp;fg=eceeef&amp;text=Thumbnail" alt="Thumbnail [100%x225]" style="height: 225px; width: 100%; display: block;" src="~/images/default.jpg" data-holder-rendered="true">
+                                    var src = string.Format("data:image/gif;base64,{0}", item.Images.First());
+                                    <img class="card-img-top" src="@src" alt="Thumbnail [100%x225]">
+                                }
+                                else
+                                {
+                                    <img class="card-img-top" style="height: 225px; width: 100%; display: block;" src="~/images/Default user.png" data-holder-rendered="true">
 
+                                }
                             }
-                        }
-                        <div class="card-body">
-                            <h5><a class="card-text" asp-action="Details" asp-route-id="@item.Id">@item.Name</a></h5>
-                            <p class="card-subtitle">Цена: @item.Price</p>
-                            <p class="card-subtitle">г.@item.City.Name</p>
-                            <p class="card-subtitle">@item.Created</p>
-                            @if ((User.Identity.IsAuthenticated) && (UserId == item.UserId))
-                            {
-                            <form asp-action="Delete" asp-controller="Adverts" onsubmit='return confirm("Вы точно хотите удалить объявление?");'>
-                                <a class="card-text" asp-action="Edit" asp-route-id="@item.Id">Изменить</a>
-                                <input hidden name="Id" value="@item.Id" />
-                                <input hidden name="OwnerId" value="@item.UserId" />
-                                <button type="submit" asp-controller="Adverts" asp-action="Delete" class="btn btn-primary">Удалить</button>
-                            </form>
-                            }
+                            <div class="card-body">
+                                <h5><a class="card-text" asp-action="Details" asp-route-id="@item.Id">@item.Name</a></h5>
+                                <p class="card-subtitle">Цена: @item.Price</p>
+                                <p class="card-subtitle">г.@item.City.Name</p>
+                                <p class="card-subtitle">@item.Created</p>
+                                @if ((User.Identity.IsAuthenticated) && (UserId == item.UserId))
+                                {
+                                    <form asp-action="Delete" asp-controller="Adverts" onsubmit='return confirm("Вы точно хотите удалить объявление?");'>
+                                        <a class="card-text" asp-action="Edit" asp-route-id="@item.Id">Изменить</a>
+                                        <input hidden name="Id" value="@item.Id" />
+                                        <input hidden name="OwnerId" value="@item.UserId" />
+                                        <button type="submit" asp-controller="Adverts" asp-action="Delete" class="btn btn-primary">Удалить</button>
+                                    </form>
+                                }
+                            </div>
                         </div>
                     </div>
-                </div>
-            }*@
-                    <!--/ko-->
-                </div>
+                }*@
+                <!--/ko-->
             </div>
         </div>
     </div>
 </main>
-
+<link rel="stylesheet" href="~/css/_UserManage.css" asp-append-version="true" />
 <script type="text/javascript" src="~/js/adverts.js"></script>
 @*<script type="text/javascript">
-    $(function () {
-        ko.applyBindings(CardVM, $('#card__post')[0])
-    });
-</script>*@
+        $(function () {
+            ko.applyBindings(CardVM, $('#card__post')[0])
+        });
+    </script>*@

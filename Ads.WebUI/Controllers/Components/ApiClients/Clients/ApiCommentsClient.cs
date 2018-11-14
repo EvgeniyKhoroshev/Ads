@@ -1,4 +1,4 @@
-﻿using Ads.Contracts.Dto;
+﻿using Ads.CoreService.Contracts.Dto;
 using Ads.MVCClientApplication.Controllers.Components.ApiClients.BaseClients;
 using Ads.MVCClientApplication.Controllers.Components.ApiClients.Interfaces;
 using Ads.Shared.Contracts;

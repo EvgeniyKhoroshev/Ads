@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Ads.Contracts.Dto
+namespace Ads.CoreService.Contracts.Dto
 {
     public class ImageDto : Internal.Base.Base
     {

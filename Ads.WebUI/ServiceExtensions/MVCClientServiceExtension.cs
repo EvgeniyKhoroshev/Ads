@@ -1,4 +1,4 @@
-﻿using Ads.Contracts.Dto;
+﻿using Ads.CoreService.Contracts.Dto;
 using Ads.MVCClientApplication.Controllers.Components.ApiClients.Clients;
 using Ads.MVCClientApplication.Controllers.Components.ApiClients.Interfaces;
 using Ads.MVCClientApplication.Components.ApiRequests;
@@ -61,6 +61,12 @@ namespace Ads.MVCClientApplication.ServiceExtensions
                 .IgnoreAllPropertiesWithAnInaccessibleSetter()
                 .IgnoreAllSourcePropertiesWithAnInaccessibleSetter();
             cfg.CreateMap<AdsVMDetails, AdvertDto>()
+                .IgnoreAllPropertiesWithAnInaccessibleSetter()
+                .IgnoreAllSourcePropertiesWithAnInaccessibleSetter();
+            cfg.CreateMap<ManageVM, UserInfoDto>()
+                .IgnoreAllPropertiesWithAnInaccessibleSetter()
+                .IgnoreAllSourcePropertiesWithAnInaccessibleSetter();
+            cfg.CreateMap<UserInfoDto, ManageVM>()
                 .IgnoreAllPropertiesWithAnInaccessibleSetter()
                 .IgnoreAllSourcePropertiesWithAnInaccessibleSetter();
         });

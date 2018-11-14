@@ -1,4 +1,4 @@
-﻿using Ads.Contracts.Dto;
+﻿using Ads.CoreService.Contracts.Dto;
 using Ads.MVCClientApplication.Controllers.Components.ApiClients.Interfaces;
 using Ads.MVCClientApplication.Controllers.Components.ApiClients.BaseClients;
 using Microsoft.AspNetCore.Http;
@@ -35,11 +35,41 @@ namespace Ads.MVCClientApplication.Controllers.Components.ApiClients.Clients
                     }
                     else
                     {
-                        string err = "При попытке получить объявления пользователя(id = " + userId + ") произошла ошибка. " +response.StatusCode;
+                        string err = "При попытке получить объявления пользователя(id = " + userId + ") произошла ошибка. " + response.StatusCode;
                         throw new HttpRequestException(string.Join(Environment.NewLine, err));
                     }
                 }
             }
+
+
+            catch (HttpRequestException ex)
+            {
+                string err = "При попытке выполнить Get(" + _area.Get + ", id = " + userId + ") произошла ошибка. " + ex.Message;
+                throw new HttpRequestException(string.Join(Environment.NewLine, err));
+            }
+        }
+        public async Task<ManageVM> GetUserInfoAsync(int userId)
+        {
+            try
+            {
+                using (httpClient)
+                {
+                    HttpResponseMessage response = await httpClient.GetAsync($"{ _options.ApiEndpoint }/Authorization/GetUserInfo/{userId}");
+
+                    if (response.IsSuccessStatusCode)
+                    {
+                        var dto = await response.Content.ReadAsAsync<UserInfoDto>();
+                        return Mapper.Map<ManageVM>(dto);
+                    }
+                    else
+                    {
+                        string err = "При попытке получить объявления пользователя(id = " + userId + ") произошла ошибка. " + response.StatusCode;
+                        throw new HttpRequestException(string.Join(Environment.NewLine, err));
+                    }
+                }
+            }
+
+
             catch (HttpRequestException ex)
             {
                 string err = "При попытке выполнить Get(" + _area.Get + ", id = " + userId + ") произошла ошибка. " + ex.Message;

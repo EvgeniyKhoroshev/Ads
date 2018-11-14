@@ -1,5 +1,5 @@
-﻿using Ads.Contracts.Dto;
-using Ads.Contracts.Dto.Internal;
+﻿using Ads.CoreService.Contracts.Dto;
+using Ads.CoreService.Contracts.Dto.Internal;
 using System;
 using System.Collections.Generic;
 
