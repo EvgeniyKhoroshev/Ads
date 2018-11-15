@@ -1,17 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using Ads.CoreService.Contracts.Dto.Internal.Base;
 
 namespace Ads.CoreService.Contracts.Dto
 {
-    public class ImageDto : Internal.Base.Base
+    public class ImageDto : Base
     {
         public string Content { get; set; }
         public int AdvertId { get; set; }
-        public int DefaultId { get; set; }
-        public ImageDto()
-        {
-            DefaultId = 1;
-        }
     }
 }

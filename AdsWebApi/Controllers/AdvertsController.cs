@@ -76,5 +76,11 @@ namespace AdsWebApi.Controllers
             //return _advertService.GetLastAddedAdverts();
 
         }
+        [HttpGet("GetAdvertImages/{advertId}")]
+        public ImageDto[] GetAdvertImages(int advertId)
+        {
+
+            return null;
+        }
     }
 }
