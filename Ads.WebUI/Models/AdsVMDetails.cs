@@ -41,6 +41,9 @@ namespace Ads.MVCClientApplication.Models
         /// The category in which that advert contains
         /// </summary>
         public CategoryDto Category { get; set; }
+        /// <summary>
+        /// Фотографии объявления
+        /// </summary>
         public virtual IEnumerable<ImageDto> Images { get; set; }
         /// <summary>
         /// Id владельца объявления / Id of a ads owner

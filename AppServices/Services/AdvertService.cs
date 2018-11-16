@@ -134,6 +134,7 @@ namespace AppServices.Services
                     .Include(q => q.City)
                     .Include(q => q.Status)
                     .Include(q => q.Comments)
+                    .Include(q => q.Images)
                     .Include(q => q.Type).ToArray();
                 return Mapper.Map<AdvertDto[]>(entities);
             }
@@ -173,6 +174,7 @@ namespace AppServices.Services
                     .Include(t => t.Category)
                     .Include(q => q.City)
                     .Include(q => q.Status)
+                    .Include(q => q.Images)
                     .Include(q => q.Type)
                     .ToArray();
                 var pages = count % filter.PageSize > 0 ? (count / filter.PageSize) + 1 : (count / filter.PageSize);
