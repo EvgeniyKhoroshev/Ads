@@ -29,12 +29,12 @@ function ChangeCategory() {
 }
 
 function NavbarCategories() {
-    var perentCategoryArray = new Array;//.from(categories);
+    var parentCategoryArray = new Array;//.from(categories);
     for (var i = 0; i < categories.length; i++) {
         if (categories[i].parentCategoryId == null)
-            perentCategoryArray.push(categories[i]);
+            parentCategoryArray.push(categories[i]);
     }
-    var perentCategoryArrayRandom = shuffleArray(perentCategoryArray);
+    var parentCategoryArrayRandom = shuffleArray(parentCategoryArray);
 
     for (var i = 0; i < 4; i++) {
         document.getElementById('categoryNavbar').innerHTML += '<a class="nav-link" href="https://localhost:44382/?CategoryId=' + perentCategoryArrayRandom[i].id + '">' + perentCategoryArrayRandom[i].name + '</a>';
