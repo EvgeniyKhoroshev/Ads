@@ -16,5 +16,10 @@ namespace AppServices.ServiceInterfaces
         /// <param name="userId">Идентификатор пользователя</param>
         /// <returns>Возвращает информацию о пользователе</returns>
         Task<UserInfoDto> GetUserInfoAsync(int userId);
+        /// <summary>
+        /// Изменяет или устанавливает аватар пользователя;
+        /// </summary>
+        /// <param name="userId">Идентификатор пользователя</param>
+        Task ChangeAvatarAsync(UserAvatarDto avatar);
     }
 }

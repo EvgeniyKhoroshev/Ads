@@ -49,6 +49,11 @@ namespace AdsWebApi.Controllers
         {
             await _authenticationService.SignOutUserAsync();
         }
+        [HttpPost("ChangeAvatar")]
+        public async Task ChangeAvatarAsync(UserAvatarDto avatar)
+        {
+            await _userService.ChangeAvatarAsync(avatar);
+        }
         [HttpGet("GetUserInfo/{userId}")]
         public async Task<IActionResult> GetUserInfo(int userId)
         {

@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using Ads.MVCClientApplication.Models;
 using Ads.MVCClientApplication.Controllers.Components.ApiClients.Interfaces;
+using Microsoft.AspNetCore.Http;
 
 namespace Ads.MVCClientApplication.Controllers
 {
@@ -63,6 +64,15 @@ namespace Ads.MVCClientApplication.Controllers
         }
         [HttpGet]
         public IActionResult SignUp() => View();
+        [HttpPost]
+        public async Task ChangeAvatar(IFormFile Avatar)
+        {
+            UserAvatarDto a = new UserAvatarDto();
+            a.UserId = UserProcessing.GetCurrentUserId(HttpContext).Value;
+            a.Avatar = (await ImageProcessing.ImageToBase64(
+                new System.Collections.Generic.List<IFormFile> { Avatar }, a.UserId))[0].Content;
+            await _apiUserClient.ChangeAvatarAsync(a);
+        }
         [HttpPost]
         public async Task<IActionResult> SignUp(CreateUserDto user)
         {

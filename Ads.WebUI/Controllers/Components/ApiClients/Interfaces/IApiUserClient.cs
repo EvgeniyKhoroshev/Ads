@@ -1,4 +1,5 @@
-﻿using Ads.MVCClientApplication.Models;
+﻿using Ads.CoreService.Contracts.Dto;
+using Ads.MVCClientApplication.Models;
 using Authentication.Contracts.Basic;
 using Authentication.Contracts.JwtAuthentication;
 using Microsoft.AspNetCore.Mvc;
@@ -22,5 +23,7 @@ namespace Ads.MVCClientApplication.Controllers.Components.ApiClients.Interfaces
         /// <param name="userId">Идентификатор пользователя</param>
         /// <returns>Возвращает информацию о пользователе</returns>
         Task<ManageVM> GetUserInfoAsync(int userId);
+
+        Task ChangeAvatarAsync(UserAvatarDto avatar);
     }
 }

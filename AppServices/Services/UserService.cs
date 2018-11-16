@@ -33,5 +33,11 @@ namespace AppServices.Services
             var user = await _userManager.FindByIdAsync(userId.ToString());
             return Mapper.Map<UserInfoDto>(user);
         }
+        public async Task ChangeAvatarAsync(UserAvatarDto avatar)
+        {
+            var user = await _userManager.FindByIdAsync(avatar.UserId.ToString());
+            user.Avatar = avatar.Avatar;
+            await _userManager.UpdateAsync(user);
+        }
     }
 }
