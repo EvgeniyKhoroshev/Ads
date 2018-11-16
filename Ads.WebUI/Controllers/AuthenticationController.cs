@@ -15,13 +15,13 @@ namespace Ads.MVCClientApplication.Controllers
 {
     public class AuthenticationController : Controller
     {
-        IJwtBasedCookieAuthenticationService _service;
+        IJwtBasedCookieAuthenticationService _jwtBasedCookieAuthenticationService;
         IApiUserClient _apiUserClient;
         public AuthenticationController(IJwtBasedCookieAuthenticationService service,
             IApiUserClient apiUserClient)
         {
             _apiUserClient = apiUserClient;
-            _service = service;
+            _jwtBasedCookieAuthenticationService = service;
         }
         [HttpGet]
         public IActionResult SignIn() => View();
@@ -46,13 +46,12 @@ namespace Ads.MVCClientApplication.Controllers
             if (model == null)
                 return BadRequest();
 
-            var authenticationResult = await _service.SignInAsync(model);
+            var authenticationResult = await _jwtBasedCookieAuthenticationService.SignInAsync(model);
 
             if (!authenticationResult.IsSucceed)
                 return Unauthorized();
 
             return RedirectToAction("Index", "Adverts");
-            //await ApiClient.SignIn(user);
 
         }
         [HttpGet]
@@ -76,7 +75,7 @@ namespace Ads.MVCClientApplication.Controllers
         [HttpPost]
         public async Task<IActionResult> SignUp(CreateUserDto user)
         {
-            await _service.SignUpAsync(user);
+            await _jwtBasedCookieAuthenticationService.SignUpAsync(user);
             return RedirectToAction("Index", "Adverts");
         }
     }
