@@ -4,9 +4,33 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<br />
-<br />
-<br />
+<h2>Регистрация</h2>
+<hr />
+<form class="active" action="/Authentication/SignUp" method="post">
+    <div class="form-group form-row">
+        <label class="control-label col-3" for="FirstName">Имя</label>
+        <input class="form-control col-3" id="FirstName" name="FirstName" type="text" aria-describedby="emailHelp" placeholder="Имя" value="">
+    </div>
+    <div class="form-group form-row">
+        <label class="control-label col-3" for="LastName">Фамилию</label>
+        <input class="form-control col-3" id="LastName" name="LastName" type="text" aria-describedby="emailHelp" placeholder="Фамилия" value="">
+    </div>
+    <div class="form-group form-row">
+        <label class="control-label col-3" for="Email">Введите E-mail: </label>
+        <input class="form-control col-3" id="Email" name="Email" type="email" aria-describedby="emailHelp" placeholder="Введите E-mail" value="">
+    </div>
+    <div class="form-group form-row">
+        <label class="control-label col-3" for="UserName">Лигин</label>
+        <input class="form-control col-3" id="UserName" name="UserName" type="text" aria-describedby="emailHelp" placeholder="Логин" value="">
+    </div>
+    <div class="form-group form-row">
+        <label class="control-label col-3" for="Password">Введите пароль</label>
+        <input class="form-control col-3" id="Password" name="Password" type="password" placeholder="Введие пароль" value="">
+    </div>
+    <br />
+    <button class="btn btn-primary" type="submit" name="SignUp">Регистрация</button>
+    @Html.AntiForgeryToken()
+</form>
 <div class="row justify-content-md-center">
     <div class="text-center">
         <form action="/Authentication/SignUp" method="post">

@@ -37,7 +37,7 @@ function NavbarCategories() {
     var parentCategoryArrayRandom = shuffleArray(parentCategoryArray);
 
     for (var i = 0; i < 4; i++) {
-        document.getElementById('categoryNavbar').innerHTML += '<a class="nav-link" href="https://localhost:44382/?CategoryId=' + perentCategoryArrayRandom[i].id + '">' + perentCategoryArrayRandom[i].name + '</a>';
+        document.getElementById('categoryNavbar').innerHTML += '<a class="nav-link" href="https://localhost:44382/?CategoryId=' + parentCategoryArrayRandom[i].id + '">' + parentCategoryArrayRandom[i].name + '</a>';
     }
     document.getElementById('categoryNavbar').innerHTML += '<button type="button" class="btn btn-link" data-toggle="modal" data-target="#exampleModal">\
         Ещё...\
