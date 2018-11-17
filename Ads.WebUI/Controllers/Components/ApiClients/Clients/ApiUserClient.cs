@@ -48,6 +48,27 @@ namespace Ads.MVCClientApplication.Controllers.Components.ApiClients.Clients
                 throw new HttpRequestException(string.Join(Environment.NewLine, err));
             }
         }
+        public async Task ChangeAvatarAsync(UserAvatarDto avatar)
+        {
+            try
+            {
+                using (httpClient)
+                {
+                    HttpResponseMessage response = await httpClient
+                        .PostAsJsonAsync($"{ _options.ApiEndpoint }/Authorization/ChangeAvatar", avatar);
+                    if (!response.IsSuccessStatusCode)
+                    {
+                        string err = "При попытке сменить аватар пользователя(id = " + avatar.UserId + ") произошла ошибка. " + response.StatusCode;
+                        throw new HttpRequestException(string.Join(Environment.NewLine, err));
+                    }
+                }
+            }
+            catch (HttpRequestException ex)
+            {
+                string err = "При попытке выполнить запрос" + "(UserId = " + avatar.UserId + ") произошла ошибка. " + ex.Message;
+                throw new HttpRequestException(string.Join(Environment.NewLine, err));
+            }
+        }
         public async Task<ManageVM> GetUserInfoAsync(int userId)
         {
             try

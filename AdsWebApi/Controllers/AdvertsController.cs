@@ -21,9 +21,9 @@ namespace AdsWebApi.Controllers
         readonly IAdvertService _advertService;
         // GET api/values
         [HttpGet]
-        public IList<AdvertDto> Get()
+        public PagedCollection<AdvertDto> Get()
         {
-            return _advertService.GetAll();
+            return _advertService.GetFilteredAsync(null);
         }
         [HttpGet("UserAdverts/{userId}")]
         public ActionResult<IList<AdvertDto>> GetUserAdverts(int userId)
