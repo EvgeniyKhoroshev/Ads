@@ -18,16 +18,17 @@
         <div class="row">
             @foreach (var item in Model.Items)
             {
+                string advertId = "advert" + item.Id.ToString();
                 <div class="col-md-4" id="advert_list">
                     <div class="card mb-4 box-shadow">
-                        <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+                        <div id="@advertId" class="carousel slide" data-ride="carousel">
                             <ol class="carousel-indicators">
-                                <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+                                <li data-target="#@advertId" data-slide-to="0" class="active"></li>
                                 @if (item.Images.Count() > 1)
                                 {
                                     @for (int i = 1; i < item.Images.Count(); i++)
                                     {
-                                        <li data-target="#carouselExampleIndicators" data-slide-to="@i"></li>
+                                        <li data-target="#@advertId" data-slide-to="@i"></li>
                                     }
                                 }
                             </ol>
