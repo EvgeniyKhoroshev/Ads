@@ -36,7 +36,7 @@ namespace AdsWebApi.Controllers
             return await _commentsService.SaveOrUpdateAsync(value);
         }
 
-        [HttpDelete("id")]
+        [HttpDelete("{id}")]
         public void Delete(int id)
         {
             _commentsService.Delete(id);

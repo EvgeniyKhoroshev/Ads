@@ -83,10 +83,10 @@ namespace Domain.Data.Repositories.Base
                 _dbContext.Set<T>().Remove(GetAsync(Id).Result);
                 _dbContext.SaveChanges();
             }
-            catch (DbUpdateException ex)
+            catch (Exception ex)
             {
                 string error = "При удалении записи из базы произошла ошибка. " + ex.Message;
-                throw new DbUpdateException(string.Join(Environment.NewLine, error), ex);
+                throw new Exception(string.Join(Environment.NewLine, error), ex);
             }
         }
         /// <summary>

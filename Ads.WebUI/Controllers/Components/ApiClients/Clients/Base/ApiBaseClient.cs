@@ -12,6 +12,7 @@ using System.Text;
 using Ads.Shared.Contracts;
 using Microsoft.Extensions.Options;
 using Ads.Shared.Contracts.Areas;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Ads.MVCClientApplication.Controllers.Components.ApiClients.BaseClients
 {
@@ -42,13 +43,17 @@ namespace Ads.MVCClientApplication.Controllers.Components.ApiClients.BaseClients
         /// URL substring to request api</param>
         /// <param name="Id"> Идентификатор <paramref name="entityName"/> / 
         /// Id of a <paramref name="entityName"/></param>
-        public virtual async Task Delete(Tid id)
+        public virtual async Task<ActionResult> Delete(Tid id)
         {
             try
             {
                 using (httpClient)
                 {
                     HttpResponseMessage response = await httpClient.DeleteAsync($"{_options.ApiEndpoint}{_area.Get}/{id}");
+                    if (response.IsSuccessStatusCode)
+                        return new StatusCodeResult(200);
+                    else
+                        return new StatusCodeResult(400);
                 }
                 //}
                 //    var request = new HttpRequestMessage(HttpMethod.Delete, $"{ _options.ApiEndpoint }{entityName}/{id}")
