@@ -28,5 +28,13 @@ namespace Ads.CoreService.Contracts.Dto.Filters
         /// Price range for a filtration
         /// </summary>
         public InclusiveRange<decimal?> PriceRange { get; set; }
+        /// <summary>
+        /// Значение определяющее поиск объявления у которых есть фотография
+        /// </summary>
+        public bool onlyPhoto { get; set; }
+        /// <summary>
+        /// Значение определяющее поиск только по имени
+        /// </summary>
+        public bool onlyName { get; set; }
     }
 }

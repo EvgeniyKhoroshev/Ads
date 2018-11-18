@@ -36,6 +36,15 @@ function NavbarCategories() {
     }
     var parentCategoryArrayRandom = shuffleArray(parentCategoryArray);
 
+    var url = 'https://localhost:44382/Adverts/Create';
+    if (window.location == url) {
+        var select = document.getElementById('categoryNavbar');
+        while (select.firstChild) {
+            select.removeChild(select.firstChild);
+        }
+    }
+
+    document.getElementById('categoryNavbar').innerHTML += '<a class="nav-link active" href="#">ЛОГО</a>';
     for (var i = 0; i < 4; i++) {
         document.getElementById('categoryNavbar').innerHTML += '<a class="nav-link" href="https://localhost:44382/?CategoryId=' + parentCategoryArrayRandom[i].id + '">' + parentCategoryArrayRandom[i].name + '</a>';
     }

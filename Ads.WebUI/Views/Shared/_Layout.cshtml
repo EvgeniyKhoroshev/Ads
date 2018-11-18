@@ -36,8 +36,6 @@
 
         <div class="nav-scroller bg-white box-shadow">
             <nav class="container nav nav-underline" id="categoryNavbar">
-                <a class="nav-link active" href="#">ЛОГО</a>
-
             </nav>
         </div>
         <partial name="_CookieConsentPartial" />
@@ -73,7 +71,16 @@
                 <div class="col-auto">
                     <button class="btn btn-primary" id="filter"> Фильтровать</button>
                 </div>
-
+            </div>
+            <div class="nav nav-underline">
+                <div class="form-check col-2">
+                    <input name="onlyName" type="checkbox" class="form-check-input" id="exampleCheck1" value="true">
+                    <label class="form-check-label" for="exampleCheck1">Только в названиях</label>
+                </div>
+                <div class="form-check col-2">
+                    <input name="onlyPhoto" type="checkbox" class="form-check-input" id="exampleCheck1" value="true">
+                    <label class="form-check-label" for="exampleCheck1">Только с фото</label>
+                </div>
             </div>
         </form>
         @RenderBody()

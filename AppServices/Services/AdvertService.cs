@@ -162,10 +162,22 @@ namespace AppServices.Services
                     query = query.Where(x => x.CategoryId == filter.CategoryId
                                         || x.Category.ParentCategoryId == filter.CategoryId);
 
-            if (!string.IsNullOrEmpty(filter.Substring))
-                query = query.Where(x => EF.Functions.Like(x.Name, $"%{filter.Substring}%") ||
-                                    EF.Functions.Like(x.Description, $"%{filter.Substring}%"));
-            var count = query.Count();
+            if(filter.onlyName == true)
+            {
+                if (!string.IsNullOrEmpty(filter.Substring))
+                    query = query.Where(x => EF.Functions.Like(x.Name, $"%{filter.Substring}%"));
+            }
+            else
+            {
+                if (!string.IsNullOrEmpty(filter.Substring))
+                    query = query.Where(x => EF.Functions.Like(x.Name, $"%{filter.Substring}%") ||
+                                        EF.Functions.Like(x.Description, $"%{filter.Substring}%"));
+            }
+
+            if (filter.onlyPhoto == true)
+                query = query.Where(x => x.Images.Count() != 0);
+
+                var count = query.Count();
             query = query.Skip(filter.PageSize * (filter.PageNumber - 1))
                 .Take(filter.PageSize);
             try

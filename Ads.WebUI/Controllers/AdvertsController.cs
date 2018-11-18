@@ -25,7 +25,7 @@ namespace Ads.MVCClientApplication.Controllers
         }
         AdvertsInfoDto _AdvertsInfoDto;
         public async Task<IActionResult> Index(
-            [Bind("CategoryId,RegionId,CityId,Substring,TypeId")] AdvertFilterDto filter,
+            [Bind("CategoryId,RegionId,CityId,Substring,TypeId,onlyPhoto,onlyName")] AdvertFilterDto filter,
             decimal? Min, decimal? Max, int PageNumber)
         {
             filter.PriceRange = new InclusiveRange<decimal?> { From = Min, To = Max };
