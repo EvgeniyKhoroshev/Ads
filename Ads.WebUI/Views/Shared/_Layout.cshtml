@@ -42,7 +42,7 @@
     </header>
 
     <main role="main" class="container">
-        <form asp-action="Index" method="get">
+        <form asp-action="Index" method="get" id="filterForm">
             <div class="form-row">
                 <div class="col-2">
                     <select class="form-control col" id="selectCategories" onchange="ChangeCategory()">
@@ -72,16 +72,25 @@
                     <button class="btn btn-primary" id="filter"> Фильтровать</button>
                 </div>
             </div>
-            <div class="nav nav-underline">
-                <div class="form-check col-2">
-                    <input name="onlyName" type="checkbox" class="form-check-input" id="exampleCheck1" value="true">
-                    <label class="form-check-label" for="exampleCheck1">Только в названиях</label>
-                </div>
-                <div class="form-check col-2">
-                    <input name="onlyPhoto" type="checkbox" class="form-check-input" id="exampleCheck1" value="true">
-                    <label class="form-check-label" for="exampleCheck1">Только с фото</label>
-                </div>
+            <div class="nav nav-underline" id="extraOptions">
+                <button type="button" class="btn btn-link btn-sm" onclick="ExtraOptions()">Дополнительные параметры</button>
             </div>
+            @*<div class="nav nav-underline">
+                    <div class="form-check-inline col-4">
+                        <label class="form-check-label col" for="exampleCheck1">Цена от:</label>
+                        <input name="Min" type="text" class="form-control form-control-sm col" aria-label="Small" aria-describedby="inputGroup-sizing-sm">
+                        <label class="form-check-label col-2" for="exampleCheck1">до:</label>
+                        <input max="Max" type="text" class="form-control form-control-sm col" aria-label="Small" aria-describedby="inputGroup-sizing-sm">
+                    </div>
+                     <div class="form-check-inline col-2">
+                        <input name="onlyName" type="checkbox" class="form-check-input" id="exampleCheck1" value="true">
+                        <label class="form-check-label" for="exampleCheck1">Только в названиях</label>
+                    </div>
+                    <div class="form-check-inline col-2">
+                        <input name="onlyPhoto" type="checkbox" class="form-check-input" id="exampleCheck1" value="true">
+                        <label class="form-check-label" for="exampleCheck1">Только с фото</label>
+                    </div>
+                </div>*@
         </form>
         @RenderBody()
     </main>
@@ -100,6 +109,7 @@
     <script src="~/js/AdsInfo.js" asp-append-version="true"></script>
     <script src="~/js/Category.js" asp-append-version="true"></script>
     <script src="~/js/City.js" asp-append-version="true"></script>
+    <script src="~/js/ExtraOptions.js" asp-append-version="true"></script>
 
 </body>
 </html>
