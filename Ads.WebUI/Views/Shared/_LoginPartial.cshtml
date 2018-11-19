@@ -7,7 +7,7 @@
             </a>
             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                 <li class="dropdown-item">
-                    <a asp-controller="Authentication" asp-action="Manage" title="Manage">@User.Claims.FirstOrDefault(c => c.Type == CookieCustomClaimNames.UserName).Value</a>
+                    <a asp-controller="Authentication" asp-action="Manage" title="Manage">Личный кабинет</a>
                 </li>
                 <li class="dropdown-item">
                     <a asp-controller="Adverts" asp-action="Create">Добавить</a>
