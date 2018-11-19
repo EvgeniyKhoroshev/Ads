@@ -58,8 +58,8 @@ namespace AdsWebApi.Controllers
         [HttpGet("GetUserInfo/{userId}")]
         public async Task<IActionResult> GetUserInfo(int userId)
         {
-            var s = await _userService.GetUserInfoAsync(userId);
-            return Ok(s);
+            var userInfo = await _userService.GetUserInfoAsync(userId);
+            return Ok(userInfo);
         }
     }
 }

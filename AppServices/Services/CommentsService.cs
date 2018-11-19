@@ -26,7 +26,7 @@ namespace AppServices.Services
         }
         public override IList<CommentDto> GetAll()
         {
-            IQueryable<Comment> adv = _commentRepository.GetAll();
+            IQueryable<Comment> adv = _commentRepository.GetAll().OrderByDescending(t=>t.Created);
             if (adv == null)
                 return null;
             CommentDto[] result;

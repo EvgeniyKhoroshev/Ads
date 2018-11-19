@@ -1,5 +1,6 @@
 ﻿using Ads.CoreService.Contracts.Dto.Filters;
 using Ads.Shared.Contracts;
+using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -46,7 +47,7 @@ namespace Ads.MVCClientApplication.Controllers.Components.ApiClients.Interfaces.
         /// URL substring to request api</param>
         /// <param name="Id"> Идентификатор <paramref name="entityName"/> / 
         /// Id of a <paramref name="entityName"/></param>
-        Task Delete(Tid id);
+        Task<ActionResult> Delete(Tid id);
         /// <summary>
         /// Http запрос к API для получения всех <paramref name="entity"/> с фильтром
         /// / HTTP request to getting all of <paramref name="entity"/> with filter

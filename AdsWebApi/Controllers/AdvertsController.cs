@@ -23,7 +23,7 @@ namespace AdsWebApi.Controllers
         [HttpGet]
         public PagedCollection<AdvertDto> Get()
         {
-            return _advertService.GetFilteredAsync(null);
+            return _advertService.GetFilteredAsync(new AdvertFilterDto { });
         }
         [HttpGet("UserAdverts/{userId}")]
         public ActionResult<IList<AdvertDto>> GetUserAdverts(int userId)
