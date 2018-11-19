@@ -36,7 +36,7 @@ namespace AdsWebApi
                 (options.Storage as MemoryCacheStorage).CacheDuration = TimeSpan.FromMinutes(60);
                 options.TrackConnectionOpenClose = true;
 
-            });
+            }).AddEntityFramework();
             services.AddDependencyInjection(Configuration.GetConnectionString("DefaultConnection"));
             var jwtOptions = new JwtServerAuthenticationOptions();
             Configuration.GetSection("JwtAuthentication").Bind(jwtOptions);
