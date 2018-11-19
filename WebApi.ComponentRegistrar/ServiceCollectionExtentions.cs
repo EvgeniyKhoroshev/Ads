@@ -42,7 +42,9 @@ namespace WebApi.ComponentRegistrar
             services.AddTransient<IAdvertService, AdvertService>();
             services.AddTransient<IAdvertInfoRepository<AdvertsInfo, int>, AdvertInfoRepository>();
             services.AddTransient<IInfoService, InfoService>();
-            
+
+
+
             // Jwt services
             services.AddScoped<IJwtTokenService, JwtTokenService>();
             services.AddScoped<IJwtAuthenticationService, JwtAuthenticationService>();

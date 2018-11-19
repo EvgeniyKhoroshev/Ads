@@ -27,14 +27,6 @@ namespace Ads.MVCClientApplication
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMiniProfiler(options =>
-            {
-                options.RouteBasePath = "/profiler";
-                (options.Storage as MemoryCacheStorage).CacheDuration = TimeSpan.FromMinutes(60);
-                options.TrackConnectionOpenClose = true;
-
-            });
-
             services.Configure<CookiePolicyOptions>(options =>
             {
                 // This lambda determines whether user consent for non-essential cookies is needed for a given request.
@@ -81,7 +73,6 @@ namespace Ads.MVCClientApplication
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseAuthentication();
-            app.UseMiniProfiler();
 
             app.UseMvc(routes =>
             {
