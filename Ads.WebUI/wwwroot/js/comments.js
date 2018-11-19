@@ -1,7 +1,8 @@
 ﻿// Fetching comments from the API
-var CommentsTagName = 'advert_comments';
-var comments;
-var CurrentUserId;
+var CommentsTagName = 'advert_comments';                                        // Tag to print the comments
+var comments;                                                                   // Variable with a comments after FetchComments()
+var CurrentUserId;                                                              // Current user Id
+// F-n fetching comments from the mvc client
 FetchComments = function (id) {
     var f = 'https://localhost:44382/adverts/' + id + '/comments/';
     categories = fetch(f)
@@ -10,6 +11,7 @@ FetchComments = function (id) {
         .then(() => display_comments());
 }
 document.onload = FetchComments(document.getElementsByClassName('AdvertId')[0].value);
+// F-n to display the comments to CommentsTagName tag in web page 
 function display_comments() {
     CurrentUserId = document.getElementsByClassName('UserId')[0].value;
     var i = 0;
@@ -21,7 +23,7 @@ function display_comments() {
         document.getElementById(CommentsTagName).innerHTML = '<p>Комментариев пока нет. </p> ';
     }
 }
-// func to show comments in html
+// F-n to show comments in html
 function ShowComment(comment) {
     var s = document.getElementById(CommentsTagName).innerHTML;
     var date = comment.created.split('T')[0];
@@ -29,31 +31,63 @@ function ShowComment(comment) {
     if (CurrentUserId == comment.userId) {
         document.getElementById(CommentsTagName).innerHTML = '\
             <li class="list-group-item nav-item" id='+ comment.id + ' style="margin-top:10px;">\
+            <div class="comment__rating-box" onclick="alert("sdadfaf")">\
+            <span class="comment__rating-up">&#9650;</span>\
+            <span class="comment__rating-count">'+ comment.rating +'</span>\
+            <span class="comment__rating-down">&#9660;</span>\
+            </div>\
             <p class="CommentBody">'+ comment.body + '</p> <hr/>\
-            <p>'+ date + ' ' + time[0] + ':' + time[1] + ' ' + comment.rating + ' \
+            <p>'+ date + ' ' + time[0] + ':' + time[1] +' \
             <br/>\
             <button class="btn btn-primary comment" onclick="DeleteComment('+ comment.id + ')">Удалить комментарий</button>\
             <button class="btn btn-primary comment" onclick="ShowEditComment('+ comment.id + ')">Редактировать комментарий</button>\
+            <span class="comment__rating-box"></span>\
             </p ></li > ';
     }
     else {
         document.getElementById(CommentsTagName).innerHTML = '\
             <li class="list-group-item nav-item" id='+ comment.id + ' style="margin-top:10px;">\
+            <div class="comment__rating-box" onclick="alert("sdadfaf")">\
+            <span class="comment__rating-up">&#9650;</span>\
+            <span class="comment__rating-count">'+ comment.rating +'</span>\
+            <span class="comment__rating-down">&#9660;</span>\
+            </div>\
             <p class="CommentBody">'+ comment.body + '</p> <hr/>\
-            <p>'+ date + ' ' + time[0] + ':' + time[1] + ' ' + comment.rating + ' \
+            <p>'+ date + ' ' + time[0] + ':' + time[1] +' \
             </p > <hr /></li > ';
     }
     if (s != '')
         document.getElementById(CommentsTagName).innerHTML += s;
 }
-
+// On edit click function. Creating a input filled by the current comment body on the place of a current comment body text.
 function ShowEditComment(commentId) {
     var comment = GetCommentByID(commentId);
     document.getElementById(commentId).innerHTML = 'Редактирование комментария: \
-    <input id="Body" class="form-control" value="' + comment.body + '" /><br/>\
+    <input id="Body" class="form-control" required value="' + comment.body + '" /><br/>\
     <button class="btn btn-primary comment" onclick="UpdateComment('+ comment.id + ')">Сохранить изменения</button>\
     <button class="btn btn-primary comment" onclick="CancelEdition('+ comment.id + ')">Отменить изменения</button>';
 }
+// On Save Changes click f-n. Trying to update the 
+function RestoreComment(commentIndex) {
+    document.getElementById(comments[commentIndex].id).id = 0;
+    comments[commentIndex].id = 0;
+    var buf = comments[commentIndex];
+
+    fetch('https://localhost:44382/comments/saveorupdate', {
+        method: 'POST',
+        body: JSON.stringify(buf),
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+        .then(response => response.json())
+        .then((json) => {
+            document.getElementById(0).id = json.id;
+            comments[commentIndex] = json;
+            CancelEdition(json.id);
+        });
+}
+// On Save Changes click f-n. Trying to update the 
 function UpdateComment(commentId) {
     var commentIndex;
     for (commentIndex in comments)
@@ -95,22 +129,21 @@ function DeleteComment(commentId) {
     for (commentIndex in comments)
         if (comments[commentIndex].id == commentId) {
             break;
-        }    fetch('https://localhost:44382/comments/deletecomment/', {
-        method: 'DELETE',
-        headers: {
-            'Content-Type': 'application/json'
-        },
+        } fetch('https://localhost:44382/comments/deletecomment/', {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json'
+            },
             body: JSON.stringify(comments[commentIndex])
-    })
-        .then(() => {
-            document.getElementById(comments[commentIndex].id).innerHTML = '\
-                <button class="btn btn-primary" onclick="UpdateComment(0)">Восстановить комментарий.</button>';
-            document.getElementById(comments[commentIndex].id).id = 0;
-            comments[commentIndex].id = 0;
-        });
+        })
+            .then(() => {
+                document.getElementById(comments[commentIndex].id).innerHTML = '\
+                <button class="btn btn-primary" onclick=" RestoreComment('+ commentIndex + ')">Восстановить комментарий.</button>';
+            });
 }
 function add_comment() {
     var body = document.getElementsByName('Body')[0].value;
+    document.getElementsByName('Body')[0] = '';
     var advertId = document.getElementsByName('AdvertId')[0].value;
     var comment = { 'Body': body, 'AdvertId': advertId };
     fetch('https://localhost:44382/comments/saveorupdate', {
@@ -121,57 +154,29 @@ function add_comment() {
         }
     })
         .then(res => res.json())
-        .then(json => ShowComment(json));
+        .then(json => comments.push(json))
+        .then(() => ShowComment(comments[comments.length - 1]));
 }
 function GetCommentByID(commentId) {
     for (var i in comments)
         if (comments[i].id == commentId)
             return comments[i];
 }
-//// Fetching comments from the API
-//var CommentsTagName = 'advert_comments';
-//var comments;
-//fetch_info = function (id) {
-//    var f = 'https://localhost:44382/adverts/' + id + '/comments/';
-//    categories = fetch(f)
-//        .then(response => response.json())
-//        .then(json => comments = json)
-//        .then(() => display_comments());
-//}
-//document.onload = fetch_info(document.getElementById('comment_id').value);
 
-//function display_comments() {
-//    var i = 0;
-//    if (comments.length > 0)
-//        for (i; i < comments.length; ++i) {
-//            ShowComment(comments)
-//        }
-//    else {
-//        document.getElementById(CommentsTagName).innerHTML = '<p>Комментариев пока нет. </p> ';
-//    }
-//}
 
-//function ShowComment(comment) {
-//    var s = document.getElementById(CommentsTagName).value;
-//    document.getElementById(CommentsTagName).innerHTML = '\
-//            <li class="list-group-item nav-item" style="margin-top:10px;">\
-//            <p>'+ comment.body + '</p> <hr/>\
-//            <p>'+ comment.created + ' ' + comments.rating + ' ' + '</p><hr/></li>' + s;
-//}
-//function add_comment() {
-//    var body = document.getElementsByName('Body')[0].value;
-//    var advertId = document.getElementsByName('AdvertId')[0].value;
-//    var comment = { 'Body': body, 'AdvertId': advertId };
-//    fetch('https://localhost:44382/comments/saveorupdate', {
-//        method: 'POST',
-//        body: JSON.stringify(comment), // data can be `string` or {object}!
-//        headers: {
-//            'Content-Type': 'application/json'
-//        }
-//    })
-//        .then(res => res.json())
-//        .then(function (json) {
-//            ShowComment(json);
-//        }
-//        );
+
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////// Rating ///////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+//function ShowRating(commentId) {
+//    document.getElementById(commentId).innerHTML += '\
+//    <div class="post__rating-up" title="Поставить плюсик">\
+//        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon--ui__rating-up icon--ui__rating-up_story">\
+//            <use xlink:href="#icon--ui__rating-up">\
+//            </use>\
+//        </svg>\
+//    </div>';
 //}

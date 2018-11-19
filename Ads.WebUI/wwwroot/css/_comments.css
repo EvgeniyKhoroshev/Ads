@@ -1,3 +1,15 @@
-﻿button.comment {
+﻿.comment {
     max-width: 250px;
+}
+.comments__box {
+    width: 60%;
+    margin-left: 20%;
+    margin-right: 20%;
+}
+.comment__rating-box {
+    cursor: pointer;
+    position: absolute;
+    margin-left: -100px;
+    font-size: 22px;
+    color: gray;
 }
