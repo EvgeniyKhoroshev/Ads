@@ -9,6 +9,8 @@ using Authentication.Contracts.JwtAuthentication.Options;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Ads.Shared.Contracts;
 using Ads.Shared.Contracts.Areas;
+using StackExchange.Profiling.Storage;
+using System;
 
 namespace Ads.MVCClientApplication
 {
@@ -25,6 +27,13 @@ namespace Ads.MVCClientApplication
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddMiniProfiler(options =>
+            {
+                options.RouteBasePath = "/profiler";
+                (options.Storage as MemoryCacheStorage).CacheDuration = TimeSpan.FromMinutes(60);
+                options.TrackConnectionOpenClose = true;
+
+            });
 
             services.Configure<CookiePolicyOptions>(options =>
             {
@@ -72,6 +81,7 @@ namespace Ads.MVCClientApplication
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseAuthentication();
+            app.UseMiniProfiler();
 
             app.UseMvc(routes =>
             {

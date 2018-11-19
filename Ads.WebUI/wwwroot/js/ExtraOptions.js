@@ -2,8 +2,7 @@
     var select = document.getElementById('extraOptions');
     select.remove();
 
-    document.getElementById('filterForm').innerHTML += '<br />\
-        <div class="nav nav-underline" >\
+    document.getElementById('filterForm').innerHTML += '<div class="nav py-3 nav-underline" >\
             <div class="form-check-inline col-4">\
                 <label class="form-check-label col" for="Min">Цена от:</label>\
                 <input name="Min" type="text" class="form-control form-control-sm col" aria-label="Small" aria-describedby="inputGroup-sizing-sm">\
