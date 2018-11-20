@@ -1,39 +1,73 @@
 ﻿@model Ads.CoreService.Contracts.Dto.CreateUserDto
 @{
-    ViewData["Title"] = "SignUp";
+    ViewData["Title"] = "Регистрация";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<br />
 <h2>Регистрация</h2>
 <hr />
-<form class="active" action="/Authentication/SignUp" method="post">
+<form class="active" action="/Authentication/SignUp" method="post" onsubmit="return Validation();">
     <div class="form-group form-row">
-        <label class="control-label col-3" for="FirstName">Имя</label>
-        <input required class="form-control col-3" id="FirstName" name="FirstName" type="text" aria-describedby="emailHelp" placeholder="Имя" value="">
+        <div class="col-3">
+            <label class="control-label" for="firstName">Имя</label>
+            <label style="color:orangered">*</label>
+        </div>
+        <div class="col-4" id="firstName">
+            <input class="form-control" id="firstName_input" name="FirstName" type="text" aria-describedby="emailHelp" placeholder="Имя">
+        </div>
     </div>
     <div class="form-group form-row">
-        <label class="control-label col-3" for="LastName">Фамилию</label>
-        <input required class="form-control col-3" id="LastName" name="LastName" type="text" aria-describedby="emailHelp" placeholder="Фамилия" value="">
+        <div class="col-3">
+            <label class="control-label" for="lastName">Фамилию</label>
+            <label style="color:orangered">*</label>
+        </div>
+        <div class="col-4" id="lastName">
+            <input class="form-control" id="lastName_input" name="LastName" type="text" aria-describedby="emailHelp" placeholder="Фамилия" value="">
+        </div>
     </div>
     <div class="form-group form-row">
-        <label class="control-label col-3" for="PhoneNumber">Номер телефона</label>
-        <input class="form-control col-3" id="PhoneNumber" name="PhoneNumber" type="text" aria-describedby="emailHelp" data-format="+7 (ddd) ddd-dd-dd" placeholder="+7 (XXX) XXX-XX-XX" value="">
+        <div class="col-3">
+            <label class="control-label" for="phoneNumber">Номер телефона</label>
+        </div>
+        <div class="col-4" id="phoneNumber">
+            <input maxlength="12" class="form-control" id="phoneNumber_input" name="PhoneNumber" type="text" aria-describedby="emailHelp" placeholder="+7XXXXXXXXXX" value="">
+        </div>
     </div>
     <div class="form-group form-row">
-        <label class="control-label col-3" for="Email">Введите E-mail: </label>
-        <input required class="form-control col-3" id="Email" name="Email" type="email" aria-describedby="emailHelp" placeholder="Введите E-mail" value="">
+        <div class="col-3">
+            <label class="control-label" for="Email">Введите E-mail: </label>
+            <label style="color:orangered">*</label>
+        </div>
+        <div class="col-4" id="Email">
+            <input class="form-control" id="email_input" name="Email" type="email" aria-describedby="emailHelp" placeholder="Введите E-mail" value="">
+        </div>
     </div>
     <div class="form-group form-row">
-        <label class="control-label col-3" for="UserName">Лигин</label>
-        <input class="form-control col-3" id="UserName" name="UserName" type="text" aria-describedby="emailHelp" placeholder="Логин" value="">
+        <div class="col-3">
+            <label class="control-label" for="userName">Логин</label>
+            <label style="color:orangered">*</label>
+        </div>
+        <div class="col-4" id="userName">
+            <input class="form-control" id="userName_input" name="UserName" type="text" aria-describedby="emailHelp" placeholder="Логин" value="">
+        </div>
     </div>
     <div class="form-group form-row">
-        <label class="control-label col-3" for="Password">Введите пароль</label>
-        <input required class="form-control col-3" id="Password" name="StartPassword" type="password" placeholder="Пароль" value="">
+        <div class="col-3">
+            <label class="control-label" for="startPassword">Введите пароль</label>
+            <label style="color:orangered">*</label>
+        </div>
+        <div class="col-4" id="startPassword">
+            <input class="form-control" id="startPassword_input" name="StartPassword" type="password" placeholder="Пароль" value="">
+        </div>
     </div>
     <div class="form-group form-row">
-        <label class="control-label col-3" for="Password">Подтвердите пароль</label>
-        <input required class="form-control col-3" id="Password" name="Password" type="password" placeholder="Пароль" value="">
+        <div class="col-3">
+            <label class="control-label" for="password">Подтвердите пароль</label>
+            <label style="color:orangered">*</label>
+        </div>
+        <div class="col-4" id="password">
+            <input class="form-control" id="password_input" name="Password" type="password" placeholder="Пароль" value="">
+
+        </div>
     </div>
     <br />
     <button class="btn btn-primary" type="submit" name="SignUp">Регистрация</button>
