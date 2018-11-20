@@ -23,7 +23,6 @@ namespace Ads.MVCClientApplication.Controllers
         {
             _client = client;
         }
-        AdvertsInfoDto _AdvertsInfoDto;
         public async Task<IActionResult> Index(
             [Bind("CategoryId,RegionId,CityId,Substring,TypeId,onlyPhoto,onlyName")] AdvertFilterDto filter,
             decimal? Min, decimal? Max, int PageNumber)
@@ -31,8 +30,6 @@ namespace Ads.MVCClientApplication.Controllers
             filter.PriceRange = new InclusiveRange<decimal?> { From = Min, To = Max };
             if (PageNumber > 1)
                 filter.PageNumber = PageNumber;
-            if (_AdvertsInfoDto == null)
-                _AdvertsInfoDto = await ApiClient.AdvInfoInit();
             var adverts = await _client.FiltredAsync(filter);
             return View(adverts);
 
@@ -61,13 +58,11 @@ namespace Ads.MVCClientApplication.Controllers
             await _client.SaveOrUpdate(cDto);
             return cDto;
         }
-        public async Task<IActionResult> Create()
+        public IActionResult Create()
         {
             if (!User.Identity.IsAuthenticated)
                 return RedirectToAction("SignIn", "Authentication");
-            if (_AdvertsInfoDto == null)
-                _AdvertsInfoDto = await ApiClient.AdvInfoInit();
-            return View(_AdvertsInfoDto);
+            return View();
         }
         [HttpPost]
         public async Task<IActionResult> Create(
@@ -98,8 +93,6 @@ namespace Ads.MVCClientApplication.Controllers
         {
             if (id != null)
             {
-                if (_AdvertsInfoDto == null)
-                    _AdvertsInfoDto = await ApiClient.AdvInfoInit();
                 AdvertDto buf = await _client.GetAdvert(id.Value);
                 AdsVMDetails result = Mapper.Map<AdsVMDetails>(buf);
                 return View(result);
@@ -111,8 +104,6 @@ namespace Ads.MVCClientApplication.Controllers
             var c = UserProcessing.GetCurrentUserId(HttpContext);
             if (!c.HasValue)
                 return RedirectToAction("SignIn", "Authentication");
-            if (_AdvertsInfoDto == null)
-                _AdvertsInfoDto = await ApiClient.AdvInfoInit();
             AdvertDto buf = await _client.GetAdvert(id.Value);
             return View(buf);
         }
