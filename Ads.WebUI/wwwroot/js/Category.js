@@ -1,11 +1,23 @@
 ﻿var categories;
 fetch_category = function () {
-    categories = fetch('https://localhost:44396/api/info/1')
-        .then(response => response.json())
-        .then(json => categories = json)
-        .then(() => DropdownCategories())
-        .then(() => NavbarCategories())
-        .then(() => ModalWindowCategory());
+    var page = document.getElementById('create');
+    if (page == null) {
+        categories = fetch('https://localhost:44396/api/info/1')
+            .then(response => response.json())
+            .then(json => categories = json)
+            .then(() => DropdownCategories())
+            .then(() => NavbarCategories())
+            .then(() => ModalWindowCategory());
+    }
+    else {
+        categories = fetch('https://localhost:44396/api/info/1')
+            .then(response => response.json())
+            .then(json => categories = json)
+            .then(() => ParentCategory())
+            .then(() => NavbarCategories())
+            .then(() => ModalWindowCategory());
+    }
+    
 }
 document.onloadstart = fetch_category();
 
@@ -14,20 +26,18 @@ function DropdownCategories() {
 
     for (var i = 0, len = p.length; i < len; i++) {
         if (p[i].parentCategoryId == null)
-            document.getElementById('selectCategories').innerHTML += '<option class="bg-light" value="' + p[i].id +'">' + p[i].name + '</option>';
+            document.getElementById('selectCategories').innerHTML +=
+                '<option class="bg-light" value="' + p[i].id + '">' + p[i].name + '</option>';
         else
-            document.getElementById('selectCategories').innerHTML += '<option value="' + p[i].id +'">' + p[i].name + '</option>';
+            document.getElementById('selectCategories').innerHTML +=
+                '<option value="' + p[i].id + '">' + p[i].name + '</option>';
     }  
 }
-
-
 function ChangeCategory() {
     var selectBox = document.getElementById("selectCategories");
     var selectedValue = selectBox.options[selectBox.selectedIndex].value;
-
     document.getElementById('inputCategory').value = selectedValue;
 }
-
 function NavbarCategories() {
     var parentCategoryArray = new Array;//.from(categories);
     for (var i = 0; i < categories.length; i++) {
@@ -84,7 +94,6 @@ function NavbarCategories() {
             </div>\
         </div>';
 }
-
 function ModalWindowCategory() {
     var categoryArray = Array.from(categories);
     for (var i = 0; i < categoryArray.length; i++) {
@@ -102,4 +111,28 @@ function shuffleArray(array) {
         array[j] = temp;
     }
     return array;
+}
+function ChangeParentCategory() {
+    var selectBox = document.getElementById("selectParentCategory");
+    var selectedValue = selectBox.options[selectBox.selectedIndex].value;
+    var select = document.getElementById('selectCategories');
+    while (select.firstChild) {
+        select.removeChild(select.firstChild);
+    }
+    document.getElementById('childCategory').removeAttribute('hidden');
+    document.getElementById('selectCategories').innerHTML += '<option>Любая категория</option>';
+    var categoryArray = Array.from(categories);
+    for (var i = 0; i < categoryArray.length; i++) {
+        if (categoryArray[i].parentCategoryId == selectedValue)
+            document.getElementById('selectCategories').innerHTML +=
+                '<option value="' + categoryArray[i].id + '">' + categoryArray[i].name + '</option>';
+    }
+}
+function ParentCategory() {
+    var categoryArray = Array.from(categories);
+    for (var i = 0; i < categoryArray.length; i++) {
+        if (categoryArray[i].parentCategoryId == null)
+            document.getElementById('selectParentCategory').innerHTML +=
+                '<option value="' + categoryArray[i].id + '">' + categoryArray[i].name + '</option>';
+    }
 }
