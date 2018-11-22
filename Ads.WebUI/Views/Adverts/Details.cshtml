@@ -30,14 +30,14 @@
     <div class="card-body">
         <div class="row">
             <div class="col-7">
-                <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+                <div id="carouselDetails" class="carousel slide" data-ride="carousel">
                     <ol class="carousel-indicators">
-                        <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+                        <li data-target="#carouselDetails" data-slide-to="0" class="active"></li>
                         @if (Model.Images.Count() > 1)
                         {
                             @for (int i = 1; i < Model.Images.Count(); i++)
                             {
-                                <li data-target="#carouselExampleIndicators" data-slide-to="@i"></li>
+                                <li data-target="#carouselDetails" data-slide-to="@i"></li>
                             }
                         }
                     </ol>
@@ -69,11 +69,11 @@
                         }
                     </div>
                     <hr />
-                    <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+                    <a class="carousel-control-prev" href="#carouselDetails" role="button" data-slide="prev">
                         <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                         <span class="sr-only">Previous</span>
                     </a>
-                    <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+                    <a class="carousel-control-next" href="#carouselDetails" role="button" data-slide="next">
                         <span class="carousel-control-next-icon" aria-hidden="true"></span>
                         <span class="sr-only">Next</span>
                     </a>

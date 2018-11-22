@@ -10,12 +10,12 @@
                 <input name="Max" type="text" class="form-control form-control-sm col" aria-label="Small" aria-describedby="inputGroup-sizing-sm">\
             </div>\
             <div class="form-check-inline col-2">\
-                <input name="onlyName" type="checkbox" class="form-check-input" id="exampleCheck1" value="true">\
-                <label class="form-check-label" for="exampleCheck1">Только в названиях</label>\
+                <input name="onlyName" type="checkbox" class="form-check-input" id="onlyName" value="true">\
+                <label class="form-check-label" for="onlyName">Только в названиях</label>\
             </div>\
             <div class="form-check-inline col-2">\
-                <input name="onlyPhoto" type="checkbox" class="form-check-input" id="exampleCheck1" value="true">\
-                <label class="form-check-label" for="exampleCheck1">Только с фото</label>\
+                <input name="onlyPhoto" type="checkbox" class="form-check-input" id="onlyPhoto" value="true">\
+                <label class="form-check-label" for="onlyPhoto">Только с фото</label>\
             </div>\
          </div>'
 }

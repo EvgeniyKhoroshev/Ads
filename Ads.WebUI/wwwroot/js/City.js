@@ -1,35 +1,24 @@
-﻿var regions;
-fetch_regions = function () {
-    regions = fetch('https://localhost:44396/api/info/5')
-        .then(response => response.json())
-        .then(json => regions = json)
-        .then(() => DropdownRegions());
-}
-document.onloadstart = fetch_regions();
+﻿$.getJSON('https://localhost:44396/api/info/5',
+    function (data) {
+        DropdownRegions(data);
+    });
 
-function DropdownRegions() {
-    var regionsArray = Array.from(regions);
-
-    for (var i = 0, len = regionsArray.length; i < len; i++)
-        document.getElementById('selectRegion').innerHTML += '<option value="' + regionsArray[i].id + '">' + regionsArray[i].name + '</option>';
+function DropdownRegions(regions) {
+    for (var i = 0, len = regions.length; i < len; i++)
+        document.getElementById('selectRegion').innerHTML += '<option value="' + regions[i].id + '">' + regions[i].name + '</option>';
 }
 
 function DropdownCities(regionId) {
-
-    var cities = fetch('https://localhost:44396/api/info/2/' + regionId + '')
-        .then(response => response.json())
-        .then((json) => {
-            cities = json;
-
+    $.getJSON('https://localhost:44396/api/info/2/' + regionId + '',
+        function (data) {
             var select = document.getElementById('selectCity');
             while (select.firstChild) {
                 select.removeChild(select.firstChild);
             }
             document.getElementById('selectCity').innerHTML += '<option>Любой город</option>';
-            for (var i = 0; i < cities.length; i++)
-                document.getElementById('selectCity').innerHTML += '<option value="' + cities[i].id + '">' + cities[i].name + '</option>';
+            for (var i = 0; i < data.length; i++)
+                document.getElementById('selectCity').innerHTML += '<option value="' + data[i].id + '">' + data[i].name + '</option>';
         });
- 
 }
 
 function ChangeRegion() {
