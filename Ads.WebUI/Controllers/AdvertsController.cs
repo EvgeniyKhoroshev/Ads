@@ -73,6 +73,8 @@ namespace Ads.MVCClientApplication.Controllers
             if ((currentUserId > 0) && (HttpContext.User.Identity.IsAuthenticated))
             {
                 advert.UserId = currentUserId;
+                advert.StatusId = 1;
+                advert.TypeId = 1;
                 if (Photos.Count > 0)
                     advert.Images = await ImageProcessing.ImageToBase64(Photos, advert.Id);
                 await _client.SaveOrUpdate(advert);
