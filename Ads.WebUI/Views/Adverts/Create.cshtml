@@ -6,6 +6,8 @@
 @{
     ViewData["Title"] = "Создание объявление";
 }
+<link href="~/css/_img.css" rel="stylesheet">
+
 <input hidden id="create" />
 <h2>Подать объявление</h2>
 <hr />
@@ -41,9 +43,7 @@
             </select>
         </div>
         <div hidden class="col-3" id="childCategory">
-            <select class="form-control" id="selectCategories" onchange="ChangeCategory()">
-
-            </select>
+            <select class="form-control" id="selectCategories" onchange="ChangeCategory()"></select>
             <input type="hidden" id="inputCategory" name="CategoryId" />
         </div>'
     </div>
@@ -80,27 +80,27 @@
         </div>
         <div class="col-3">
             <input name="Address" class="form-control" id="inputAddress" />
-        </div> 
+        </div>
     </div>
 
     @*<div class="form-group form-row">
-        <label for="inputType" class="control-label col-3">Тип объявления</label>
-        <select class="form-control col-3" name="TypeId" id="inputType">
-            @foreach (var item in Model.Types)
-            {
-                <option value="@item.Id">@item.Id @item.Type</option>}
-        </select>
-    </div>
+            <label for="inputType" class="control-label col-3">Тип объявления</label>
+            <select class="form-control col-3" name="TypeId" id="inputType">
+                @foreach (var item in Model.Types)
+                {
+                    <option value="@item.Id">@item.Id @item.Type</option>}
+            </select>
+        </div>
 
-    <div class="form-group form-row">
-        <label for="inputStatus" class="control-label col-3">Статус объявления</label>
-        <select class="form-control col-3" name="StatusId" id="inputStatus">
-            @foreach (var item in Model.Statuses)
-            {
-                <option value="@item.Id">@item.Id @item.Name</option>
-            }
-        </select>
-    </div>*@
+        <div class="form-group form-row">
+            <label for="inputStatus" class="control-label col-3">Статус объявления</label>
+            <select class="form-control col-3" name="StatusId" id="inputStatus">
+                @foreach (var item in Model.Statuses)
+                {
+                    <option value="@item.Id">@item.Id @item.Name</option>
+                }
+            </select>
+        </div>*@
 
     <div class="form-group form-row">
         <div class="col-3">
@@ -112,20 +112,31 @@
         </div>
     </div>
 
-    <div class="form-group">
-        <input name="Photos" multiple type="file" />
-    </div>
-
-    <div class="form-group">
-        <input hidden name="Context" class="form-control" />
-    </div>
-    <div class="form-group">
-        <input type="submit" value="Добавить" class="btn btn-primary" />
+    <div class="form-group form-row">
+        <div class="col-3">
+            <label class="control-label">Фото</label>
+        </div>
+        <div class="form-group form-row col-6">
+            <span id="outputMulti"></span>
+            <div>
+                <input class="inputfile" type="file" id="fileMulti" name="Photos" multiple />
+                <label for="fileMulti">
+                    <img src="~/images/iconPhoto.svg" />
+                </label>
+            </div>
+        </div>
+        @*<div class="col-3">
+                <label class="control-label">Фото</label>
+            </div>
+            <div class="col-6">
+                <input name="Photos" multiple type="file" />
+            </div>*@
     </div>
 </form>
 <div>
     <a asp-action="Index">Back to List</a>
 </div>
+<script src="~/js/inputPhoto.js" asp-append-version="true"></script>
 
 @section Scripts {
     @{
