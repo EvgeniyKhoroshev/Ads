@@ -50,23 +50,16 @@
 
     <div class="form-group form-row">
         <div class="col-3">
-            <label for="selectRegion" class="control-label">Регион</label>
+            <label for="selectCity" class="control-label">Город</label>
             <label style="color:orangered">*</label>
         </div>
         <div class="col-3" id="region">
             <select class="form-control" id="selectRegion" onchange="ChangeRegion();">
-                <option>Любой регион</option>
+                <option >Любой регион</option>
             </select>
             <input type="hidden" id="inputRegion" name="RegionId" />
         </div>
-    </div>
-
-    <div class="form-group form-row">
-        <div class="col-3">
-            <label for="selectCity" class="control-label">Город</label>
-            <label style="color:orangered">*</label>
-        </div>
-        <div class="col-3" id="city">
+        <div class="col-3" id="city" hidden>
             <select class="form-control" id="selectCity" onchange="ChangeCity()">
                 <option>Любой город</option>
             </select>

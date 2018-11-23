@@ -105,11 +105,15 @@ function shuffleArray(array) {
 function ChangeParentCategory() {
     var selectBox = document.getElementById("selectParentCategory");
     var selectedValue = selectBox.options[selectBox.selectedIndex].value;
+    if (selectedValue == 'Любая категория') {
+        document.getElementById('childCategory').hidden = true;
+        return;
+    }
     var select = document.getElementById('selectCategories');
     while (select.firstChild) {
         select.removeChild(select.firstChild);
     }
-    document.getElementById('childCategory').removeAttribute('hidden');
+    document.getElementById('childCategory').hidden = false;
     document.getElementById('selectCategories').innerHTML += '<option>Любая категория</option>';
     for (var i = 0; i < categoryArray.length; i++) {
         if (categoryArray[i].parentCategoryId == selectedValue)

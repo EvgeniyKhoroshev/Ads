@@ -9,6 +9,7 @@ function DropdownRegions(regions) {
 }
 
 function DropdownCities(regionId) {
+    document.getElementById('city').hidden = false;
     $.getJSON('https://localhost:44396/api/info/2/' + regionId + '',
         function (data) {
             var select = document.getElementById('selectCity');
@@ -24,7 +25,10 @@ function DropdownCities(regionId) {
 function ChangeRegion() {
     var selectBox = document.getElementById("selectRegion");
     var selectedRegionId = selectBox.options[selectBox.selectedIndex].value;
-
+    if (selectedRegionId == 'Любой регион') {
+        document.getElementById('city').hidden = true;
+        return;
+    }
     var inputRegion = document.getElementById("inputRegion");
     if (inputRegion != null)
         document.getElementById('inputRegion').value = selectedRegionId;
