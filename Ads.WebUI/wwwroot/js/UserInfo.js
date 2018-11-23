@@ -1,16 +1,15 @@
 ﻿var user;
-fetch_user = function (id) {
-    var url = 'https://localhost:44396/api/Authorization/GetUserInfo/' + id + ''; 
-    user = fetch(url)
-        .then(response => response.json())
-        .then(json => user = json)
-        .then(() => UserInfo());
+user_info = function (id) {
+    var url = 'https://localhost:44396/api/Authorization/GetUserInfo/' + id + '';
+    $.getJSON(url,
+        function (data) {
+            user = data;
+            UserInfo();
+        });
 }
-
-document.onloadstart = fetch_user(document.getElementById('UserId').value);
+document.onloadstart = user_info(document.getElementById('UserId').value);
 
 function UserInfo() {
-    console.log(user);
     document.getElementById('UserInfo').innerHTML += '<a class="col">Контактное лицо:<br/></a>';
     document.getElementById('UserInfo').innerHTML += '<a class="col h6">' + user.firstName +'<hr/></a>';
 }

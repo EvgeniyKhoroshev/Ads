@@ -1,34 +1,35 @@
-﻿var categories;
-fetch_category = function () {
-    categories = fetch('https://localhost:44396/api/info/1')
-        .then(response => response.json())
-        .then(json => categories = json)
-        .then(() => DropdownCategories())
-        .then(() => NavbarCategories())
-        .then(() => ModalWindowCategory());
-}
-document.onloadstart = fetch_category();
-
-function DropdownCategories() {
-    var p = Array.from(categories);
-
-    for (var i = 0, len = p.length; i < len; i++) {
-        if (p[i].parentCategoryId == null)
-            document.getElementById('selectCategories').innerHTML += '<option class="bg-light" value="' + p[i].id +'">' + p[i].name + '</option>';
+﻿var categoryArray;
+$.getJSON('https://localhost:44396/api/info/1',
+    function (data) {
+        var page = document.getElementById('create');
+        if (page == null) {
+            DropdownCategories(data);
+            NavbarCategories(data);
+            ModalWindowCategory(data);
+        }
+        else {
+            ParentCategory(data);
+            NavbarCategories(data);
+            ModalWindowCategory(data);
+            categoryArray = data;
+        }
+    });
+function DropdownCategories(categories) {
+    for (var i = 0, len = categories.length; i < len; i++) {
+        if (categories[i].parentCategoryId == null)
+            document.getElementById('selectCategories').innerHTML +=
+                '<option class="bg-light" value="' + categories[i].id + '">' + categories[i].name + '</option>';
         else
-            document.getElementById('selectCategories').innerHTML += '<option value="' + p[i].id +'">' + p[i].name + '</option>';
+            document.getElementById('selectCategories').innerHTML +=
+                '<option value="' + categories[i].id + '">' + categories[i].name + '</option>';
     }  
 }
-
-
 function ChangeCategory() {
     var selectBox = document.getElementById("selectCategories");
     var selectedValue = selectBox.options[selectBox.selectedIndex].value;
-
     document.getElementById('inputCategory').value = selectedValue;
 }
-
-function NavbarCategories() {
+function NavbarCategories(categories) {
     var parentCategoryArray = new Array;//.from(categories);
     for (var i = 0; i < categories.length; i++) {
         if (categories[i].parentCategoryId == null)
@@ -84,14 +85,12 @@ function NavbarCategories() {
             </div>\
         </div>';
 }
-
-function ModalWindowCategory() {
-    var categoryArray = Array.from(categories);
-    for (var i = 0; i < categoryArray.length; i++) {
-        if (categoryArray[i].parentCategoryId == null)
-            document.getElementById('' + categoryArray[i].id + '').innerHTML += '<li><h6><a class="link" href="https://localhost:44382/?CategoryId=' + categoryArray[i].id + '">' + categoryArray[i].name +'</a></h6></li>';
-        if (categoryArray[i].parentCategoryId != null)
-            document.getElementById(''+ categoryArray[i].parentCategoryId +'').innerHTML += '<li><a class="link" href="https://localhost:44382/?CategoryId='+ categoryArray[i].id +'">'+ categoryArray[i].name +'</a></li>';
+function ModalWindowCategory(categories) {
+    for (var i = 0; i < categories.length; i++) {
+        if (categories[i].parentCategoryId == null)
+            document.getElementById('' + categories[i].id + '').innerHTML += '<li><h6><a class="link" href="https://localhost:44382/?CategoryId=' + categories[i].id + '">' + categories[i].name +'</a></h6></li>';
+        if (categories[i].parentCategoryId != null)
+            document.getElementById('' + categories[i].parentCategoryId + '').innerHTML += '<li><a class="link" href="https://localhost:44382/?CategoryId=' + categories[i].id + '">' + categories[i].name +'</a></li>';
     }
 }
 function shuffleArray(array) {
@@ -102,4 +101,30 @@ function shuffleArray(array) {
         array[j] = temp;
     }
     return array;
+}
+function ChangeParentCategory() {
+    var selectBox = document.getElementById("selectParentCategory");
+    var selectedValue = selectBox.options[selectBox.selectedIndex].value;
+    if (selectedValue == 'Любая категория') {
+        document.getElementById('childCategory').hidden = true;
+        return;
+    }
+    var select = document.getElementById('selectCategories');
+    while (select.firstChild) {
+        select.removeChild(select.firstChild);
+    }
+    document.getElementById('childCategory').hidden = false;
+    document.getElementById('selectCategories').innerHTML += '<option>Любая категория</option>';
+    for (var i = 0; i < categoryArray.length; i++) {
+        if (categoryArray[i].parentCategoryId == selectedValue)
+            document.getElementById('selectCategories').innerHTML +=
+                '<option value="' + categoryArray[i].id + '">' + categoryArray[i].name + '</option>';
+    }
+}
+function ParentCategory(categories) {
+    for (var i = 0; i < categories.length; i++) {
+        if (categories[i].parentCategoryId == null)
+            document.getElementById('selectParentCategory').innerHTML +=
+                '<option value="' + categories[i].id + '">' + categories[i].name + '</option>';
+    }
 }
