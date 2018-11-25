@@ -13,99 +13,55 @@
     }
     int? UserId = GetCurrentUserId();
 }
-
-<main id="card__post" role="main">
-    <div class="card__post">
-        <h2 class="card__title" data-bind="text: model().title"></h2>
-        <form method="post" asp-action="ChangeAvatar" enctype="multipart/form-data" class="active">
-            @if (!string.IsNullOrEmpty(Model.Avatar))
-            {
-
-                var src = string.Format("data:image/gif;base64,{0}", Model.Avatar);
-                <img class="card__img" src="@src" alt="User avatar" width="150" height="180">
-                <input hidden value="@Model.UserId" />
-                <input type="file" name="Avatar" />
-                <button class="btn btn-primary">Изменить</button>
-            }
-            else
-            {
-                <img class="card__img" src="~/images/Default user.png" data-holder-rendered="true" width="150" height="180">
-                <input hidden value="@Model.UserId" />
-                <input type="file" name="Avatar" />
-                <button class="btn btn-primary">Установить</button>
-            }
-        </form>
-        <div class="col-7">
-            <br />
-            <hr />
-            @if (string.IsNullOrEmpty(Model.PhoneNumber))
-            {
-                <h5>Номер телефона не указан. </h5>
-            }
-            else
-            {
-                <h5>Номер телефона : @Model.PhoneNumber</h5>
-            }
-            <h5>Имя пользователя : @Model.UserName</h5>
+<input type="hidden" id="UserId" value="@UserId" />
+<hr />
+<div class="row">
+    <div class="col-3">
+        <div class="nav flex-column nav-pills bg-light" id="left-tab" role="tablist" aria-orientation="vertical">
+            <a class="nav-link active" id="left-adverts-tab" data-toggle="pill" href="#v-pills-home" role="tab" aria-controls="v-pills-home" aria-selected="true">Мои объявления</a>
+            <a class="nav-link" id="left-info-tab" data-toggle="pill" href="#v-pills-profile" role="tab" aria-controls="v-pills-profile" aria-selected="false">Мои данные</a>
+            <a class="nav-link" id="left-edit-tab" data-toggle="pill" href="#v-pills-messages" role="tab" aria-controls="v-pills-messages" aria-selected="false">Настройки</a>
         </div>
-        <div class="card__description">
-            <strong>
-                <span data-bind="text: model().price"></span> $
-            </strong>
-            <p class="post__text" data-bind="text: model().text"></p>
-            <p>
-                Место нахождения: <span data-bind="text: model().address"></span>
-            </p>
-            <p>
-                Объявление добавлено: <span class="date" data-bind="text: model().created"></span>
-            </p>
-            <div class="row">
-                <!--ko foreach: model().advertComments-->
-                @*@foreach (var item in Model.Adverts)
-                    {
-                        <div class="col-md-4" id="advert_list">
-                            <div class="card mb-4 box-shadow">
-                                @if (item.Images != null)
-                                {
-                                    if (!string.IsNullOrEmpty(Model.Avatar))
-                                    {
+    </div>
+    <div class="col">
+        <div class="tab-content" id="left-tabContent">
+            <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel" aria-labelledby="left-adverts-tab">
+                <div class="colum" id="adverts">
 
-                                        var src = string.Format("data:image/gif;base64,{0}", item.Images.First());
-                                        <img class="card-img-top" src="@src" alt="Thumbnail [100%x225]">
-                                    }
-                                    else
-                                    {
-                                        <img class="card-img-top" style="height: 225px; width: 100%; display: block;" src="~/images/Default user.png" data-holder-rendered="true">
+                </div>
+            </div>
+            <div class="tab-pane fade" id="v-pills-profile" role="tabpanel" aria-labelledby="left-info-tab">
+                <div class="row">
+                    <div class="col-3">
+                        <div>
+                            @if (!string.IsNullOrEmpty(Model.Avatar))
+                            {
 
-                                    }
-                                }
-                                <div class="card-body">
-                                    <h5><a class="card-text" asp-action="Details" asp-route-id="@item.Id">@item.Name</a></h5>
-                                    <p class="card-subtitle">Цена: @item.Price</p>
-                                    <p class="card-subtitle">г.@item.City.Name</p>
-                                    <p class="card-subtitle">@item.Created</p>
-                                    @if ((User.Identity.IsAuthenticated) && (UserId == item.UserId))
-                                    {
-                                        <form asp-action="Delete" asp-controller="Adverts" onsubmit='return confirm("Вы точно хотите удалить объявление?");'>
-                                            <a class="card-text" asp-action="Edit" asp-route-id="@item.Id">Изменить</a>
-                                            <input hidden name="Id" value="@item.Id" />
-                                            <input hidden name="OwnerId" value="@item.UserId" />
-                                            <button type="submit" asp-controller="Adverts" asp-action="Delete" class="btn btn-primary">Удалить</button>
-                                        </form>
-                                    }
-                                </div>
-                            </div>
+                                var src = string.Format("data:image/gif;base64,{0}", Model.Avatar);
+                                <img class="card__img col" src="@src" alt="User avatar">
+                            }
+                            else
+                            {
+                                <img class="card__img col" src="~/images/Default user.png" data-holder-rendered="true">
+                            }
                         </div>
-                    }*@
-                <!--/ko-->
+                    </div>
+                    <div class="col" id="user_info">
+
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane fade" id="v-pills-messages" role="tabpanel" aria-labelledby="left-edit-tab">
+            Тут будут настройки!
             </div>
         </div>
     </div>
-</main>
+</div>
+    
 <link rel="stylesheet" href="~/css/_manage.css" asp-append-version="true" />
-<script type="text/javascript" src="~/js/adverts.js"></script>
-@*<script type="text/javascript">
-        $(function () {
-            ko.applyBindings(CardVM, $('#card__post')[0])
-        });
-    </script>*@
+<script type="text/javascript" src="~/js/Manage.js"></script>
+    @*<script type="text/javascript">
+            $(function () {
+                ko.applyBindings(CardVM, $('#card__post')[0])
+            });
+        </script>*@

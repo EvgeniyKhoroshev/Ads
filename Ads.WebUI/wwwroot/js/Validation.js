@@ -51,7 +51,7 @@ function phoneValidation(elem) {
 
 function emailValidation(elem) {
     var valid = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
-    if (elem.valid == null) {
+    if (elem.value == null) {
         elem.classList = 'form-control is-invalid';
         elem.parentNode.innerHTML += '<div class="invalid-feedback">Поле обязательно к заполнению!</div>';
         return false;

@@ -58,24 +58,24 @@
                                         <img class="img-responsive details" width="320" height="240" src="~/images/default.jpg" alt="Default image" />
                                     </div>
                                 }
-                                </div>
-                            </div>
-                            <div class="card-body">
-                                <h5><a class="card-text" asp-action="Details" asp-route-id="@item.Id">@item.Name</a></h5>
-                                <p class="card-subtitle">Цена: @item.Price</p>
-                                <p class="card-subtitle">г.@item.City.Name</p>
-                                <p class="card-subtitle">@item.Created</p>
-                                @if ((User.Identity.IsAuthenticated) && (UserId == item.UserId))
-                                {
-                                    <form asp-action="Delete" asp-controller="Adverts" onsubmit='return confirm("Вы точно хотите удалить объявление?");'>
-                                        <a class="card-text" asp-action="Edit" asp-route-id="@item.Id">Изменить</a>
-                                        <input hidden name="Id" value="@item.Id" />
-                                        <input hidden name="OwnerId" value="@item.UserId" />
-                                        <button type="submit" asp-controller="Adverts" asp-action="Delete" class="btn btn-primary">Удалить</button>
-                                    </form>
-                                }
                             </div>
                         </div>
+                        @if ((User.Identity.IsAuthenticated) && (UserId == item.UserId))
+                        {
+                            <form asp-action="Delete" asp-controller="Adverts" class="align-self-end" style="position:absolute; background-color:black;opacity:0.5;" onsubmit='return confirm("Вы точно хотите удалить объявление?");'>
+                                <a class="btn btn-link" style="color:white;" asp-action="Edit" asp-route-id="@item.Id">Изменить</a>
+                                <input hidden name="Id" value="@item.Id" />
+                                <input hidden name="OwnerId" value="@item.UserId" />
+                                <button type="submit" asp-controller="Adverts" asp-action="Delete" style="color:white;" class="btn btn-link">Удалить</button>
+                            </form>
+                        }
+                        <div class="card-body">
+                            <h5><a class="card-text" asp-action="Details" asp-route-id="@item.Id">@item.Name</a></h5>
+                            <p class="card-subtitle">Цена: @item.Price</p>
+                            <p class="card-subtitle">г.@item.City.Name</p>
+                            <p class="card-subtitle">@item.Created</p>
+                        </div>
+                    </div>
                 </div>
             }
         </div>

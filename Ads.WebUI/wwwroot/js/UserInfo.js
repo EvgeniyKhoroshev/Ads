@@ -11,9 +11,11 @@ document.onloadstart = user_info(document.getElementById('UserId').value);
 
 function UserInfo() {
     document.getElementById('UserInfo').innerHTML += '<a class="col">Контактное лицо:<br/></a>';
-    document.getElementById('UserInfo').innerHTML += '<a class="col h6">' + user.firstName +'<hr/></a>';
+    document.getElementById('UserInfo').innerHTML += '<a class="col h6">' + user.firstName +'<br/></a>';
+    document.getElementById('UserInfo').innerHTML += '<a class="col">На сайте с:<br/></a>';
+    var date = new Date(user.created);
+    document.getElementById('UserInfo').innerHTML += '<a class="col h6">' + date.toLocaleDateString('ru') + '<hr /></a>';
 }
-
 function ShowPhoneNumber() {
     if (user.phoneNumber != null) {
         document.getElementById('btn_showPhoneNumber').value = '' + user.phoneNumber + '';

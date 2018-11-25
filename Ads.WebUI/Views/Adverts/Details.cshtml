@@ -15,6 +15,7 @@
 
 <br />
 <input hidden class="UserId" value="@UserId" />
+<input hidden class="page" value="details" />
 <div class="card">
     <div class="card-header bg-light">
         <div class="row">
@@ -123,55 +124,7 @@
     </div>
 <script src="~/js/UserInfo.js" asp-append-version="true"></script>
 
-@*<div>
-        <ul class="list-group">
-            <li class="list-group-item nav-item" style="margin-top:10px;">
-                <h3 style="text-align: center">@Model.Name</h3><hr /><br />
-                @if (Model.Images.Count() > 0)
-                {
-                    @foreach (var i in Model.Images)
-                    {
-                        var src = string.Format("data:image/gif;base64,{0}", i.Content);
-                        <span>
-                            <img class="details-image" src='@src' />
-                        </span><hr />
-                    }
-                }
-                else
-                {
-                    <span><img class="img-responsive details" src="~/images/default.jpg" alt="Default image" /></span>
-                }
-                    <form asp-action="Delete" asp-controller="Adverts" onsubmit='return confirm("Вы точно хотите удалить объявление?");'>
-                        Город: @Model.City <hr />Категория: @Model.Category<hr /> Цена: @Model.Price <br />
-                        <hr />@Model.Description<hr /> Дата: @Model.Created <hr /><br />
-                        <input hidden name="Id" value="@Model.Id" />
-                        <input hidden name="OwnerId" value="@Model.UserId" />
-                        <a class="nav-item text-dark" asp-action="Edit" asp-route-id="@Model.Id">Изменить</a> |
-                        <button type="submit" asp-controller="Adverts" asp-action="Delete" class="btn btn-primary">Удалить</button>
-                    </form>
-            </li>
-        </ul>
-        <div>
-            <h4>Комментарии :</h4>
-            <hr />
-            <ul class="list-group" id="advert_comments"></ul>
-            <div class="col-md-4">
-                @if (!User.Identity.IsAuthenticated)
-                {
-                    <p>Только зарегестрированные пользователи могут оставлять комментарии.</p>
-                }
-                else
-                {
-                    <p>Написать комментарий: </p>
-                    <form asp-controller="Comments" asp-action="SaveOrUpdate" id="add" method="post">
-                        <input hidden name="AdvertId" value="@Model.Id" />
-                        <input name="Body" class="form-control" />
-                        <input type="submit" value="Оставить комментарий" class="btn btn-default" />
-                    </form>
-                }
-            </div>
-        </div>
-    </div>*@
+
 <script src="~/js/comments.js" asp-append-version="true"></script>
 <link rel="stylesheet" href="~/css/_comments.css" />
 <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.7.0/moment.min.js" type="text/javascript"></script>

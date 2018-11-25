@@ -4,6 +4,7 @@ using Ads.Shared.Contracts;
 using AppServices.ServiceInterfaces;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -25,6 +26,7 @@ namespace AdsWebApi.Controllers
         {
             return _advertService.GetFilteredAsync(new AdvertFilterDto { });
         }
+        [EnableCors("allow")]
         [HttpGet("UserAdverts/{userId}")]
         public ActionResult<IList<AdvertDto>> GetUserAdverts(int userId)
         {

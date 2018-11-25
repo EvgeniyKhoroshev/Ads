@@ -9,6 +9,7 @@ namespace Domain.Entities
         public IEnumerable<Advert> Adverts { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
+        public System.DateTime Created { get; set; }
         public User()
         {
             EmailConfirmed = false;
