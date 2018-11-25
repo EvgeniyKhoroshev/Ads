@@ -39,5 +39,16 @@ namespace AppServices.Services
             user.Avatar = avatar.Avatar;
             await _userManager.UpdateAsync(user);
         }
+        public async Task ChangeUserInfoAsync(UserInfoDto userInfo)
+        {
+            var user = await _userManager.FindByIdAsync(userInfo.Id.ToString());
+            if(userInfo.Avatar != null)
+                user.Avatar = userInfo.Avatar;
+            user.FirstName = userInfo.FirstName;
+            user.LastName = userInfo.LastName;
+            user.Email = userInfo.Email;
+            user.PhoneNumber = userInfo.PhoneNumber;
+            await _userManager.UpdateAsync(user);
+        }
     }
 }

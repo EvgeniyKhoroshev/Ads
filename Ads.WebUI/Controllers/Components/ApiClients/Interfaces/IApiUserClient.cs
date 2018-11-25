@@ -23,7 +23,12 @@ namespace Ads.MVCClientApplication.Controllers.Components.ApiClients.Interfaces
         /// <param name="userId">Идентификатор пользователя</param>
         /// <returns>Возвращает информацию о пользователе</returns>
         Task<ManageVM> GetUserInfoAsync(int userId);
-
+        /// <summary>
+        /// Изменяет информацию о пользователе
+        /// </summary>
+        /// <param name="userInfo"></param>
+        /// <returns></returns>
+        Task ChangeUserInfoAsync(UserInfoDto userInfo);
         Task ChangeAvatarAsync(UserAvatarDto avatar);
     }
 }

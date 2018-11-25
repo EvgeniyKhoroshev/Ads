@@ -54,6 +54,11 @@ namespace AdsWebApi.Controllers
         {
             await _userService.ChangeAvatarAsync(avatar);
         }
+        [HttpPost("ChangeUserInfo")]
+        public async Task ChangeUserInfoAsync(UserInfoDto user)
+        {
+            await _userService.ChangeUserInfoAsync(user);
+        }
         [EnableCors("allow")]
         [HttpGet("GetUserInfo/{userId}")]
         public async Task<IActionResult> GetUserInfo(int userId)

@@ -6,7 +6,8 @@
 <hr />
 <h4>Регистрация</h4>
 <br />
-<form class="active" action="/Authentication/SignUp" method="post" onsubmit="return Validation();">
+<form class="active" action="/Authentication/SignUp" method="post" enctype="multipart/form-data" onsubmit="return Validation();">
+    <input type="file" name="avatar" />
     <div class="form-group form-row">
         <div class="col-3">
             <label class="control-label" for="firstName">Имя</label>

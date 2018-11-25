@@ -52,7 +52,28 @@
                 </div>
             </div>
             <div class="tab-pane fade" id="v-pills-messages" role="tabpanel" aria-labelledby="left-edit-tab">
-            Тут будут настройки!
+                <form method="post" asp-action="ChangeUserInfo" enctype="multipart/form-data" class="active">
+                    <input hidden value="@UserId" name="Id" />
+                    <div>
+                        @if (!string.IsNullOrEmpty(Model.Avatar))
+                        {
+
+                            var src = string.Format("data:image/gif;base64,{0}", Model.Avatar);
+                            <img class="card__img col-3" src="@src" alt="User avatar">
+                            <input type="file" name="avatar" />
+                        }
+                        else
+                        {
+                            <img class="card__img" src="~/images/Default user.png" data-holder-rendered="true" width="150" height="180">
+                            <input type="file" name="avatar" />
+                        }
+                    </div>
+                    <input value="@Model.FirstName" name="FirstName" />
+                    <input value="@Model.LastName" name="LastName" />
+                    <input value="@Model.PhoneNumber" name="PhoneNumber" />
+                    <input value="@Model.Email" name="Email" />
+                    <input type="submit" value="Добавить" class="btn btn-primary" />
+                </form>
             </div>
         </div>
     </div>

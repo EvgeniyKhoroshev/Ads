@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using Ads.MVCClientApplication.Models;
 using Ads.MVCClientApplication.Controllers.Components.ApiClients.Interfaces;
 using Microsoft.AspNetCore.Http;
+using System.Collections.Generic;
 
 namespace Ads.MVCClientApplication.Controllers
 {
@@ -69,12 +70,33 @@ namespace Ads.MVCClientApplication.Controllers
             UserAvatarDto a = new UserAvatarDto();
             a.UserId = UserProcessing.GetCurrentUserId(HttpContext).Value;
             a.Avatar = (await ImageProcessing.ImageToBase64(
-                new System.Collections.Generic.List<IFormFile> { Avatar }, a.UserId))[0].Content;
+                new List<IFormFile> { Avatar }, a.UserId))[0].Content;
             await _apiUserClient.ChangeAvatarAsync(a);
         }
+
         [HttpPost]
-        public async Task<IActionResult> SignUp(CreateUserDto user)
+        public async Task ChangeUserInfo(
+            [Bind("Id,FirstName,LastName,PhoneNumber,Email")] UserInfoDto user, IFormFile avatar)
         {
+            if(avatar != null)
+                user.Avatar = (await ImageProcessing.ImageToBase64(
+                new List<IFormFile> { avatar }, user.Id))[0].Content;
+            await _apiUserClient.ChangeUserInfoAsync(user);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> SignUp(
+            [Bind("FirstName,LastName,PhoneNumber,Email,UserName,Password")] CreateUserDto user, IFormFile avatar)
+        {
+            if (avatar.Length != 0)
+            {
+                using(var memoryStream = new System.IO.MemoryStream())
+                {
+                    avatar.CopyTo(memoryStream);
+                    var avatarBytes = memoryStream.ToArray();
+                    user.Avatar = System.Convert.ToBase64String(avatarBytes);
+                }
+            }
             await _jwtBasedCookieAuthenticationService.SignUpAsync(user);
             return RedirectToAction("Index", "Adverts");
         }

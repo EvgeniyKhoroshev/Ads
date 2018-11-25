@@ -97,5 +97,27 @@ namespace Ads.MVCClientApplication.Controllers.Components.ApiClients.Clients
                 throw new HttpRequestException(string.Join(Environment.NewLine, err));
             }
         }
+
+        public async Task ChangeUserInfoAsync(UserInfoDto userInfo)
+        {
+            try
+            {
+                using (httpClient)
+                {
+                    HttpResponseMessage response = 
+                        await httpClient.PostAsJsonAsync($"{_options.ApiEndpoint}/Authorization/ChangeUserInfo", userInfo);
+                    if (!response.IsSuccessStatusCode)
+                    {
+                        string err = "При попытке изменить данные пользователя(id = " + userInfo.Id + ") произошла ошибка." + response.StatusCode;
+                        throw new HttpRequestException(string.Join(Environment.NewLine, err));
+                    }
+                }
+            }
+            catch (HttpRequestException ex)
+            {
+                string err = "При попытке выполнить запрос" + "(UserId = " + userInfo.Id + ") произошла ошибка. " + ex.Message;
+                throw new HttpRequestException(string.Join(Environment.NewLine, err));
+            }
+        }
     }
 }
