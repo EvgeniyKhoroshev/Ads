@@ -27,5 +27,10 @@ namespace AppServices.ServiceInterfaces
         /// <param name="userInfo"></param>
         /// <returns></returns>
         Task ChangeUserInfoAsync(UserInfoDto userInfo);
+        /// <summary>
+        /// Возвращает всех пользоватлей
+        /// </summary>
+        /// <returns></returns>
+        IList<UserInfoDto> GetUsers();
     }
 }

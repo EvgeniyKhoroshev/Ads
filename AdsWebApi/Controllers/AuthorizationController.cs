@@ -66,5 +66,11 @@ namespace AdsWebApi.Controllers
             var userInfo = await _userService.GetUserInfoAsync(userId);
             return Ok(userInfo);
         }
+        [EnableCors("allow")]
+        [HttpGet("GetUsers")]
+        public IList<UserInfoDto> GetUsers()
+        {
+            return _userService.GetUsers();
+        }
     }
 }

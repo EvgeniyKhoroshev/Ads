@@ -3,11 +3,11 @@
     ViewData["Title"] = "Регистрация";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<link href="~/css/_img.css" rel="stylesheet">
 <hr />
 <h4>Регистрация</h4>
 <br />
 <form class="active" action="/Authentication/SignUp" method="post" enctype="multipart/form-data" onsubmit="return Validation();">
-    <input type="file" name="avatar" />
     <div class="form-group form-row">
         <div class="col-3">
             <label class="control-label" for="firstName">Имя</label>
@@ -71,8 +71,23 @@
 
         </div>
     </div>
+    <div class="form-group form-row">
+        <div class="col-3">
+            <label class="control-label">Фото</label>
+        </div>
+        <div class="form-group form-row col-6">
+            <span id="output"></span>
+            <div>
+                <input class="inputfile" type="file" id="file" name="avatar" multiple />
+                <label for="file">
+                    <img src="~/images/iconPhoto.svg" />
+                </label>
+            </div>
+        </div>
+    </div>
     <br />
     <button class="btn btn-primary" type="submit" name="SignUp">Регистрация</button>
     @Html.AntiForgeryToken()
 </form>
 <br />
+<script src="~/js/inputPhoto.js" asp-append-version="true"></script>

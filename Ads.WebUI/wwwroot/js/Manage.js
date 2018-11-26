@@ -37,24 +37,24 @@ function AdverdsArray(array) {
 function UserInfo(user) {
     var date = new Date(user.created);
     document.getElementById('user_info').innerHTML += '\
-        <div class="form-group form-row">\
-            <p class="col-5" > Имя:</p>\
-            <p class="col-7 h6">'+ user.firstName +'</p>\
+        <div class="form-group form-row" >\
+        <a class="control-lable col-3" > Имя</a>\
+            <a class="control-lable h6 col">'+ user.firstName + '</a>\
         </div>\
         <div class="form-group form-row">\
-            <p class="col-5">Фамилия:</p>\
-            <p class="col-7 h6">'+ user.lastName +'</p>\
+            <a class="control-lable col-3">Фамилия</a>\
+            <a class="control-lable h6 col">'+ user.lastName + '</a>\
         </div>\
         <div class="form-group form-row">\
-            <p class="col-5">Номер телефона:</p>\
-            <p class="col-7 h6">'+ user.phoneNumber +'</p>\
+            <a class="control-lable col-3">Номер телефона</a>\
+            <a class="control-lable h6 col">'+ user.phoneNumber + '</a>\
         </div>\
         <div class="form-group form-row">\
-            <p class="col-5">Email:</p>\
-            <p class="col-7 h6">'+ user.email +'</p>\
+            <a class="control-lable col-3">E-mail</a>\
+            <a class="control-lable h6 col">'+ user.email + '</a>\
         </div>\
         <div class="form-group form-row">\
-            <p class="col-5">Зарегистрирован:</p>\
-            <p class="col-7 h6">'+ date.toLocaleDateString('ru') +'</p>\
-        </div>'
+            <a class="control-lable col-3">Зарегестрирован</a>\
+            <a class="control-lable h6 col">'+ date.toLocaleDateString('ru') + '</a>\
+        </div>';
 }

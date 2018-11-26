@@ -4,6 +4,8 @@ using AutoMapper;
 using Domain.Entities;
 using Microsoft.AspNetCore.Identity;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace AppServices.Services
@@ -49,6 +51,15 @@ namespace AppServices.Services
             user.Email = userInfo.Email;
             user.PhoneNumber = userInfo.PhoneNumber;
             await _userManager.UpdateAsync(user);
+        }
+
+        public IList<UserInfoDto> GetUsers()
+        {
+            var users = _userManager.Users;
+            if (users == null)
+                return null;
+            UserInfoDto[] result = Mapper.Map<UserInfoDto[]>(users.ToArray());
+            return result;
         }
     }
 }

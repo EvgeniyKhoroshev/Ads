@@ -31,7 +31,7 @@
                 </div>
             </div>
             <div class="tab-pane fade" id="v-pills-profile" role="tabpanel" aria-labelledby="left-info-tab">
-                <div class="row">
+                <div class="form-group form-row">
                     <div class="col-3">
                         <div>
                             @if (!string.IsNullOrEmpty(Model.Avatar))
@@ -47,33 +47,69 @@
                         </div>
                     </div>
                     <div class="col" id="user_info">
-
                     </div>
                 </div>
             </div>
             <div class="tab-pane fade" id="v-pills-messages" role="tabpanel" aria-labelledby="left-edit-tab">
                 <form method="post" asp-action="ChangeUserInfo" enctype="multipart/form-data" class="active">
                     <input hidden value="@UserId" name="Id" />
-                    <div>
-                        @if (!string.IsNullOrEmpty(Model.Avatar))
-                        {
+                    <div class="form-group form-row">
+                        <div class="col-2">
+                            <label class="control-lable">Фото</label>
+                        </div>
+                        <div class="col-3">
+                            @if (!string.IsNullOrEmpty(Model.Avatar))
+                            {
 
-                            var src = string.Format("data:image/gif;base64,{0}", Model.Avatar);
-                            <img class="card__img col-3" src="@src" alt="User avatar">
+                                var src = string.Format("data:image/gif;base64,{0}", Model.Avatar);
+                                <img class="col" src="@src" alt="User avatar">
+                            }
+                            else
+                            {
+                                <img class="col" src="~/images/Default user.png" data-holder-rendered="true" width="150" height="180">
+                            }
+                        </div>
+                        <div class="col">
                             <input type="file" name="avatar" />
-                        }
-                        else
-                        {
-                            <img class="card__img" src="~/images/Default user.png" data-holder-rendered="true" width="150" height="180">
-                            <input type="file" name="avatar" />
-                        }
+                        </div>
                     </div>
-                    <input value="@Model.FirstName" name="FirstName" />
-                    <input value="@Model.LastName" name="LastName" />
-                    <input value="@Model.PhoneNumber" name="PhoneNumber" />
-                    <input value="@Model.Email" name="Email" />
-                    <input type="submit" value="Добавить" class="btn btn-primary" />
+                    <hr />
+                    <div class="form-group form-row">
+                        <div class="col-2">
+                            <label class="control-lable">Имя</label>
+                        </div>
+                        <div class="col-6">
+                            <input class="form-control" value="@Model.FirstName" name="FirstName" />
+                        </div>
+                    </div>
+                    <div class="form-group form-row">
+                        <div class="col-2">
+                            <label class="control-lable">Фамилия</label>
+                        </div>
+                        <div class="col-6">
+                            <input class="form-control" value="@Model.LastName" name="LastName" />
+                        </div>
+                    </div>
+                    <div class="form-group form-row">
+                        <div class="col-2">
+                            <label class="control-lable">Номер телефона</label>
+                        </div>
+                        <div class="col-6">
+                            <input class="form-control" value="@Model.PhoneNumber" name="PhoneNumber" />
+                        </div>
+                    </div>
+                    <div class="form-group form-row">
+                        <div class="col-2">
+                            <label class="control-lable">E-mail</label>
+                        </div>
+                        <div class="col-6">
+                            <input class="form-control" value="@Model.Email" name="Email" />
+                        </div>
+                    </div>
+                    <input type="submit" value="Сохранить" class="btn btn-primary" />
                 </form>
+                <br />
+                <br />
             </div>
         </div>
     </div>
