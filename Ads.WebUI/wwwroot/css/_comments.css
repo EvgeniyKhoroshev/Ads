@@ -1,11 +1,24 @@
-﻿.comment {
+﻿span.comment__rating-count {
+    color: gray;
+}
+
+span.comment__rating-up:hover {
+    color: #28b100;
+}
+
+span.comment__rating-down:hover {
+    color: #ff0040;
+}
+.comment {
     max-width: 250px;
 }
+
 .comments__box {
     width: 60%;
     margin-left: 20%;
     margin-right: 20%;
 }
+
 .comment__rating-box {
     cursor: pointer;
     position: absolute;

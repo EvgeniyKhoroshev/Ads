@@ -54,7 +54,11 @@ namespace Ads.MVCClientApplication.Controllers.Components.ApiClients.AdvertReque
                     }
                 }
             }
-            catch (Exception) { }
+            catch (Exception ex)
+            {
+                string err = "При попытке выполнить получить комментарии объявления № "+advertId+" произошла ошибка. " + ex.Message;
+                throw new Exception(string.Join(Environment.NewLine, err));
+            }
             return null;
         }
     }

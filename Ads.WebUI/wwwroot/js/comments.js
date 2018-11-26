@@ -31,7 +31,7 @@ function ShowComment(comment) {
     if (CurrentUserId == comment.userId) {
         document.getElementById(CommentsTagName).innerHTML = '\
             <li class="list-group-item nav-item" id='+ comment.id + ' style="margin-top:10px;">\
-            <div class="comment__rating-box" onclick="alert("sdadfaf")">\
+            <div class="comment__rating-box">\
             <span class="comment__rating-up">&#9650;</span>\
             <span class="comment__rating-count">'+ comment.rating +'</span>\
             <span class="comment__rating-down">&#9660;</span>\
@@ -47,7 +47,7 @@ function ShowComment(comment) {
     else {
         document.getElementById(CommentsTagName).innerHTML = '\
             <li class="list-group-item nav-item" id='+ comment.id + ' style="margin-top:10px;">\
-            <div class="comment__rating-box" onclick="alert("sdadfaf")">\
+            <div class="comment__rating-box">\
             <span class="comment__rating-up">&#9650;</span>\
             <span class="comment__rating-count">'+ comment.rating +'</span>\
             <span class="comment__rating-down">&#9660;</span>\
@@ -76,6 +76,7 @@ function RestoreComment(commentIndex) {
     fetch('https://localhost:44382/comments/saveorupdate', {
         method: 'POST',
         body: JSON.stringify(buf),
+        mode: 'cors',
         headers: {
             'Content-Type': 'application/json'
         }
@@ -99,6 +100,7 @@ function UpdateComment(commentId) {
         buf.body = document.getElementsByTagName('input').Body.value;
     fetch('https://localhost:44382/comments/saveorupdate', {
         method: 'POST',
+        mode: 'cors',
         body: JSON.stringify(buf),
         headers: {
             'Content-Type': 'application/json'
@@ -148,6 +150,7 @@ function add_comment() {
     var comment = { 'Body': body, 'AdvertId': advertId };
     fetch('https://localhost:44382/comments/saveorupdate', {
         method: 'POST',
+        mode: 'cors',
         body: JSON.stringify(comment),
         headers: {
             'Content-Type': 'application/json'
