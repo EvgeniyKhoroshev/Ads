@@ -1,5 +1,8 @@
-﻿using Ads.CoreService.Contracts.Dto;
+﻿using Ads.CoreService.AppServices.ServiceInterfaces;
+using Ads.CoreService.Contracts.Dto;
 using AppServices.ServiceInterfaces;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
@@ -8,13 +11,16 @@ namespace AdsWebApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    // Enabling cors for getting response directly from the UI
+    // Enabling cors for using API directly from the UI
     [EnableCors("allow")]
     public class InfoController : ControllerBase
     {
         readonly IInfoService _infoService;
-        public InfoController(IInfoService infoService)
+        readonly IPostRatingService _ratingService;
+        public InfoController(IInfoService infoService,
+                              IPostRatingService ratingService)
         {
+            _ratingService = ratingService;
             _infoService = infoService;
         }
         [HttpGet("{id:int}/{regionId:int?}")]
@@ -42,7 +48,15 @@ namespace AdsWebApi.Controllers
                     return null;
             }
         }
-
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        [HttpPost("SetRating")]
+        public async Task<ActionResult> SetPostRatingAsync([FromBody]RatingDto ratingDto)
+        {
+            if (await _ratingService.SetRatingToPostAsync(ratingDto))
+                return Ok();
+            else
+                return BadRequest();
+        }
         [HttpGet]
         public async Task<AdvertsInfoDto> Get()
         {

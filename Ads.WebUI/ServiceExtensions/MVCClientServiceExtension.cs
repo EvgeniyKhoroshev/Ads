@@ -8,6 +8,8 @@ using Authentication.AppServices.CookieAuthentication;
 using Authentication.AppServices.JwtAuthentication;
 using AutoMapper;
 using Microsoft.Extensions.DependencyInjection;
+using Ads.MVCClientApplication.Components.ApiClients.Interfaces;
+using Ads.MVCClientApplication.Components.ApiClients.Clients;
 
 namespace Ads.MVCClientApplication.ServiceExtensions
 {
@@ -23,6 +25,7 @@ namespace Ads.MVCClientApplication.ServiceExtensions
             services.AddTransient<IApiAdvertClient, ApiAdvertClient>();
             services.AddTransient<IApiCommentsClient, ApiCommentsClient>();
             services.AddTransient<IApiUserClient, ApiUserClient>();
+            services.AddTransient<IApiInfoClient, ApiInfoClient>();
             
             services.AddTransient<ApiClient>();
             return services;

@@ -40,6 +40,7 @@ namespace Ads.MVCClientApplication.Controllers
                 return await _commentsClient.Delete(del.Id);
             else return BadRequest();
         }    
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {

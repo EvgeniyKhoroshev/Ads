@@ -12,7 +12,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace AppServices.Services
+namespace Ads.CoreService.AppServices.Services
 {
     public class AdvertService : Base.BaseService<AdvertDto, int>, IAdvertService
     {

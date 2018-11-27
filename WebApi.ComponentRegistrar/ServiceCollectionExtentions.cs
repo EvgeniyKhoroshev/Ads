@@ -1,6 +1,6 @@
 ﻿using Ads.Common;
 using AppServices.ServiceInterfaces;
-using AppServices.Services;
+using Ads.CoreService.AppServices.Services;
 using Authentication.AppServices.JwtAuthentication;
 using Domain;
 using Domain.Data.Repositories;
@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using System;
+using Ads.CoreService.AppServices.ServiceInterfaces;
 
 namespace WebApi.ComponentRegistrar
 {
@@ -42,7 +43,8 @@ namespace WebApi.ComponentRegistrar
             services.AddTransient<IAdvertService, AdvertService>();
             services.AddTransient<IAdvertInfoRepository<AdvertsInfo, int>, AdvertInfoRepository>();
             services.AddTransient<IInfoService, InfoService>();
-
+            services.AddTransient<IPostRatingRepository, PostRatingRepository>();
+            services.AddTransient<IPostRatingService, PostRatingService>();
 
 
             // Jwt services

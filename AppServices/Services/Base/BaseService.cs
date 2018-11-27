@@ -8,7 +8,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace AppServices.Services.Base
+namespace Ads.CoreService.AppServices.Services.Base
 {
     public abstract class BaseService<T, Tid> : IServiceInterfaceBase<T, Tid>
     {

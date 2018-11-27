@@ -1,8 +1,7 @@
-
 using Ads.CoreService.Contracts.Dto;
 using Ads.CoreService.Contracts.Dto.Filters;
 using Ads.CoreService.Contracts.Dto.Internal;
-using AppServices.Services;
+using Ads.CoreService.AppServices.Services;
 using AutoMapper;
 using Domain.Entities;
 using Domain.RepositoryInterfaces;

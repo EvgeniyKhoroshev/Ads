@@ -32,12 +32,12 @@ function ShowComment(comment) {
         document.getElementById(CommentsTagName).innerHTML = '\
             <li class="list-group-item nav-item" id='+ comment.id + ' style="margin-top:10px;">\
             <div class="comment__rating-box">\
-            <span class="comment__rating-up">&#9650;</span>\
-            <span class="comment__rating-count">'+ comment.rating +'</span>\
-            <span class="comment__rating-down">&#9660;</span>\
+            <span class="comment__rating-up" onclick="SetRating('+ comment.id + ', true)">&#9650;</span>\
+            <span class="comment__rating-count">'+ comment.rating + '</span>\
+            <span class="comment__rating-down" onclick="SetRating('+ comment.id + ', false)">&#9660;</span>\
             </div>\
             <p class="CommentBody">'+ comment.body + '</p> <hr/>\
-            <p>'+ date + ' ' + time[0] + ':' + time[1] +' \
+            <p>'+ date + ' ' + time[0] + ':' + time[1] + ' \
             <br/>\
             <button class="btn btn-primary comment" onclick="DeleteComment('+ comment.id + ')">Удалить комментарий</button>\
             <button class="btn btn-primary comment" onclick="ShowEditComment('+ comment.id + ')">Редактировать комментарий</button>\
@@ -48,12 +48,12 @@ function ShowComment(comment) {
         document.getElementById(CommentsTagName).innerHTML = '\
             <li class="list-group-item nav-item" id='+ comment.id + ' style="margin-top:10px;">\
             <div class="comment__rating-box">\
-            <span class="comment__rating-up">&#9650;</span>\
-            <span class="comment__rating-count">'+ comment.rating +'</span>\
-            <span class="comment__rating-down">&#9660;</span>\
+            <span class="comment__rating-up" onclick="SetRating('+ comment.id + ',true)">&#9650;</span>\
+            <span class="comment__rating-count">'+ comment.rating + '</span>\
+            <span class="comment__rating-down" onclick="SetRating('+ comment.id + ',false)">&#9660;</span>\
             </div>\
             <p class="CommentBody">'+ comment.body + '</p> <hr/>\
-            <p>'+ date + ' ' + time[0] + ':' + time[1] +' \
+            <p>'+ date + ' ' + time[0] + ':' + time[1] + ' \
             </p > <hr /></li > ';
     }
     if (s != '')
@@ -165,21 +165,19 @@ function GetCommentByID(commentId) {
         if (comments[i].id == commentId)
             return comments[i];
 }
+function SetRating(id, IsRated) {
+    ratingDto = { Id: '0', UserId: CurrentUserId, PostId: id, IsRated: IsRated };
+    fetch('https://localhost:44382/setrating/', {
+        method: 'POST',
+        mode: 'cors',
+        body: JSON.stringify(ratingDto),
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+        .then(response => response.json())
+        .then((json) => {
+            console.log(json);
+        })
 
-
-
-
-
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////// Rating ///////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-//function ShowRating(commentId) {
-//    document.getElementById(commentId).innerHTML += '\
-//    <div class="post__rating-up" title="Поставить плюсик">\
-//        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon--ui__rating-up icon--ui__rating-up_story">\
-//            <use xlink:href="#icon--ui__rating-up">\
-//            </use>\
-//        </svg>\
-//    </div>';
-//}
+}

@@ -1,5 +1,4 @@
 ﻿using Ads.CoreService.Contracts.Dto;
-using Ads.CoreService.Contracts.Dto.Filters;
 using AppServices.ServiceInterfaces;
 using AutoMapper;
 using Domain.Entities;
@@ -7,11 +6,10 @@ using Domain.RepositoryInterfaces;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
-using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace AppServices.Services
+namespace Ads.CoreService.AppServices.Services
 {
     public class CommentsService : Base.BaseService<CommentDto, int>, ICommentsService
     {

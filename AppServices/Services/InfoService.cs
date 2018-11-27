@@ -3,10 +3,9 @@ using AppServices.ServiceInterfaces;
 using AutoMapper;
 using Domain.Entities;
 using Domain.RepositoryInterfaces;
-using System;
 using System.Threading.Tasks;
 
-namespace AppServices.Services
+namespace Ads.CoreService.AppServices.Services
 {
     public class InfoService : IInfoService
     {

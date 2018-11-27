@@ -1,13 +1,11 @@
 ﻿using Ads.CoreService.Contracts.Dto;
-using AppServices.Services;
+using Ads.CoreService.AppServices.Services;
 using AutoMapper;
 using Domain.Entities;
 using Domain.RepositoryInterfaces;
 using Moq;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 

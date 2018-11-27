@@ -1,12 +1,12 @@
-﻿span.comment__rating-count {
+﻿.comment__rating-count {
     color: gray;
 }
 
-span.comment__rating-up:hover {
+.comment__rating-up:hover {
     color: #28b100;
 }
 
-span.comment__rating-down:hover {
+.comment__rating-down:hover {
     color: #ff0040;
 }
 .comment {

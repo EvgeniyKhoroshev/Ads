@@ -1,6 +1,6 @@
-﻿namespace Domain.Entities
+﻿namespace Ads.CoreService.Contracts.Dto
 {
-    public class PostRating
+    public class RatingDto
     {
         /// <summary>
         /// Id пользователя, который оценил пост.

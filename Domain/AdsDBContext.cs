@@ -45,8 +45,7 @@ namespace Domain
                 entity.ToTable(name: "Roles");
             });
             builder.Entity<PostRating>()
-                .HasIndex(t => t.UserId)
-                .IsUnique();
+                .HasKey(t => new { t.UserId, t.PostId });
             builder.Entity<IdentityUserRole<int>>(entity =>
                 {
                     entity.ToTable(name: "UserRoles");
