@@ -1,4 +1,6 @@
 ﻿// Fetching comments from the API
+var RATING_UP_CLASS_NAME_VALUE = 'comment__rating-up ';
+var RATING_DOWN_CLASS_NAME_VALUE = 'comment__rating-down ';
 var CommentsTagName = 'advert_comments';                                        // Tag to print the comments
 var comments;                                                                   // Variable with a comments after FetchComments()
 var CurrentUserId;                                                              // Current user Id
@@ -32,9 +34,9 @@ function ShowComment(comment) {
         document.getElementById(CommentsTagName).innerHTML = '\
             <li class="list-group-item nav-item" id='+ comment.id + ' style="margin-top:10px;">\
             <div class="comment__rating-box">\
-            <span class="comment__rating-up" onclick="SetRating('+ comment.id + ', true)">&#9650;</span>\
-            <span class="comment__rating-count">'+ comment.rating + '</span>\
-            <span class="comment__rating-down" onclick="SetRating('+ comment.id + ', false)">&#9660;</span>\
+            <span class="comment__rating-up '+ comment.id +'" onclick="SetRating('+ comment.id + ', true)">&#9650;</span>\
+            <span class="comment__rating-count '+ comment.id +'">'+GetCommentRating(comment.id)+'</span>\
+            <span class="comment__rating-down '+ comment.id +'" onclick="SetRating('+ comment.id + ', false)">&#9660;</span>\
             </div>\
             <p class="CommentBody">'+ comment.body + '</p> <hr/>\
             <p>'+ date + ' ' + time[0] + ':' + time[1] + ' \
@@ -48,9 +50,9 @@ function ShowComment(comment) {
         document.getElementById(CommentsTagName).innerHTML = '\
             <li class="list-group-item nav-item" id='+ comment.id + ' style="margin-top:10px;">\
             <div class="comment__rating-box">\
-            <span class="comment__rating-up" onclick="SetRating('+ comment.id + ',true)">&#9650;</span>\
-            <span class="comment__rating-count">'+ comment.rating + '</span>\
-            <span class="comment__rating-down" onclick="SetRating('+ comment.id + ',false)">&#9660;</span>\
+            <span class="comment__rating-up '+ comment.id +'" onclick="SetRating('+ comment.id + ',true)">&#9650;</span>\
+            <span class="comment__rating-count '+ comment.id + '">' + GetCommentRating(comment.id) +'</span>\
+            <span class="comment__rating-down '+ comment.id +'" onclick="SetRating('+ comment.id + ',false)">&#9660;</span>\
             </div>\
             <p class="CommentBody">'+ comment.body + '</p> <hr/>\
             <p>'+ date + ' ' + time[0] + ':' + time[1] + ' \
@@ -166,7 +168,13 @@ function GetCommentByID(commentId) {
             return comments[i];
 }
 function SetRating(id, IsRated) {
-    ratingDto = { Id: '0', UserId: CurrentUserId, PostId: id, IsRated: IsRated };
+    ratingDto = {UserId: CurrentUserId, PostId: id, IsRated: IsRated };
+
+    if (IsRated)
+        document.getElementsByClassName(RATING_UP_CLASS_NAME_VALUE + id)[0].classList.toggle('rated');
+    else
+        document.getElementsByClassName(RATING_DOWN_CLASS_NAME_VALUE + id)[0].classList.toggle('rated');
+
     fetch('https://localhost:44382/setrating/', {
         method: 'POST',
         mode: 'cors',
@@ -174,10 +182,16 @@ function SetRating(id, IsRated) {
         headers: {
             'Content-Type': 'application/json'
         }
-    })
-        .then(response => response.json())
-        .then((json) => {
-            console.log(json);
-        })
+    });
+}
 
+function GetCommentRating(id)
+{
+    fetch('https://localhost:44382/setrating/', {
+        method: 'GET',
+        mode: 'cors',
+    }).then((Response) => {
+        if (Response.ok)
+            return Response.json();
+    });
 }

@@ -5,8 +5,8 @@ using Ads.MVCClientApplication.Models;
 using Ads.CoreService.Contracts.Dto;
 using Microsoft.AspNetCore.Http;
 using System.Collections.Generic;
-using Ads.MVCClientApplication.Controllers.Components.ApiClients.Interfaces;
-using Ads.MVCClientApplication.Controllers.Components;
+using Ads.MVCClientApplication.Components.ApiClients.Interfaces;
+using Ads.MVCClientApplication.Components;
 
 namespace Ads.MVCClientApplication.Controllers
 {

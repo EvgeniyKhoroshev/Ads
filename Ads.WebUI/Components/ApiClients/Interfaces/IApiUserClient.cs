@@ -8,7 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Ads.MVCClientApplication.Controllers.Components.ApiClients.Interfaces
+namespace Ads.MVCClientApplication.Components.ApiClients.Interfaces
 {
     public interface IApiUserClient
     {

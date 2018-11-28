@@ -1,5 +1,5 @@
 ﻿using Ads.CoreService.Contracts.Dto.Filters;
-using Ads.MVCClientApplication.Controllers.Components.ApiClients.Interfaces.Base;
+using Ads.MVCClientApplication.Components.ApiClients.Interfaces.Base;
 using Authentication.AppServices.Extensions;
 using Microsoft.AspNetCore.Http;
 using System;
@@ -14,7 +14,7 @@ using Microsoft.Extensions.Options;
 using Ads.Shared.Contracts.Areas;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Ads.MVCClientApplication.Controllers.Components.ApiClients.BaseClients
+namespace Ads.MVCClientApplication.Components.ApiClients.BaseClients
 {
     public abstract class ApiBaseClient<T, Tid> : IApiBaseClient<T, Tid>, IDisposable
     {

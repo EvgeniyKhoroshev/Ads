@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Domain.Entities;
 using Domain.RepositoryInterfaces;
@@ -13,16 +15,59 @@ namespace Domain.Data.Repositories
         {
             _dbContext = dbContext;
         }
-        // <inheritdoc />
+
+        /// <inheritdoc />
+        public async Task<int> GetPostRatingAsync(int postId)
+        {
+            var positive = await _dbContext
+                .PostRatings
+                .Where(t =>t.PostId==postId)
+                .Where(r => r.IsRated)
+                .CountAsync();
+            var negative = await _dbContext
+                .PostRatings
+                .Where(t =>t.PostId==postId)
+                .Where(r => !r.IsRated)
+                .CountAsync();
+            return positive - negative;
+        }
+
+        /// <inheritdoc />
+        public async Task<PostRating[]> GetUserRatesAsync(int userId, int advertId)
+        {
+            try
+            {
+                var postRatingsList = await _dbContext
+                    .PostRatings
+                    .Join(_dbContext.Comments, p => p.PostId, z => z.Id, (p, z) => new { PostRating = p, Comment = z })
+                    .Where(s => s.Comment.UserId == userId)
+                    .Where(d => d.Comment.AdvertId == advertId)
+                    .Select(z =>z.PostRating)
+                    .ToArrayAsync();
+                return postRatingsList;
+            }
+            catch (Exception ex)
+            {
+                string error = "При попытке установить информацию о рейтинге из БД произошла ошибка. " + ex.Message;
+                throw new NullReferenceException(string.Join(Environment.NewLine, error), ex);
+            }
+        }
+
+        /// <inheritdoc />
         public async Task<bool> SetRatingToPostAsync(PostRating rating)
         {
             try
             {
-                var ratingValue = await _dbContext.PostRatings.FirstOrDefaultAsync(t => t.UserId == rating.UserId);
+                var ratingValue = await _dbContext
+                    .PostRatings
+                    .AsNoTracking()
+                    .Where(t=> t.UserId == rating.UserId)
+                    .Where(g => g.PostId == rating.PostId)
+                    .FirstOrDefaultAsync();
                 if (ratingValue != null)
                     if (rating.IsRated == ratingValue.IsRated)
                     {
-                        _dbContext.PostRatings.Remove(rating);
+                        _dbContext.PostRatings.Remove(ratingValue);
                         await _dbContext.SaveChangesAsync();
                         return true;
                     }
@@ -40,7 +85,7 @@ namespace Domain.Data.Repositories
             }
             catch (Exception ex)
             {
-                string error = "При попытке получить информацию о рейтинге из БД произошла ошибка. " + ex.Message;
+                string error = "При попытке установить информацию о рейтинге из БД произошла ошибка. " + ex.Message;
                 throw new NullReferenceException(string.Join(Environment.NewLine, error), ex);
             }
         }

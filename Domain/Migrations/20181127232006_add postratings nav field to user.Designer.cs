@@ -4,14 +4,16 @@ using Domain;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Domain.Migrations
 {
     [DbContext(typeof(AdsDBContext))]
-    partial class AdsDBContextModelSnapshot : ModelSnapshot
+    [Migration("20181127232006_add postratings nav field to user")]
+    partial class addpostratingsnavfieldtouser
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -164,8 +166,6 @@ namespace Domain.Migrations
                     b.Property<bool>("IsRated");
 
                     b.HasKey("UserId", "PostId");
-
-                    b.HasIndex("PostId");
 
                     b.ToTable("PostRatings");
                 });
@@ -425,11 +425,6 @@ namespace Domain.Migrations
 
             modelBuilder.Entity("Domain.Entities.PostRating", b =>
                 {
-                    b.HasOne("Domain.Entities.Comment")
-                        .WithMany("PostRatings")
-                        .HasForeignKey("PostId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
                     b.HasOne("Domain.Entities.User")
                         .WithMany("PostRatings")
                         .HasForeignKey("UserId")

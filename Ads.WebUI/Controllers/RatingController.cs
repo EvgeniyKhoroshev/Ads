@@ -17,8 +17,21 @@ namespace Ads.MVCClientApplication.Controllers
         }
         [HttpPost("setrating")]
         public async Task<ActionResult> SetRatingAsync([FromBody] RatingDto ratingDto)
-        { 
-            return await _infoClient.SetRatingAsync(ratingDto);
+        {
+            var isRated = await _infoClient.SetRatingAsync(ratingDto);
+            if (isRated)
+                return Ok();
+            else
+                return Unauthorized();
+        }
+        [HttpGet("CurrentUserRates/{advertId:int}")]
+        public async Task<ActionResult> GetCurrentUserRatesAsync(int advertId)
+        {
+            var rates = await _infoClient.GetCurrentUserRatesAsync(advertId);
+            if (rates != null)
+                return Ok(rates);
+            else
+                return Unauthorized();
         }
     }
 }

@@ -1,6 +1,6 @@
 ﻿using Ads.CoreService.Contracts.Dto;
-using Ads.MVCClientApplication.Controllers.Components.ApiClients.BaseClients;
-using Ads.MVCClientApplication.Controllers.Components.ApiClients.Interfaces;
+using Ads.MVCClientApplication.Components.ApiClients.BaseClients;
+using Ads.MVCClientApplication.Components.ApiClients.Interfaces;
 using Ads.Shared.Contracts;
 using Ads.Shared.Contracts.Areas;
 using Microsoft.AspNetCore.Http;
@@ -10,7 +10,7 @@ using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
 
-namespace Ads.MVCClientApplication.Controllers.Components.ApiClients.AdvertRequests
+namespace Ads.MVCClientApplication.Components.ApiClients.AdvertRequests
 {
     public class ApiCommentsClient : ApiBaseClient<CommentDto, int>, IApiCommentsClient
     {

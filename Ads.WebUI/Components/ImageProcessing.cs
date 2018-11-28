@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 
-namespace Ads.MVCClientApplication.Controllers.Components
+namespace Ads.MVCClientApplication.Components
 {
     public class ImageProcessing
     {

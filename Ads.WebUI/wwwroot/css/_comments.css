@@ -5,7 +5,12 @@
 .comment__rating-up:hover {
     color: #28b100;
 }
-
+.comment__rating-up.rated {
+    color: #28b100;
+}
+.comment__rating-down.rated {
+    color: #ff0040;
+}
 .comment__rating-down:hover {
     color: #ff0040;
 }

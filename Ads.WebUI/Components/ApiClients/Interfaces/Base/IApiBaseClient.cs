@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace Ads.MVCClientApplication.Controllers.Components.ApiClients.Interfaces.Base
+namespace Ads.MVCClientApplication.Components.ApiClients.Interfaces.Base
 {
     public interface IApiBaseClient<T, Tid>
     {

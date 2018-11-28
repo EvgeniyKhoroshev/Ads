@@ -1,15 +1,13 @@
 ﻿using Ads.CoreService.Contracts.Dto;
-using Ads.MVCClientApplication.Controllers.Components.ApiClients.Clients;
-using Ads.MVCClientApplication.Controllers.Components.ApiClients.Interfaces;
+using Ads.MVCClientApplication.Components.ApiClients.Clients;
+using Ads.MVCClientApplication.Components.ApiClients.Interfaces;
 using Ads.MVCClientApplication.Components.ApiRequests;
-using Ads.MVCClientApplication.Controllers.Components.ApiClients.AdvertRequests;
+using Ads.MVCClientApplication.Components.ApiClients.AdvertRequests;
 using Ads.MVCClientApplication.Models;
 using Authentication.AppServices.CookieAuthentication;
 using Authentication.AppServices.JwtAuthentication;
 using AutoMapper;
 using Microsoft.Extensions.DependencyInjection;
-using Ads.MVCClientApplication.Components.ApiClients.Interfaces;
-using Ads.MVCClientApplication.Components.ApiClients.Clients;
 
 namespace Ads.MVCClientApplication.ServiceExtensions
 {

@@ -1,5 +1,5 @@
 ﻿using Ads.CoreService.Contracts.Dto;
-using Ads.MVCClientApplication.Controllers.Components.ApiClients.Interfaces.Base;
+using Ads.MVCClientApplication.Components.ApiClients.Interfaces.Base;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -15,6 +15,12 @@ namespace Ads.MVCClientApplication.Components.ApiClients.Interfaces
         /// </summary>
         /// <param name="ratingDto"></param>
         /// <returns>Возвращает true, если операция прошла успешно.</returns>
-        Task<ActionResult> SetRatingAsync(RatingDto ratingDto);
+        Task<bool> SetRatingAsync(RatingDto ratingDto);
+        /// <summary>
+        /// Получение списка оцененных постов текущего пользователя которые находятся в объявлении <paramref name="advertId"/>
+        /// </summary>
+        /// <param name="advertId">Id объявления</param>
+        /// <returns>Список оценок постов.</returns>
+        Task<RatingDto[]> GetCurrentUserRatesAsync(int advertId);
     }
 }

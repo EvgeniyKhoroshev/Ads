@@ -1,6 +1,6 @@
 ﻿using Ads.CoreService.Contracts.Dto;
 using Ads.CoreService.Contracts.Dto.Filters;
-using Ads.MVCClientApplication.Controllers.Components.ApiClients.Interfaces;
+using Ads.MVCClientApplication.Components.ApiClients.Interfaces;
 using Ads.Shared.Contracts;
 using Ads.MVCClientApplication.Models;
 using Authentication.Contracts.Basic;
