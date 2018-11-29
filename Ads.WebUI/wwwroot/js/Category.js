@@ -1,4 +1,6 @@
 ﻿var categoryArray;
+var changeCategory = true;
+var currentAdvertCategoryId;
 $.getJSON('https://localhost:44396/api/info/1',
     function (data) {
         var page = document.getElementById('create');
@@ -8,10 +10,10 @@ $.getJSON('https://localhost:44396/api/info/1',
             ModalWindowCategory(data);
         }
         else {
+            categoryArray = data;
             ParentCategory(data);
             NavbarCategories(data);
             ModalWindowCategory(data);
-            categoryArray = data;
         }
     });
 function DropdownCategories(categories) {
@@ -103,6 +105,7 @@ function shuffleArray(array) {
     return array;
 }
 function ChangeParentCategory() {
+    var categoryIndex;
     var selectBox = document.getElementById("selectParentCategory");
     var selectedValue = selectBox.options[selectBox.selectedIndex].value;
     if (selectedValue == 'Любая категория') {
@@ -116,16 +119,43 @@ function ChangeParentCategory() {
     document.getElementById('childCategory').hidden = false;
     document.getElementById('selectCategories').innerHTML += '<option>Любая категория</option>';
     for (var i = 0; i < categoryArray.length; i++) {
-        if (categoryArray[i].parentCategoryId == selectedValue)
+        if (categoryArray[i].parentCategoryId == selectedValue) {
             document.getElementById('selectCategories').innerHTML +=
                 '<option value="' + categoryArray[i].id + '">' + categoryArray[i].name + '</option>';
-    }
-}
-function ParentCategory(categories) {
-    for (var i = 0; i < categories.length; i++) {
-        if (categories[i].parentCategoryId == null) {
-            document.getElementById('selectParentCategory').innerHTML +=
-                '<option value="' + categories[i].id + '">' + categories[i].name + '</option>';
         }
     }
+    if (currentAdvertCategoryId != 0 && (changeCategory)) {
+        $("#selectCategories option[value=" + currentAdvertCategoryId+"]").attr('selected', 'selected');
+        changeCategory = false;
+    }
+}
+    function ParentCategory(categories) {
+        var categoryId = GetParentCategoryId();
+        var categoryIndex;
+        for (var i = 0; i < categories.length; i++) {
+            if (categories[i].parentCategoryId == null) {
+                document.getElementById('selectParentCategory').innerHTML +=
+                    '<option value="' + categories[i].id + '">' + categories[i].name + '</option>';
+                if ((categoryId != 0) && (categories[i].id == categoryId)) {
+                    categoryIndex = i;
+                }
+            }
+        }
+        if ((categoryId != 0) && (changeCategory)) {
+            $("#selectParentCategory option[value=" + categories[categoryIndex].id + "]").attr('selected', 'selected');
+            ChangeParentCategory();
+        }
+
+    }
+// Getting the parent category id of a current selected category (selected from the database)
+function GetParentCategoryId() {
+    currentAdvertCategoryId = document.getElementById('category_id').value;
+    if (currentAdvertCategoryId != 0)
+        for (var i in categoryArray)
+            if (categoryArray[i].id == currentAdvertCategoryId)
+                return categoryArray[i].parentCategoryId;
+            else
+                continue;
+    else
+        return 0;
 }
