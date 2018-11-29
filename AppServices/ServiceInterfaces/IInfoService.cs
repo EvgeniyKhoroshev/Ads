@@ -16,7 +16,13 @@ namespace AppServices.ServiceInterfaces
         /// </summary>
         /// <param name="regionId">Id Региона</param>
         /// <returns>Список городов</returns>
-        Task<CityDto[]> GetCitiesAsync(int? regionId);
+        Task<CityDto[]> GetCitiesByRegionIdAsync(int? regionId);
+        /// <summary>
+        /// Возвращает город по ID
+        /// </summary>
+        /// <param name="id">Возвращает город по ID</param>
+        /// <returns></returns>
+        Task<CityDto> GetCityByIdAsync(int id);
         /// <summary>
         /// Возвращает список категорий
         /// </summary>

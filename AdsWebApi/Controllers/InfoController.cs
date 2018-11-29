@@ -45,7 +45,7 @@ namespace AdsWebApi.Controllers
                 // Getting cities with optional regionId, if regionId!=null then returns
                 // cities belongs to the <regionId> region
                 case 2:
-                    return await _infoService.GetCitiesAsync(regionId);
+                    return await _infoService.GetCitiesByRegionIdAsync(regionId);
                 // Getting advert statuses
                 case 3:
                     return await _infoService.GetStatusesAsync();
@@ -58,6 +58,11 @@ namespace AdsWebApi.Controllers
                 default:
                     return null;
             }
+        }
+        [HttpGet("City/{id:int}")]
+        public async Task<CityDto> GetCityByIdAsync(int id)
+        {
+            return await _infoService.GetCityByIdAsync(id);
         }
         [HttpGet("GetPostRatingValue/{postId:int}")]
         public async Task<ActionResult> GetPostRatingValue(int postId)

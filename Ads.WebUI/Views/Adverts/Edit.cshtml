@@ -10,10 +10,11 @@
 <h4>Редактирование объявления</h4>
 <br />
 <input hidden id="create" />
-<input hidden id="category" value="@Model.CategoryId" />
+<input hidden id="city_id" value="@Model.CityId"/>
+<input hidden id="category_id" value="@Model.CategoryId" />
 <form asp-action="Edit" enctype="multipart/form-data" class="active">
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-    <input type="hidden" name="Id" value="@Model.Id" />
+    <input type="hidden" name="Id" value="@Model.Id" id="advertId"/>
     <div class="form-group form-row">
         <div class="col-3">
             <label class="control-label" for="inputName">Название объявления</label>
@@ -46,7 +47,7 @@
         </div>
     </div>
 
-    <div class="form-group form-row">
+    <div class="form-group form-row" id="city">
         <div class="col-3">
             <label for="selectCity" class="control-label">Город</label>
         </div>
@@ -96,7 +97,7 @@
         </div>
     </div>
     <div class="col-9">
-        <input type="submit" value="Save" class="btn btn-default" />
+        <button type="submit" value="Save" class="btn btn-primary float-lg-right">Сохранить</button>
     </div>
 </form>
 <br />

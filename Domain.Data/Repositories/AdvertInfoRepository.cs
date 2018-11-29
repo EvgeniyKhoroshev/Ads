@@ -68,7 +68,7 @@ namespace Domain.Data.Repositories
         /// </summary>
         /// <returns>Массив городов /
         /// Cities array</returns>
-        public async Task<City[]> GetCitiesAsync(int? regionId)
+        public async Task<City[]> GetCitiesByRegionIdAsync(int? regionId)
         {
             City[] result;
             try
@@ -87,6 +87,20 @@ namespace Domain.Data.Repositories
             catch (Exception ex)
             {
                 string error = "При попытке получить массив городов из БД произошла ошибка. " + ex.Message;
+                throw new DbUpdateException(string.Join(Environment.NewLine, error), ex);
+            }
+        }
+
+        public async Task<City> GetCityByIdAsync(int id)
+        {
+            try
+            {
+                return await _dbContext.Cities
+                .FirstOrDefaultAsync(c => c.Id == id);
+            }
+            catch (Exception ex)
+            {
+                string error = "При попытке получить 'город' из БД произошла ошибка. " + ex.Message;
                 throw new DbUpdateException(string.Join(Environment.NewLine, error), ex);
             }
         }
