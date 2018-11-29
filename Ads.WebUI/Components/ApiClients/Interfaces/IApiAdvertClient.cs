@@ -1,12 +1,12 @@
 ﻿using Ads.CoreService.Contracts.Dto;
 using Ads.CoreService.Contracts.Dto.Filters;
 using Ads.Shared.Contracts;
-using Ads.MVCClientApplication.Controllers.Components.ApiClients.Interfaces.Base;
+using Ads.MVCClientApplication.Components.ApiClients.Interfaces.Base;
 using Ads.MVCClientApplication.Models;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace Ads.MVCClientApplication.Controllers.Components.ApiClients.Interfaces
+namespace Ads.MVCClientApplication.Components.ApiClients.Interfaces
 {
     public interface IApiAdvertClient : IApiBaseClient<AdvertDto, int>
     {

@@ -1,11 +1,9 @@
 ﻿using Authentication.Contracts.CookieAuthentication;
 using Microsoft.AspNetCore.Http;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
-namespace Ads.MVCClientApplication.Controllers.Components
+namespace Ads.MVCClientApplication.Components
 {
     public static class UserProcessing
     {

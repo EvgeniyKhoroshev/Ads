@@ -1,8 +1,8 @@
 ﻿using Ads.CoreService.Contracts.Dto;
 using Ads.CoreService.Contracts.Dto.Filters;
 using Ads.Shared.Contracts;
-using Ads.MVCClientApplication.Controllers.Components.ApiClients.BaseClients;
-using Ads.MVCClientApplication.Controllers.Components.ApiClients.Interfaces;
+using Ads.MVCClientApplication.Components.ApiClients.BaseClients;
+using Ads.MVCClientApplication.Components.ApiClients.Interfaces;
 using Ads.MVCClientApplication.Models;
 using AutoMapper;
 using Microsoft.AspNetCore.Http;
@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Options;
 using Ads.Shared.Contracts.Areas;
 
-namespace Ads.MVCClientApplication.Controllers.Components.ApiClients.AdvertRequests
+namespace Ads.MVCClientApplication.Components.ApiClients.AdvertRequests
 {
     public class ApiAdvertClient : ApiBaseClient<AdvertDto, int>,  IApiAdvertClient
     {
@@ -54,7 +54,11 @@ namespace Ads.MVCClientApplication.Controllers.Components.ApiClients.AdvertReque
                     }
                 }
             }
-            catch (Exception) { }
+            catch (Exception ex)
+            {
+                string err = "При попытке выполнить получить комментарии объявления № "+advertId+" произошла ошибка. " + ex.Message;
+                throw new Exception(string.Join(Environment.NewLine, err));
+            }
             return null;
         }
     }

@@ -1,6 +1,6 @@
 ﻿using Ads.CoreService.Contracts.Dto;
-using Ads.MVCClientApplication.Controllers.Components.ApiClients.Interfaces;
-using Ads.MVCClientApplication.Controllers.Components.ApiClients.BaseClients;
+using Ads.MVCClientApplication.Components.ApiClients.Interfaces;
+using Ads.MVCClientApplication.Components.ApiClients.BaseClients;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;
 using Ads.Shared.Contracts;
@@ -12,7 +12,7 @@ using System.Net.Http;
 using System;
 using AutoMapper;
 
-namespace Ads.MVCClientApplication.Controllers.Components.ApiClients.Clients
+namespace Ads.MVCClientApplication.Components.ApiClients.Clients
 {
     public class ApiUserClient : ApiBaseClient<UserLoginDto, int>, IApiUserClient
     {

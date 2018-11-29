@@ -1,11 +1,44 @@
-﻿.comment {
+﻿.comment__rating-count {
+    text-align: center;
+    color: gray;
+}
+
+    .comment__rating-count.negative {
+        text-align: center;
+        color: #ff0040;
+    }
+
+    .comment__rating-count.positive {
+        text-align: center;
+        color: #28b100;
+    }
+
+.comment__rating-up:hover {
+    color: #28b100;
+}
+
+.comment__rating-up.rated {
+    color: #28b100;
+}
+
+.comment__rating-down.rated {
+    color: #ff0040;
+}
+
+.comment__rating-down:hover {
+    color: #ff0040;
+}
+
+.comment {
     max-width: 250px;
 }
+
 .comments__box {
     width: 60%;
     margin-left: 20%;
     margin-right: 20%;
 }
+
 .comment__rating-box {
     cursor: pointer;
     position: absolute;

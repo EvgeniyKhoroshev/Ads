@@ -4,14 +4,16 @@ using Domain;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Domain.Migrations
 {
     [DbContext(typeof(AdsDBContext))]
-    partial class AdsDBContextModelSnapshot : ModelSnapshot
+    [Migration("20181127001830_rating PK changed")]
+    partial class ratingPKchanged
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -164,8 +166,6 @@ namespace Domain.Migrations
                     b.Property<bool>("IsRated");
 
                     b.HasKey("UserId", "PostId");
-
-                    b.HasIndex("PostId");
 
                     b.ToTable("PostRatings");
                 });
@@ -420,19 +420,6 @@ namespace Domain.Migrations
                     b.HasOne("Domain.Entities.Advert", "Advert")
                         .WithMany("Images")
                         .HasForeignKey("AdvertId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("Domain.Entities.PostRating", b =>
-                {
-                    b.HasOne("Domain.Entities.Comment")
-                        .WithMany("PostRatings")
-                        .HasForeignKey("PostId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("Domain.Entities.User")
-                        .WithMany("PostRatings")
-                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 

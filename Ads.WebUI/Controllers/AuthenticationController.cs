@@ -1,5 +1,5 @@
 ﻿using Ads.CoreService.Contracts.Dto;
-using Ads.MVCClientApplication.Controllers.Components;
+using Ads.MVCClientApplication.Components;
 using Ads.MVCClientApplication.Components.ApiRequests;
 using Authentication.AppServices.CookieAuthentication;
 using Authentication.Contracts.Basic;
@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using Ads.MVCClientApplication.Models;
-using Ads.MVCClientApplication.Controllers.Components.ApiClients.Interfaces;
+using Ads.MVCClientApplication.Components.ApiClients.Interfaces;
 using Microsoft.AspNetCore.Http;
 using System.Collections.Generic;
 

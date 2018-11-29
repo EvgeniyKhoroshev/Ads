@@ -8,7 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace AppServices.Services
+namespace Ads.CoreService.AppServices.Services
 {
     public class UserService : IUserService
     {

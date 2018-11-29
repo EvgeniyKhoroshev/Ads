@@ -1,8 +1,8 @@
 ﻿using Ads.CoreService.Contracts.Dto;
-using Ads.MVCClientApplication.Controllers.Components.ApiClients.Clients;
-using Ads.MVCClientApplication.Controllers.Components.ApiClients.Interfaces;
+using Ads.MVCClientApplication.Components.ApiClients.Clients;
+using Ads.MVCClientApplication.Components.ApiClients.Interfaces;
 using Ads.MVCClientApplication.Components.ApiRequests;
-using Ads.MVCClientApplication.Controllers.Components.ApiClients.AdvertRequests;
+using Ads.MVCClientApplication.Components.ApiClients.AdvertRequests;
 using Ads.MVCClientApplication.Models;
 using Authentication.AppServices.CookieAuthentication;
 using Authentication.AppServices.JwtAuthentication;
@@ -23,6 +23,7 @@ namespace Ads.MVCClientApplication.ServiceExtensions
             services.AddTransient<IApiAdvertClient, ApiAdvertClient>();
             services.AddTransient<IApiCommentsClient, ApiCommentsClient>();
             services.AddTransient<IApiUserClient, ApiUserClient>();
+            services.AddTransient<IApiInfoClient, ApiInfoClient>();
             
             services.AddTransient<ApiClient>();
             return services;

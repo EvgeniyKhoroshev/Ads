@@ -1,28 +1,29 @@
 ﻿using Ads.CoreService.Contracts.Dto;
-using AppServices.Services;
+using Ads.CoreService.AppServices.Services;
 using AutoMapper;
 using Domain.Entities;
 using Domain.RepositoryInterfaces;
 using Moq;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Xunit;
+using Ads.CoreService.AppServices.ServiceInterfaces;
 
 namespace Ads.Tests
 {
     public class CommentsServiceTest
     {
         private Mock<ICommentsRepository> _commentRepository;
+        private Mock<IPostRatingService> _postRatings;
         private CommentsService _commentService;
 
         public CommentsServiceTest()
         {
             AutoMapperConfig.Initialize();
             _commentRepository = new Mock<ICommentsRepository>();
-            _commentService = new CommentsService(_commentRepository.Object);
+            _postRatings = new Mock<IPostRatingService>();
+            _commentService = new CommentsService(_commentRepository.Object, _postRatings.Object);
 
             Func<Comment, Comment> func = (Comment comment) =>
             {

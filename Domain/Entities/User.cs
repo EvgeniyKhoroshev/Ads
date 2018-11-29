@@ -16,6 +16,6 @@ namespace Domain.Entities
             PhoneNumberConfirmed = false;
             AccessFailedCount = 5;
         }
-
+        public IEnumerable<PostRating> PostRatings { get; set; }
     }
 }

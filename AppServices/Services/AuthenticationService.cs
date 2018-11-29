@@ -8,8 +8,11 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AppServices.Services
+namespace Ads.CoreService.AppServices.Services
 {
+    /// <summary>
+    /// Replaced by JWT
+    /// </summary>
     public class AuthenticationService : IAuthenticationService
     {
         private readonly SignInManager<User> _signInManager;

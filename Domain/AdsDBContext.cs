@@ -27,6 +27,7 @@ namespace Domain
         public DbSet<AdvertType> AdvertTypes { get; set; }
         public DbSet<Comment> Comments { get; set; }
         public DbSet<Image> Images { get; set; }
+        public DbSet<PostRating> PostRatings { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -43,11 +44,12 @@ namespace Domain
             {
                 entity.ToTable(name: "Roles");
             });
-
+            builder.Entity<PostRating>()
+                .HasKey(t => new { t.UserId, t.PostId });
             builder.Entity<IdentityUserRole<int>>(entity =>
-            {
-                entity.ToTable(name: "UserRoles");
-            });
+                {
+                    entity.ToTable(name: "UserRoles");
+                });
             builder.Entity<Image>(t =>
             {
                 t.Property(x => x.Id)

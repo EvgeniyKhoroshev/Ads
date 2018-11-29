@@ -81,6 +81,8 @@ namespace Ads.Common
                 cfg.CreateMap<User, UserInfoDto>()
                     .IgnoreAllPropertiesWithAnInaccessibleSetter()
                     .IgnoreAllSourcePropertiesWithAnInaccessibleSetter();
+                cfg.CreateMap<PostRating, RatingDto>();
+                cfg.CreateMap<RatingDto, PostRating>();
             });
         }
     }

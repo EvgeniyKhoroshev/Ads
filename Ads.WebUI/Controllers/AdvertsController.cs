@@ -6,7 +6,7 @@ using Ads.MVCClientApplication.Models;
 using Ads.CoreService.Contracts.Dto;
 using System;
 using AutoMapper;
-using Ads.MVCClientApplication.Controllers.Components;
+using Ads.MVCClientApplication.Components;
 using Microsoft.AspNetCore.Http;
 using Ads.MVCClientApplication.Components.ApiRequests;
 using Authentication.Contracts.CookieAuthentication;

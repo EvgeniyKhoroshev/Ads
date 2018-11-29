@@ -1,5 +1,5 @@
-﻿using Ads.CoreService.Contracts.Dto;
-using Ads.CoreService.Contracts.Dto.Filters;
+﻿using Ads.CoreService.AppServices.ServiceInterfaces;
+using Ads.CoreService.Contracts.Dto;
 using AppServices.ServiceInterfaces;
 using AutoMapper;
 using Domain.Entities;
@@ -7,17 +7,19 @@ using Domain.RepositoryInterfaces;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
-using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace AppServices.Services
+namespace Ads.CoreService.AppServices.Services
 {
     public class CommentsService : Base.BaseService<CommentDto, int>, ICommentsService
     {
+        readonly IPostRatingService _postRatingService;
         readonly ICommentsRepository _commentRepository;
-        public CommentsService(ICommentsRepository commentRepository)
+        public CommentsService(ICommentsRepository commentRepository,
+                               IPostRatingService postRatingService)
         {
+            _postRatingService = postRatingService;
             _commentRepository = commentRepository;
         }
         public override void Delete(int id)
@@ -33,16 +35,19 @@ namespace AppServices.Services
             result = Mapper.Map<CommentDto[]>(adv.ToArray());
             return result;
         }
-        public IList<CommentDto> GetAdvertCommentsAsync(int advertId)
+        public async Task<IList<CommentDto>> GetAdvertCommentsAsync(int advertId)
         {
             IQueryable<Comment> adv = _commentRepository.GetAll();
             if(advertId == 0)
                 throw new ArgumentException("Invalid advert id = 0");
             else
             {
-                adv.Select(a => a.AdvertId == advertId);
-                CommentDto[] result = Mapper.Map<CommentDto[]>(adv.ToArrayAsync().Result);
-                return result;
+                adv = adv.Where(a => a.AdvertId == advertId)
+                    .OrderBy(t => t.Created);
+                CommentDto[] comments = Mapper.Map<CommentDto[]>(await adv.ToArrayAsync());
+                foreach (var c in comments)
+                    c.Rating = await _postRatingService.GetPostRatingAsync(c.Id);
+                return comments;
             }
         }
         public override async Task<CommentDto> SaveOrUpdateAsync(CommentDto entity)
