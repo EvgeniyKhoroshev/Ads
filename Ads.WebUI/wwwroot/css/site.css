@@ -14,3 +14,7 @@ body {
     height: 50px;
     background-color: #F0F0E9;
 }
+#details {
+    background: currentColor !important;
+    object-fit: contain !important;
+}

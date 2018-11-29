@@ -4,6 +4,7 @@ using Ads.Shared.Contracts;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace AppServices.ServiceInterfaces
 {
@@ -47,5 +48,11 @@ namespace AppServices.ServiceInterfaces
         IList<AdvertDto> GetAdvertsByUserId(int userId);
 
         PagedCollection<AdvertDto> GetLastAddedAdverts();
+        /// <summary>
+        /// Возвращает изображения объявления с id = <paramref name="advertId"/>
+        /// </summary>
+        /// <param name="advertId">Id объявления</param>
+        /// <returns>Список изображений</returns>
+        Task<ImageDto[]> GetAdvertImages(int advertId);
     }
 }

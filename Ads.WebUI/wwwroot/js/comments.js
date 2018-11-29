@@ -185,6 +185,10 @@ function GetCommentByID(commentId) {
             return comments[i];
 }
 function SetRating(id, IsRated) {
+    if (CurrentUserId == 0) {
+        alert('Только зарегестрированные пользователи могут оценивать комментарии.');
+        return;
+    }
     var rateUp = document.getElementsByClassName(RATING_UP_CLASS_NAME_VALUE + id)[0];
     var rateDown = document.getElementsByClassName(RATING_DOWN_CLASS_NAME_VALUE + id)[0];
     var rateCount = document.getElementsByClassName(RATING_COUNT_CLASS_NAME_VALUE + id)[0];;

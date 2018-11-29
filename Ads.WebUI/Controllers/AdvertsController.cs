@@ -23,6 +23,7 @@ namespace Ads.MVCClientApplication.Controllers
         {
             _client = client;
         }
+        [HttpGet]
         public async Task<IActionResult> Index(
             [Bind("CategoryId,RegionId,CityId,Substring,TypeId,onlyPhoto,onlyName")] AdvertFilterDto filter,
             decimal? Min, decimal? Max, int PageNumber)
@@ -66,7 +67,7 @@ namespace Ads.MVCClientApplication.Controllers
         }
         [HttpPost]
         public async Task<IActionResult> Create(
-            [Bind("Name,Description,Address,Price,Context,CategoryId,CityId,TypeId,StatusId")]AdvertDto advert,
+            [Bind]AdvertDto advert,
             List<IFormFile> Photos)
         {
             int currentUserId = Convert.ToInt32(HttpContext.User.Claims.FirstOrDefault(t => t.Type == CookieCustomClaimNames.UserId).Value);
@@ -112,12 +113,10 @@ namespace Ads.MVCClientApplication.Controllers
 
         [HttpPost]
         public async Task<IActionResult> Edit(
-            [Bind("Id,Name,Description,Address,Price,CategoryId,CityId,TypeId,StatusId,Context")]AdvertDto advert, List<IFormFile> Photos)
+            [Bind]AdvertDto advert, List<IFormFile> Photos)
         {
-            List<ImageDto> s = null;
             if (Photos.Count > 0)
-                s = await ImageProcessing.ImageToBase64(Photos, advert.Id);
-            advert.Images = s;
+                advert.Images = await ImageProcessing.ImageToBase64(Photos, advert.Id);
             advert.UserId = UserProcessing.GetCurrentUserId(HttpContext).Value;
             await _client.SaveOrUpdate(advert);
             return RedirectToAction("Index");

@@ -19,16 +19,19 @@ namespace Ads.MVCClientApplication.Components
         public static async Task<List<ImageDto>> ImageToBase64(List<IFormFile> pictures, int Id)
         {
             List<ImageDto> files = new List<ImageDto>();
-            foreach (var s in pictures)
+            int i;
+            for (i = 0; i < (pictures.Count < 9 ? pictures.Count : 9); ++i)
             {
-                if (s.Length > 0)
+                if (pictures[i].Length > 0)
                 {
-                    ImageDto buf = new ImageDto();
-                    buf.AdvertId = Id;
-                    buf.Name = Path.GetFileName(s.FileName);
+                    ImageDto buf = new ImageDto()
+                    {
+                        AdvertId = Id,
+                        Name = Path.GetFileName(pictures[i].FileName)
+                    };
                     using (var ms = new MemoryStream())
                     {
-                        await s.CopyToAsync(ms);
+                        await pictures[i].CopyToAsync(ms);
                         var fileBytes = ms.ToArray();
                         buf.Content = Convert.ToBase64String(fileBytes);
                     }

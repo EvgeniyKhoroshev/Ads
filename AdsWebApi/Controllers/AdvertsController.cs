@@ -78,11 +78,11 @@ namespace AdsWebApi.Controllers
             //return _advertService.GetLastAddedAdverts();
 
         }
+        [EnableCors("allow")]
         [HttpGet("GetAdvertImages/{advertId}")]
-        public ImageDto[] GetAdvertImages(int advertId)
+        public async Task<ImageDto[]> GetAdvertImages(int advertId)
         {
-
-            return null;
+            return await _advertService.GetAdvertImages(advertId);
         }
     }
 }

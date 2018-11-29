@@ -17,13 +17,15 @@ namespace Ads.Tests
     public class AdvertServiceTest
     {
         private Mock<IAdvertRepository> _advertRepository;
+        private Mock<IImageRepository> _imageRepository;
         private AdvertService _advertService;
 
         public AdvertServiceTest()
         {
             AutoMapperConfig.Initialize();
             _advertRepository = new Mock<IAdvertRepository>();
-            _advertService = new AdvertService(_advertRepository.Object);
+            _imageRepository = new Mock<IImageRepository>();
+            _advertService = new AdvertService(_advertRepository.Object, _imageRepository.Object);
 
             
             Func<Advert, Advert> func = (Advert advert) =>

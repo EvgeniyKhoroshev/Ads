@@ -45,6 +45,7 @@ namespace WebApi.ComponentRegistrar
             services.AddTransient<IInfoService, InfoService>();
             services.AddTransient<IPostRatingRepository, PostRatingRepository>();
             services.AddTransient<IPostRatingService, PostRatingService>();
+            services.AddTransient<IImageRepository, ImageRepository>();
 
 
             // Jwt services

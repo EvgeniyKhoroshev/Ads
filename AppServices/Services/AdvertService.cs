@@ -17,10 +17,12 @@ namespace Ads.CoreService.AppServices.Services
     public class AdvertService : Base.BaseService<AdvertDto, int>, IAdvertService
     {
         readonly IAdvertRepository _advertRepository;
-        public AdvertService(IAdvertRepository advertRepository)
+        readonly IImageRepository _imageRepository;
+        public AdvertService(IAdvertRepository advertRepository,
+                             IImageRepository imageRepository)
         {
+            _imageRepository = imageRepository;
             _advertRepository = advertRepository;
-
         }
         /// <inheritdoc/>
         public override void Delete(int id)
@@ -75,7 +77,8 @@ namespace Ads.CoreService.AppServices.Services
         /// <inheritdoc/>
         public override async Task<AdvertDto> SaveOrUpdateAsync(AdvertDto entity)
         {
-
+            if (entity.Images.Count()>0)
+                await _imageRepository.DeleteAdvertImages(entity.Id);
             var advert = await _advertRepository.SaveOrUpdateAsync(Mapper.Map<Advert>(entity));
             return Mapper.Map<AdvertDto>(advert);
         }
@@ -89,6 +92,7 @@ namespace Ads.CoreService.AppServices.Services
         //    return Mapper.Map<AdvertDto>(adv);
         //}
         /// <inheritdoc/>
+        /// На время, пока фото загружаются вместе с Advert[]
         public override async Task<AdvertDto> GetAsync(int id)
         {
             Advert adv = await _advertRepository.GetAll()
@@ -118,7 +122,7 @@ namespace Ads.CoreService.AppServices.Services
 
             if (filter.CategoryId.HasValue)
                 if (filter.CategoryId.Value > 0)
-                    query = query.Where(x => x.CategoryId == filter.CategoryId 
+                    query = query.Where(x => x.CategoryId == filter.CategoryId
                                              || x.Category.ParentCategoryId == filter.CategoryId);
 
             if (!string.IsNullOrEmpty(filter.Substring))
@@ -162,7 +166,7 @@ namespace Ads.CoreService.AppServices.Services
                     query = query.Where(x => x.CategoryId == filter.CategoryId
                                         || x.Category.ParentCategoryId == filter.CategoryId);
 
-            if(filter.onlyName == true)
+            if (filter.onlyName == true)
             {
                 if (!string.IsNullOrEmpty(filter.Substring))
                     query = query.Where(x => EF.Functions.Like(x.Name, $"%{filter.Substring}%"));
@@ -177,7 +181,7 @@ namespace Ads.CoreService.AppServices.Services
             if (filter.onlyPhoto == true)
                 query = query.Where(x => x.Images.Count() != 0);
 
-                var count = query.Count();
+            var count = query.Count();
             query = query.Skip(filter.PageSize * (filter.PageNumber - 1))
                 .Take(filter.PageSize);
             try
@@ -190,11 +194,11 @@ namespace Ads.CoreService.AppServices.Services
                     .Include(q => q.Type)
                     .ToArray();
                 var pages = count % filter.PageSize > 0 ? (count / filter.PageSize) + 1 : (count / filter.PageSize);
-                
-                return  new PagedCollection<AdvertDto>(
-                    Mapper.Map<AdvertDto[]>(entities), 
+
+                return new PagedCollection<AdvertDto>(
+                    Mapper.Map<AdvertDto[]>(entities),
                     filter.PageNumber,
-                    filter.PageSize, 
+                    filter.PageSize,
                     totalPages: pages);
             }
             catch (SqlException ex)
@@ -204,6 +208,7 @@ namespace Ads.CoreService.AppServices.Services
             }
         }
 
+        /// <inheritdoc />
         public PagedCollection<AdvertDto> GetLastAddedAdverts()
         {
             int count = _advertRepository.GetAll().Count();
@@ -220,7 +225,7 @@ namespace Ads.CoreService.AppServices.Services
                     .ToArray();
 
             return new PagedCollection<AdvertDto>(
-                    Mapper.Map<AdvertDto[]>(entities),1,1,1);
+                    Mapper.Map<AdvertDto[]>(entities), 1, 1, 1);
         }
 
         /// <inheritdoc/>
@@ -239,6 +244,14 @@ namespace Ads.CoreService.AppServices.Services
                 throw new Exception("При попытке получить комментарии объявления №" +
                     advertId + " произошла ошибка. " + ex.Message);
             }
+        }
+        /// <inheritdoc />
+        public async Task<ImageDto[]> GetAdvertImages(int advertId)
+        {
+            var images = await _imageRepository.GetAdvertImages(advertId);
+            if (images.Length == 0)
+                return null;
+            return Mapper.Map<ImageDto[]>(images);
         }
     }
 }
