@@ -31,7 +31,7 @@ namespace Ads.MVCClientApplication.Controllers
         [HttpGet("advertcomments/{advertId}")]
         public async Task<IList<CommentDto>> GetAdvertComments(int advertId)
         {
-            return await _advertClient.GetAdvertCommentsAsync(advertId);
+            return await _commentsClient.GetAdvertCommentsAsync(advertId);
         }
         [HttpDelete]
         public async Task<ActionResult> DeleteComment([FromBody] CommentDto del)

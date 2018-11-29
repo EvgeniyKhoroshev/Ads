@@ -39,8 +39,8 @@ namespace Domain.Data.Repositories
             {
                 var postRatingsList = await _dbContext
                     .PostRatings
+                    .Where(s => s.UserId == userId)
                     .Join(_dbContext.Comments, p => p.PostId, z => z.Id, (p, z) => new { PostRating = p, Comment = z })
-                    .Where(s => s.Comment.UserId == userId)
                     .Where(d => d.Comment.AdvertId == advertId)
                     .Select(z =>z.PostRating)
                     .ToArrayAsync();
@@ -73,7 +73,7 @@ namespace Domain.Data.Repositories
                     }
                     else
                     {
-                        _dbContext.PostRatings.Update(ratingValue);
+                        _dbContext.PostRatings.Update(rating);
                         await _dbContext.SaveChangesAsync();
                     }
                 else

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using Ads.CoreService.AppServices.ServiceInterfaces;
 using Ads.CoreService.Contracts.Dto;
 using AppServices.ServiceInterfaces;
 using Microsoft.AspNetCore.Cors;
@@ -11,9 +12,12 @@ namespace AdsWebApi.Controllers
     [ApiController]
     public class CommentsController : ControllerBase
     {
-        ICommentsService _commentsService;
-        public CommentsController(ICommentsService commentsService)
+        readonly ICommentsService _commentsService;
+        readonly IPostRatingService _postRatingService;
+        public CommentsController(ICommentsService commentsService,
+                                  IPostRatingService postRatingService)
         {
+            _postRatingService = postRatingService;
             _commentsService = commentsService;
         }
 
@@ -23,10 +27,11 @@ namespace AdsWebApi.Controllers
             return _commentsService.GetAll();
         }
 
-        [HttpGet("advertcomments")]
-        public IList<CommentDto> GetAdvertComments(int? advertId)
+        [HttpGet("advertcomments/{advertId:int?}")]
+        public async Task<IList<CommentDto>> GetAdvertComments(int? advertId)
         {
-            return _commentsService.GetAdvertCommentsAsync(advertId.Value);
+            var comments = await _commentsService.GetAdvertCommentsAsync(advertId.Value);
+            return comments;
         }
 
         [EnableCors("allow")]

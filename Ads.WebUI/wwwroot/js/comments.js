@@ -1,18 +1,22 @@
 ﻿// Fetching comments from the API
+/// <rating tags>
+var RATING_COUNT_CLASS_NAME_VALUE = 'comment__rating-count ';
 var RATING_UP_CLASS_NAME_VALUE = 'comment__rating-up ';
 var RATING_DOWN_CLASS_NAME_VALUE = 'comment__rating-down ';
+/// </rating tags>
+var ADVERT_ID;                                                                  // Contains current advert id
 var CommentsTagName = 'advert_comments';                                        // Tag to print the comments
 var comments;                                                                   // Variable with a comments after FetchComments()
 var CurrentUserId;                                                              // Current user Id
 // F-n fetching comments from the mvc client
 FetchComments = function (id) {
-    var f = 'https://localhost:44382/adverts/' + id + '/comments/';
+    var f = 'https://localhost:44382/advertcomments/' + id + '/';
     categories = fetch(f)
         .then(response => response.json())
         .then(json => comments = json)
         .then(() => display_comments());
 }
-document.onload = FetchComments(document.getElementsByClassName('AdvertId')[0].value);
+document.onload = FetchComments(ADVERT_ID = document.getElementsByClassName('AdvertId')[0].value);
 // F-n to display the comments to CommentsTagName tag in web page 
 function display_comments() {
     CurrentUserId = document.getElementsByClassName('UserId')[0].value;
@@ -24,6 +28,7 @@ function display_comments() {
     else {
         document.getElementById(CommentsTagName).innerHTML = '<p>Комментариев пока нет. </p> ';
     }
+    SetRatedPosts();
 }
 // F-n to show comments in html
 function ShowComment(comment) {
@@ -34,30 +39,36 @@ function ShowComment(comment) {
         document.getElementById(CommentsTagName).innerHTML = '\
             <li class="list-group-item nav-item" id='+ comment.id + ' style="margin-top:10px;">\
             <div class="comment__rating-box">\
-            <span class="comment__rating-up '+ comment.id +'" onclick="SetRating('+ comment.id + ', true)">&#9650;</span>\
-            <span class="comment__rating-count '+ comment.id +'">'+GetCommentRating(comment.id)+'</span>\
-            <span class="comment__rating-down '+ comment.id +'" onclick="SetRating('+ comment.id + ', false)">&#9660;</span>\
+            <div class="comment__rating-up '+ comment.id + '" onclick="SetRating(' + comment.id + ', true)">&#9650;</div>\
+            <div class="comment__rating-count '+ comment.id + '">' + comment.rating + '</div>\
+            <div class="comment__rating-down '+ comment.id + '" onclick="SetRating(' + comment.id + ', false)">&#9660;</div>\
             </div>\
             <p class="CommentBody">'+ comment.body + '</p> <hr/>\
             <p>'+ date + ' ' + time[0] + ':' + time[1] + ' \
             <br/>\
             <button class="btn btn-primary comment" onclick="DeleteComment('+ comment.id + ')">Удалить комментарий</button>\
             <button class="btn btn-primary comment" onclick="ShowEditComment('+ comment.id + ')">Редактировать комментарий</button>\
-            <span class="comment__rating-box"></span>\
+            <div class="comment__rating-box"></div>\
             </p ></li > ';
     }
     else {
         document.getElementById(CommentsTagName).innerHTML = '\
             <li class="list-group-item nav-item" id='+ comment.id + ' style="margin-top:10px;">\
             <div class="comment__rating-box">\
-            <span class="comment__rating-up '+ comment.id +'" onclick="SetRating('+ comment.id + ',true)">&#9650;</span>\
-            <span class="comment__rating-count '+ comment.id + '">' + GetCommentRating(comment.id) +'</span>\
-            <span class="comment__rating-down '+ comment.id +'" onclick="SetRating('+ comment.id + ',false)">&#9660;</span>\
+            <div class="comment__rating-up '+ comment.id + '" onclick="SetRating(' + comment.id + ',true)">&#9650;</div>\
+            <div class="comment__rating-count '+ comment.id + '">' + comment.rating + '</div>\
+            <div class="comment__rating-down '+ comment.id + '" onclick="SetRating(' + comment.id + ',false)">&#9660;</div>\
             </div>\
             <p class="CommentBody">'+ comment.body + '</p> <hr/>\
             <p>'+ date + ' ' + time[0] + ':' + time[1] + ' \
             </p > <hr /></li > ';
     }
+    var rateCount = document.getElementsByClassName(RATING_COUNT_CLASS_NAME_VALUE + comment.id)[0];;
+    if (comment.rating > 0)
+        rateCount.classList.toggle('positive', true);
+    else
+        if (comment.rating < 0)
+            rateCount.classList.toggle('negative', true);
     if (s != '')
         document.getElementById(CommentsTagName).innerHTML += s;
 }
@@ -120,13 +131,19 @@ function CancelEdition(commentId) {
     var date = comment.created.split('T')[0];
     var time = comment.created.split('T')[1].split(':');
     document.getElementById(commentId).innerHTML = '\
+    <div class="comment__rating-box">\
+    <div class="comment__rating-up '+ commentId + '" onclick="SetRating(' + commentId + ', true)">&#9650;</div>\
+    <div class="comment__rating-count '+ commentId + '">' + comment.rating + '</div>\
+    <div class="comment__rating-down '+ commentId + '" onclick="SetRating(' + commentId + ', false)">&#9660;</div>\
+    </div>\
     <p class="CommentBody">'+ comment.body + '</p> <hr />\
     <p>'+ date + ' ' + time[0] + ':' + time[1] + ' ' + comment.rating + ' \
             <br />\
-            <button class="btn btn-primary comment" onclick="DeleteComment('+ comment.id + ')">Удалить комментарий</button>\
-            <button class="btn btn-primary comment" onclick="EditComment('+ comment.id + ')">Редактировать комментарий</button>\
+            <button class="btn btn-primary comment" onclick="DeleteComment('+ commentId + ')">Удалить комментарий</button>\
+            <button class="btn btn-primary comment" onclick="ShowEditComment('+ commentId + ')">Редактировать комментарий</button>\
     </p >';
 }
+
 // Deleting the comment.
 function DeleteComment(commentId) {
     var commentIndex;
@@ -168,13 +185,57 @@ function GetCommentByID(commentId) {
             return comments[i];
 }
 function SetRating(id, IsRated) {
-    ratingDto = {UserId: CurrentUserId, PostId: id, IsRated: IsRated };
-
-    if (IsRated)
-        document.getElementsByClassName(RATING_UP_CLASS_NAME_VALUE + id)[0].classList.toggle('rated');
+    var rateUp = document.getElementsByClassName(RATING_UP_CLASS_NAME_VALUE + id)[0];
+    var rateDown = document.getElementsByClassName(RATING_DOWN_CLASS_NAME_VALUE + id)[0];
+    var rateCount = document.getElementsByClassName(RATING_COUNT_CLASS_NAME_VALUE + id)[0];;
+    var count = parseInt(rateCount.textContent);
+    ratingDto = { UserId: CurrentUserId, PostId: id, IsRated: IsRated };
+    if ((rateUp.classList.contains('rated')) && (IsRated)) {
+        rateUp.classList.toggle('rated', false);
+        --count;
+    }
     else
-        document.getElementsByClassName(RATING_DOWN_CLASS_NAME_VALUE + id)[0].classList.toggle('rated');
+        if ((rateUp.classList.contains('rated')) && (!IsRated)) {
+            rateUp.classList.toggle('rated', false);
+            rateDown.classList.toggle('rated', true);
+            count -= 2;
+        }
+        else
+            if ((rateDown.classList.contains('rated')) && (IsRated)) {
+                rateUp.classList.toggle('rated', true);
+                rateDown.classList.toggle('rated', false);
+                count += 2;
+            }
+            else
+                if ((rateDown.classList.contains('rated')) && (!IsRated)) {
+                    rateDown.classList.toggle('rated', false);
+                    ++count;
+                }
+                else {
+                    if (IsRated) {
+                        ++count;
+                        rateUp.classList.toggle('rated', true);
+                    }
+                    else {
+                        --count;
+                        rateDown.classList.toggle('rated', true);
+                    }
+                }
 
+    if (count > 0) {
+        rateCount.classList.toggle('positive', true);
+        rateCount.classList.toggle('negative', false);
+    }
+    else
+        if (count < 0) {
+            rateCount.classList.toggle('positive', false);
+            rateCount.classList.toggle('negative', true);
+        }
+        else {
+            rateCount.classList.toggle('positive', false);
+            rateCount.classList.toggle('negative', false);
+        }
+    rateCount.textContent = count;
     fetch('https://localhost:44382/setrating/', {
         method: 'POST',
         mode: 'cors',
@@ -184,14 +245,37 @@ function SetRating(id, IsRated) {
         }
     });
 }
-
-function GetCommentRating(id)
-{
-    fetch('https://localhost:44382/setrating/', {
+// Setting the post rating value getted from the api
+function GetCommentRating(id) {
+    fetch('https://localhost:44396/api/info/GetPostRatingValue/' + id + '/', {
         method: 'GET',
         mode: 'cors',
-    }).then((Response) => {
-        if (Response.ok)
-            return Response.json();
-    });
+    }).then(response => response.json())
+        .then((json) => {
+            if (json > 0) {
+                document.getElementsByClassName(RATING_COUNT_CLASS_NAME_VALUE + id)[0].classList.toggle('positive', true);
+            }
+            if (json < 0) {
+                document.getElementsByClassName(RATING_COUNT_CLASS_NAME_VALUE + id)[0].classList.toggle('negative', true);
+            }
+            document.getElementsByClassName(RATING_COUNT_CLASS_NAME_VALUE + id)[0].textContent = json;
+        });
 }
+
+
+function SetRatedPosts() {
+    fetch('https://localhost:44382/CurrentUserRates/' + ADVERT_ID + '/', {
+        method: 'GET',
+        mode: 'cors',
+    }).then((response) => response.json())
+        .then((json) => {
+            if (json.length > 0)
+                for (var i in json) {
+                    if (json[i].isRated)
+                        document.getElementsByClassName(RATING_UP_CLASS_NAME_VALUE + json[i].postId)[0].classList.toggle('rated', true);
+                    else
+                        document.getElementsByClassName(RATING_DOWN_CLASS_NAME_VALUE + json[i].postId)[0].classList.toggle('rated', true);
+                }
+        });
+}
+

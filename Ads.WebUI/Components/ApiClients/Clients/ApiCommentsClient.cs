@@ -18,5 +18,26 @@ namespace Ads.MVCClientApplication.Components.ApiClients.AdvertRequests
             IOptions<ApiBaseOption> opt,
             IOptions<ApiCommentsArea> comm) : base(context, opt, comm) { }
 
+        /// <inheritdoc>
+        public async Task<IList<CommentDto>> GetAdvertCommentsAsync(int advertId)
+        {
+            try
+            {
+                using (httpClient)
+                {
+                    HttpResponseMessage response = await httpClient.GetAsync($"{_options.ApiEndpoint}{_area.Get}/advertcomments/{advertId}");
+                    if (response.IsSuccessStatusCode)
+                    {
+                        return await response.Content.ReadAsAsync<IList<CommentDto>>();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                string err = "При попытке выполнить получить комментарии объявления № " + advertId + " произошла ошибка. " + ex.Message;
+                throw new Exception(string.Join(Environment.NewLine, err));
+            }
+            return null;
+        }
     }
 }

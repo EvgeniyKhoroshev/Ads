@@ -60,9 +60,10 @@ namespace AdsWebApi.Controllers
             }
         }
         [HttpGet("GetPostRatingValue/{postId:int}")]
-        public async Task<int> GetPostRatingValue(int postId)
+        public async Task<ActionResult> GetPostRatingValue(int postId)
         {
-            return await _ratingService.GetPostRatingAsync(postId);
+            int value = await _ratingService.GetPostRatingAsync(postId);
+            return Ok($"{value}");
         }
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         [HttpPost("SetRating")]
