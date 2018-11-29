@@ -83,26 +83,26 @@ namespace Ads.CoreService.AppServices.Services
             return Mapper.Map<AdvertDto>(advert);
         }
         /// <inheritdoc/>
-        //public override async Task<AdvertDto> GetAsync(int id)
-        //{
-        //    Advert adv = await _advertRepository.GetAsync(id);
-        //    if (adv == null)
-        //        throw new ArgumentOutOfRangeException("Id", adv, "Не существует объявления с полученным Id.");
-
-        //    return Mapper.Map<AdvertDto>(adv);
-        //}
-        /// <inheritdoc/>
-        /// На время, пока фото загружаются вместе с Advert[]
         public override async Task<AdvertDto> GetAsync(int id)
         {
-            Advert adv = await _advertRepository.GetAll()
-                .Include(t => t.Images)
-                .FirstOrDefaultAsync(t => t.Id == id);
+            Advert adv = await _advertRepository.GetAsync(id);
             if (adv == null)
                 throw new ArgumentOutOfRangeException("Id", adv, "Не существует объявления с полученным Id.");
 
             return Mapper.Map<AdvertDto>(adv);
         }
+        /// <inheritdoc/>
+        /// На время, пока фото загружаются вместе с Advert[]
+        //public override async Task<AdvertDto> GetAsync(int id)
+        //{
+        //    Advert adv = await _advertRepository.GetAll()
+        //        .Include(t => t.Images)
+        //        .FirstOrDefaultAsync(t => t.Id == id);
+        //    if (adv == null)
+        //        throw new ArgumentOutOfRangeException("Id", adv, "Не существует объявления с полученным Id.");
+
+        //    return Mapper.Map<AdvertDto>(adv);
+        //}
         /// <inheritdoc/>
         public AdvertDto[] GetFiltred(FilterDto filter)
         {
@@ -190,7 +190,6 @@ namespace Ads.CoreService.AppServices.Services
                     .Include(t => t.Category)
                     .Include(q => q.City)
                     .Include(q => q.Status)
-                    .Include(q => q.Images)
                     .Include(q => q.Type)
                     .ToArray();
                 var pages = count % filter.PageSize > 0 ? (count / filter.PageSize) + 1 : (count / filter.PageSize);
