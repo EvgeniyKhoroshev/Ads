@@ -149,7 +149,12 @@ function ChangeParentCategory() {
     }
 // Getting the parent category id of a current selected category (selected from the database)
 function GetParentCategoryId() {
-    currentAdvertCategoryId = document.getElementById('category_id').value;
+    if (document.getElementById('category_id') !== null) {
+        currentAdvertCategoryId = document.getElementById('category_id').value;
+    }
+    else {
+        changeCategory = false;
+    }
     if (currentAdvertCategoryId != 0)
         for (var i in categoryArray)
             if (categoryArray[i].id == currentAdvertCategoryId)
