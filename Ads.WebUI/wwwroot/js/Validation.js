@@ -162,6 +162,9 @@ function phonenumber(inputPhoneNumber) {
 
 function CreateAdvertValidation() {
     $('.invalid-feedback').remove();
+    document.getElementById('Description').classList = 'form-control is-valid';
+    document.getElementById('inputAddress').classList = 'form-control is-valid';
+    
     var valid = 0;
     if (!advertName(document.getElementById('inputName')))
         valid++;
@@ -182,6 +185,7 @@ function advertName(elem) {
         elem.parentNode.innerHTML += '<div class="invalid-feedback">Поле обязательно к заполнению!</div>';
         return false;
     }
+    elem.classList = 'form-control is-valid';
     return true;
 }
 function advertPrice(elem) {
@@ -190,39 +194,45 @@ function advertPrice(elem) {
         elem.parentNode.innerHTML += '<div class="invalid-feedback">Поле обязательно к заполнению!</div>';
         return false;
     }
+    elem.classList = 'form-control is-valid';
     return true;
 }
 function advertCategory(elem) {
+    var selectP = document.getElementById('selectParentCategory');
+    var selectC = document.getElementById('selectCategories');
     if (!elem.value) {
-        var selectP = document.getElementById('selectParentCategory');
-        if (selectP.selectedIndex == 0 || selectP.selectedIndex == null) {
+        if (selectP.selectedIndex == 0) {
             selectP.classList = 'form-control is-invalid';
             selectP.parentNode.innerHTML += '<div class="invalid-feedback">Выбирите категорию</div>';
             return false;
         }
-        var selectC = document.getElementById('selectCategories');
-        if (selectC.selectedIndex == 0 || selectC.selectedIndex == null) {
+        selectP.classList = 'form-control is-valid';
+        if (selectC.selectedIndex == 0) {
             selectC.classList = 'form-control is-invalid';
-            selectС.parentNode.innerHTML += '<div class="invalid-feedback">Выбирите подкатегорию</div>';
+            selectC.parentNode.innerHTML += '<div class="invalid-feedback">Выбирите подкатегорию</div>';
             return false;
         }
-        
     }
+    selectC.classList = 'form-control is-valid';
+    return true;
 }
 function advertCity(elem) {
+    var selectP = document.getElementById('selectRegion');
+    var selectC = document.getElementById('selectCity');
     if (!elem.value) {
-        var selectP = document.getElementById('selectRegion');
-        if (selectP.selectedIndex == 0 || selectP.selectedIndex == null) {
+        if (selectP.selectedIndex == 0) {
             selectP.classList = 'form-control is-invalid';
             selectP.parentNode.innerHTML += '<div class="invalid-feedback">Выбирите регион</div>';
             return false;
         }
-        var selectC = document.getElementById('selectCity');
-        if (selectC.selectedIndex == 0 || selectC == null) {
+        selectP.classList = 'form-control is-valid';
+        
+        if (selectC.selectedIndex == 0) {
             selectC.classList = 'form-control is-invalid';
-            document.getElementById('city').innerHTML += '<div class="invalid-feedback">Выбирите город</div>';
+            selectC.parentNode.innerHTML +='<div class="invalid-feedback">Выбирите город</div>';
             return false;
         }
-
     }
+    selectC.classList = 'form-control is-valid';
+    return true;
 }
