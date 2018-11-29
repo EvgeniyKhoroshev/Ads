@@ -43,7 +43,6 @@ function nameValidation(elem) {
     elem.classList = 'form-control is-valid';
     return true;       
 }
-
 function phoneValidation(elem) {
     if (!phonenumber(elem.value)) {
         elem.classList = 'form-control is-invalid';
@@ -61,7 +60,6 @@ function phoneValidation(elem) {
     elem.classList = 'form-control is-valid';
     return true;
 }
-
 function emailValidation(elem) {
     var valid = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
     if (elem.value.length == 0) {
@@ -85,7 +83,6 @@ function emailValidation(elem) {
     elem.classList = 'form-control is-valid';
     return true;
 }
-
 function loginValidation(elem) {
     if (elem.value.length == 0) {
         elem.classList = 'form-control is-invalid';
@@ -108,7 +105,6 @@ function loginValidation(elem) {
     elem.classList = 'form-control is-valid';
     return true;
 }
-
 function firstPasswordValidation(elem) {
     if (elem.value.length == 0) {
         elem.classList = 'form-control is-invalid';
@@ -140,7 +136,6 @@ function firstPasswordValidation(elem) {
     elem.classList = 'form-control is-valid';
     return true;
 }
-
 function passwordValidation(elem, passwordElem) {
     if (passwordElem.value.length == 0) {
         passwordElem.classList = 'form-control is-invalid';
@@ -163,4 +158,71 @@ function phonenumber(inputPhoneNumber) {
         return true;
 
     return false;
+}
+
+function CreateAdvertValidation() {
+    $('.invalid-feedback').remove();
+    var valid = 0;
+    if (!advertName(document.getElementById('inputName')))
+        valid++;
+    if (!advertCategory(document.getElementById('inputCategory')))
+        valid++;
+    if (!advertPrice(document.getElementById('inputPrice')))
+        valid++;
+    if (!advertCity(document.getElementById('inputCity')))
+        valid++;
+
+    if (valid > 0)
+        return false;
+    return true;
+}
+function advertName(elem) {
+    if (!elem.value) {
+        elem.classList = 'form-control is-invalid';
+        elem.parentNode.innerHTML += '<div class="invalid-feedback">Поле обязательно к заполнению!</div>';
+        return false;
+    }
+    return true;
+}
+function advertPrice(elem) {
+    if (!elem.value) {
+        elem.classList = 'form-control is-invalid';
+        elem.parentNode.innerHTML += '<div class="invalid-feedback">Поле обязательно к заполнению!</div>';
+        return false;
+    }
+    return true;
+}
+function advertCategory(elem) {
+    if (!elem.value) {
+        var selectP = document.getElementById('selectParentCategory');
+        if (selectP.selectedIndex == 0 || selectP.selectedIndex == null) {
+            selectP.classList = 'form-control is-invalid';
+            selectP.parentNode.innerHTML += '<div class="invalid-feedback">Выбирите категорию</div>';
+            return false;
+        }
+        var selectC = document.getElementById('selectCategories');
+        if (selectC.selectedIndex == 0 || selectC.selectedIndex == null) {
+            selectC.classList = 'form-control is-invalid';
+            selectС.parentNode.innerHTML += '<div class="invalid-feedback">Выбирите подкатегорию</div>';
+            return false;
+        }
+        
+    }
+}
+function advertCity(elem) {
+    if (!elem.value) {
+        var selectP = document.getElementById('selectRegion');
+        if (selectP.selectedIndex == 0 || selectP.selectedIndex == null) {
+            selectP.classList = 'form-control is-invalid';
+            selectP.parentNode.innerHTML += '<div class="invalid-feedback">Выбирите регион</div>';
+            return false;
+        }
+        var selectC = document.getElementById('selectCity');
+        if (selectC.selectedIndex == 0 || selectC == null) {
+            selectC.classList = 'form-control is-invalid';
+            document.getElementById('city').innerHTML += '<div class="invalid-feedback">Выбирите город</div>';
+            return false;
+        }
+
+    }
 }
