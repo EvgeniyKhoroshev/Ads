@@ -123,8 +123,9 @@ function ChangeParentCategory() {
 }
 function ParentCategory(categories) {
     for (var i = 0; i < categories.length; i++) {
-        if (categories[i].parentCategoryId == null)
+        if (categories[i].parentCategoryId == null) {
             document.getElementById('selectParentCategory').innerHTML +=
                 '<option value="' + categories[i].id + '">' + categories[i].name + '</option>';
+        }
     }
 }

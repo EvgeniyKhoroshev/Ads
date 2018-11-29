@@ -16,7 +16,9 @@ namespace Domain.RepositoryInterfaces
         //<inheritdoc>
         Task<AdvertsInfo> GetAllAsync();
         //<inheritdoc>
-        Task<City[]> GetCitiesAsync(int? regionId);
+        Task<City[]> GetCitiesByRegionIdAsync(int? regionId);
+        //<inheritdoc>
+        Task<City> GetCityByIdAsync(int id);
 
     }
 }

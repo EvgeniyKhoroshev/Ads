@@ -25,10 +25,16 @@ namespace Ads.CoreService.AppServices.Services
         }
 
         /// <inheritdoc />
-        public async Task<CityDto[]> GetCitiesAsync(int? regionId)
+        public async Task<CityDto[]> GetCitiesByRegionIdAsync(int? regionId)
         {
-            var cities = await _infoRepository.GetCitiesAsync(regionId);
+            var cities = await _infoRepository.GetCitiesByRegionIdAsync(regionId);
             return Mapper.Map<CityDto[]>(cities);
+        }
+
+        public async Task<CityDto> GetCityByIdAsync(int id)
+        {
+            var city = await _infoRepository.GetCityByIdAsync(id);
+            return Mapper.Map<CityDto>(city);
         }
 
         /// <inheritdoc />
