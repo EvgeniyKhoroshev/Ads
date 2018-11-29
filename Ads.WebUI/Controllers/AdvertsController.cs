@@ -112,15 +112,18 @@ namespace Ads.MVCClientApplication.Controllers
 
         [HttpPost]
         public async Task<IActionResult> Edit(
-            [Bind("Id,Name,Description,Address,Price,CategoryId,CityId,TypeId,StatusId,Context")]AdvertDto advert, List<IFormFile> Photos)
+            [Bind("Id,Name,Description,Address,Price,CategoryId,CityId")]AdvertDto advert, List<IFormFile> Photos)
         {
+            advert.StatusId = 1;
+            advert.TypeId = 1;
+            
             List<ImageDto> s = null;
             if (Photos.Count > 0)
                 s = await ImageProcessing.ImageToBase64(Photos, advert.Id);
             advert.Images = s;
             advert.UserId = UserProcessing.GetCurrentUserId(HttpContext).Value;
             await _client.SaveOrUpdate(advert);
-            return RedirectToAction("Index");
+            return RedirectToAction("Datails");
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

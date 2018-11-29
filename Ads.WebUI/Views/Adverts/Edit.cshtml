@@ -1,76 +1,110 @@
 ﻿@model Ads.CoreService.Contracts.Dto.AdvertDto
-
+@{
+    Layout = "_LayoutWithoutFilter";
+}
 @{
     ViewData["Title"] = "Редактирование";
 }
-<script src="~/js/AdsInfo.js" asp-append-version="true"></script>
-
-<h2>View</h2>
-
-<h4>Advert</h4>
+<link href="~/css/_img.css" rel="stylesheet">
 <hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit" enctype="multipart/form-data" class="active">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label class="control-label">Название объявления</label>
-                <input type="hidden" value="@Model.Id" name="Id" />
-                <input name="Name" class="form-control" value="@Model.Name" />
-            </div>
-            <div class="form-group">
-                <label class="control-label">Описание</label>
-                <input name="Description" class="form-control" value="@Model.Description" />
-            </div>
-            <div class="form-group">
-                @if (Model.Images.Count() > 0)
-                {
-
-                    @foreach (var i in Model.Images)
-                    {
-                        var src = string.Format("data:image/gif;base64,{0}", i.Content);
-                        <img class="img-responsive" src='@src' /> <hr />
-
-                    }
-                }
-                <input asp-for="Images" name="Photos" multiple type="file"/>
-            </div>
-            <div class="form-group">
-                <label class="control-label">Цена</label>
-                <input name="Price" class="form-control" value="@Model.Price" />
-            </div>
-            <div class="form-group">
-                <label class="control-label">Адрес</label>
-                <input name="Address" class="form-control" value="@Model.Address" />
-            </div>
-            <div class="form-group">
-                <ul id="category_output"></ul>
-                <input type="hidden" id="cat_name" name="CategoryId" value="@Model.CategoryId" />
-            </div>
-            <div class="form-group">
-                <input name="StatusId" value="@Model.StatusId" />
-            </div>
-            <div class="form-group">
-                <input name="TypeId" value="@Model.TypeId" />
-
-            </div>
-            <div class="form-group">
-                <input name="CityId" value="@Model.CityId" />
-            </div>
-            <div class="form-group">
-                <input name="Context" class="form-control" value="@Model.Context" />
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-default" />
-            </div>
-        </form>
+<h4>Редактирование объявления</h4>
+<br />
+<input hidden id="create" />
+<input hidden id="category" value="@Model.CategoryId" />
+<form asp-action="Edit" enctype="multipart/form-data" class="active">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <input type="hidden" name="Id" value="@Model.Id" />
+    <div class="form-group form-row">
+        <div class="col-3">
+            <label class="control-label" for="inputName">Название объявления</label>
+        </div>
+        <div class="col-6" id="inputName">
+            <input name="Name" class="form-control" id="inputName" value="@Model.Name" />
+        </div>
     </div>
-</div>
+    <div class="form-group form-row">
+        <div class="col-3">
+            <label class="control-label" for="inputDescription">Описание объявления</label>
+        </div>
+        <div class="col-6" id="inputDescription">
+            <textarea class="form-control" id="Description" name="Description" rows="3">@Model.Description</textarea>
+        </div>
+    </div>
 
+    <div class="form-group form-row" id="category">
+        <div class="col-3">
+            <label class="control-label" for="parentCategory">Категория</label>
+        </div>
+        <div class="col-3">
+            <select class="form-control" id="selectParentCategory" onchange="ChangeParentCategory()">
+                <option>Любая категория</option>
+            </select>
+        </div>
+        <div class="col-3" id="childCategory" hidden>
+            <select class="form-control" id="selectCategories" onchange="ChangeCategory()"></select>
+            <input type="hidden" id="inputCategory" name="CategoryId" />
+        </div>
+    </div>
+
+    <div class="form-group form-row">
+        <div class="col-3">
+            <label for="selectCity" class="control-label">Город</label>
+        </div>
+        <div class="col-3" id="region">
+            <select class="form-control" id="selectRegion" onchange="ChangeRegion();">
+                <option>Любой регион</option>
+            </select>
+            <input type="hidden" id="inputRegion" name="RegionId" />
+        </div>
+        <div class="col-3" id="city" hidden>
+            <select class="form-control" id="selectCity" onchange="ChangeCity()">
+                <option>Любой город</option>
+            </select>
+            <input type="hidden" id="inputCity" name="CityId" />
+        </div>
+    </div>
+
+    <div class="form-group form-row">
+        <div class="col-3">
+            <label for="inputAddress" class="control-label">Адрес</label>
+        </div>
+        <div class="col-3">
+            <input name="Address" class="form-control" id="inputAddress" value="@Model.Address" />
+        </div>
+    </div>
+    <div class="form-group form-row">
+        <div class="col-3">
+            <label for="inputPrice" class="control-label">Цена</label>
+        </div>
+        <div class="col-2">
+            <input name="Price" type="number" class="form-control" id="inputPrice" placeholder="₽" value="@Decimal.ToInt32(Model.Price)" />
+        </div>
+    </div>
+
+    <div class="form-group form-row">
+        <div class="col-3">
+            <label class="control-label">Фото</label>
+        </div>
+        <div class="form-group form-row col-6">
+            <span id="outputMulti"></span>
+            <div>
+                <input class="inputfile" type="file" id="fileMulti" name="Photos" multiple />
+                <label for="fileMulti">
+                    <img src="~/images/iconPhoto.svg" />
+                </label>
+            </div>
+        </div>
+    </div>
+    <div class="col-9">
+        <input type="submit" value="Save" class="btn btn-default" />
+    </div>
+</form>
+<br />
+<br />
 <div>
-    <a asp-action="Index">Back to List</a>
+    
 </div>
-
+<script src="~/js/inputPhoto.js" asp-append-version="true"></script>
 @section Scripts {
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");}

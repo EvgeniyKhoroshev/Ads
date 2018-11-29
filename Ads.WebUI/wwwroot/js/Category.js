@@ -122,9 +122,12 @@ function ChangeParentCategory() {
     }
 }
 function ParentCategory(categories) {
+    var pCategory = categories[document.getElementById('category').value].parentCategoryId;
+    var j = 0;
     for (var i = 0; i < categories.length; i++) {
-        if (categories[i].parentCategoryId == null)
+        if (categories[i].parentCategoryId == null) {
             document.getElementById('selectParentCategory').innerHTML +=
                 '<option value="' + categories[i].id + '">' + categories[i].name + '</option>';
+        }
     }
 }

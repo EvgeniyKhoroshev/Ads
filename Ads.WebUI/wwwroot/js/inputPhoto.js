@@ -59,10 +59,9 @@ function handleFileSelectSingle(evt) {
 function getLocation() {
     var location = window.location;
     var urlSignUp = 'https://localhost:44382/Authentication/SignUp';
-    var urlCreate = 'https://localhost:44382/Adverts/Create';
     if (location == urlSignUp)
         document.getElementById('file').addEventListener('change', handleFileSelectSingle, false);
-    if (location == urlCreate)
+    else
         document.getElementById('fileMulti').addEventListener('change', handleFileSelectMulti, false);
 }
 
