@@ -143,7 +143,6 @@ function CancelEdition(commentId) {
             <button class="btn btn-primary comment" onclick="ShowEditComment('+ commentId + ')">Редактировать комментарий</button>\
     </p >';
 }
-
 // Deleting the comment.
 function DeleteComment(commentId) {
     var commentIndex;
@@ -164,6 +163,7 @@ function DeleteComment(commentId) {
 }
 function add_comment() {
     var body = document.getElementsByName('Body')[0].value;
+    document.getElementsByName('Body')[0].value = '';
     document.getElementsByName('Body')[0] = '';
     var advertId = document.getElementsByName('AdvertId')[0].value;
     var comment = { 'Body': body, 'AdvertId': advertId };

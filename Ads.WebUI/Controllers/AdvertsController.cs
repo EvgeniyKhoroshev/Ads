@@ -119,7 +119,7 @@ namespace Ads.MVCClientApplication.Controllers
                 advert.Images = await ImageProcessing.ImageToBase64(Photos, advert.Id);
             advert.UserId = UserProcessing.GetCurrentUserId(HttpContext).Value;
             await _client.SaveOrUpdate(advert);
-            return RedirectToAction("Datails");
+            return RedirectToAction("Index");
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

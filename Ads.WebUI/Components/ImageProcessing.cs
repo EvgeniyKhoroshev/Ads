@@ -10,6 +10,7 @@ namespace Ads.MVCClientApplication.Components
 {
     public class ImageProcessing
     {
+        private const int MAX_PHOTO_SIZE = 65000;
         private readonly IHostingEnvironment _hostingEnvironment;
         public ImageProcessing(IHostingEnvironment hostingEnvironment)
         {
@@ -22,7 +23,7 @@ namespace Ads.MVCClientApplication.Components
             int i;
             for (i = 0; i < (pictures.Count < 9 ? pictures.Count : 9); ++i)
             {
-                if (pictures[i].Length > 0)
+                if ((pictures[i].Length > 0) && (pictures[i].Length < MAX_PHOTO_SIZE))
                 {
                     ImageDto buf = new ImageDto()
                     {
