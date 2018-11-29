@@ -10,7 +10,7 @@ namespace Ads.MVCClientApplication.Components
 {
     public class ImageProcessing
     {
-        private const int MAX_PHOTO_SIZE = 65000;
+        private const int MAX_PHOTO_SIZE = 1024000;
         private readonly IHostingEnvironment _hostingEnvironment;
         public ImageProcessing(IHostingEnvironment hostingEnvironment)
         {
